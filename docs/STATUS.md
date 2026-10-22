@@ -62,6 +62,21 @@ Issue: [#7](https://github.com/carlossan1993/cuartos-android/issues/7). Entrega:
 
 Alcance y verificaciones manuales pendientes: [STORAGE](STORAGE.md). Autosave/gestión completa en etapa 13; editor interactivo en etapa 6.
 
+Etapa 5 integrada en PR #8, commit `ea96d5c796158bd199289d7f35869b580f6ecdb0`. [CI final 39856555640](https://github.com/carlossan1993/cuartos-android/actions/runs/39856555640) web/Android correcto, con 94 pruebas unitarias, ocho E2E y APK debug.
+
+## Etapa 6 · Plano 2D interactivo
+
+Issue: [#9](https://github.com/carlossan1993/cuartos-android/issues/9). La entrega se considera cerrada tras revisión técnica, checks verdes y merge de su PR.
+
+- Apertura del plano desde el resumen del proyecto guardado, con módulo Konva cargado bajo demanda.
+- Cuadrícula adaptable, cotas en metros, selección por geometría y consulta accesible de medidas.
+- Pan con ratón/un dedo, zoom con rueda/botones, pinch de dos dedos, teclado y control para encuadrar.
+- Orientación responsive y canvas con DPR adecuado, acotado a 3; etiquetas con tamaño constante al ampliar.
+- Transformaciones y gestos puros probados; 118 pruebas unitarias y 12 E2E locales. Capturas ES/EN en teléfono/tablet revisadas y guardadas en `docs/screenshots/editor-*`.
+- El JSON guardado conserva sus medidas, materiales y fechas después de navegar/seleccionar. Cámara/cuadrícula/selección temporales; gestión de preferencias en etapa 13.
+
+Los checks finales web/Android y el APK se registran en el PR antes de integrar. Detalles, evidencia y verificaciones manuales pendientes: [EDITOR_2D](EDITOR_2D.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 5: editor 2D base (etapa 6), con cuadrícula, cotas, selección, pan/zoom y manejo táctil.
+Después de integrar la etapa 6: puertas y ventanas vinculadas a paredes (etapa 7), con validaciones de medidas y posición.

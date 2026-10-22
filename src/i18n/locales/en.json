@@ -76,5 +76,27 @@
     "planCaption": "A proportional plan of the room you created.",
     "summaryNote": "This summary shows your room’s dimensions. You can reopen it from your projects.",
     "noRoom": "This project has no rooms yet."
+  },
+  "editor": {
+    "open": "Open 2D plan",
+    "back": "Back to summary",
+    "eyebrow": "YOUR ROOM PLAN",
+    "tools": "Plan controls",
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in",
+    "zoomLevel": "Zoom level",
+    "fit": "Fit room",
+    "grid": "Grid",
+    "help": "Drag to pan. Pinch or use the wheel to zoom. Tap a room to select it.",
+    "keyboard": "With the plan focused, use arrows to pan, plus or minus to zoom, 0 to fit, Enter to select and Escape to clear the selection.",
+    "canvas": "Interactive 2D plan",
+    "gridStep": "Grid: {{value}} m",
+    "gridOff": "Grid hidden",
+    "metres": "Dimensions in metres",
+    "rooms": "Rooms",
+    "selected": "Room selected",
+    "noSelection": "Select a room to see its dimensions.",
+    "clearSelection": "Clear selection",
+    "loading": "Opening the plan…"
   }
 }

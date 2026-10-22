@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useStore } from 'zustand'
 import { RoomIllustration } from '../components/RoomIllustration'
@@ -10,11 +10,12 @@ import { projectStore } from '../state/project-store'
 import { projectRepository } from '../storage/project-repository'
 
 interface ProjectCard { id: string; name: string; roomName: string; area: number }
+const Editor2D = lazy(() => import('../editor2d/Editor2D'))
 
 export function App() {
   const { t, i18n } = useTranslation()
   const project = useStore(projectStore, state => state.project)
-  const [screen, setScreen] = useState<'home' | 'create' | 'project'>('home')
+  const [screen, setScreen] = useState<'home' | 'create' | 'project' | 'editor'>('home')
   const [cards, setCards] = useState<ProjectCard[]>([])
   const [loading, setLoading] = useState(true)
   const [listError, setListError] = useState(false)
@@ -79,7 +80,7 @@ export function App() {
         </div>
       </header>
       <main id="main" tabIndex={-1}>
-        {screen === 'create' ? <CreateProjectWizard onCancel={goHome} onCreated={() => setScreen('project')} /> : screen === 'project' && project ? <ProjectSummary project={project} onBack={goHome} /> : <>
+        {screen === 'create' ? <CreateProjectWizard onCancel={goHome} onCreated={() => setScreen('project')} /> : screen === 'editor' && project ? <Suspense fallback={<p role="status">{t('editor.loading')}</p>}><Editor2D key={project.id} project={project} onBack={() => setScreen('project')} /></Suspense> : screen === 'project' && project ? <ProjectSummary project={project} onBack={goHome} onOpenEditor={() => setScreen('editor')} /> : <>
         <section className="hero" aria-labelledby="welcome-title">
           <div className="hero-copy">
             <p className="eyebrow">{t('home.eyebrow')}</p>
