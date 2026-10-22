@@ -1,0 +1,29 @@
+# Web
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+keystore.properties
+local.properties
+*.log
+
+# Android generated files; keep Gradle wrapper sources in version control
+.gradle/
+**/build/
+.idea/
+*.iml
+
+# Temporary OS and Python files
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc

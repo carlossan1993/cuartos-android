@@ -1,0 +1,28 @@
+name: Error
+description: Registrar un problema reproducible.
+title: "[Error] "
+body:
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Resultado observado y esperado
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Entorno
+      description: Versión, Android, dispositivo, orientación e idioma.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidencia
+      description: Capturas o proyecto mínimo; sin información privada ni credenciales.
