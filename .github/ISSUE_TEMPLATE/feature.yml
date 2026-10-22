@@ -1,0 +1,33 @@
+name: Etapa o función
+description: Definir una entrega verificable de la hoja de ruta.
+title: "[Etapa N] "
+body:
+  - type: input
+    id: stage
+    attributes:
+      label: Etapa
+      description: Número y nombre de la hoja de ruta.
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Objetivo
+      description: Resultado concreto para el usuario o para la siguiente etapa.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Alcance
+      description: Cambios incluidos y límites de esta entrega.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación
+      description: Condiciones comprobables y evidencia necesaria para cerrar.
+      placeholder: "- [ ] Resultado verificado mediante..."
+    validations:
+      required: true
