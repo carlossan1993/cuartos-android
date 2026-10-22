@@ -31,7 +31,7 @@ Issue: [#3](https://github.com/carlossan1993/cuartos-android/issues/3). Entrega:
 - El SDK se instala/configura explícitamente mediante setup-android. Se eliminó del estilo base un atributo de navegación que exigía API 27; SystemBars configura los iconos claros/oscuros con compatibilidad nativa sin elevar minSdk 24.
 - Las barras del sistema usan estilo oscuro sobre el fondo claro y manejo nativo de áreas seguras. La compilación final y el APK se verifican en los checks del PR #4 antes de integrar.
 
-No hay editor de habitaciones ni proyectos guardados todavía. No hay AAB release ni publicación en Play. La instalación manual del APK en dispositivo queda pendiente.
+No hay AAB release ni publicación en Play. La instalación manual del APK en dispositivo queda pendiente.
 
 ## Etapa 4 · Modelo de dominio y azul principal
 
@@ -45,8 +45,23 @@ Issue: [#5](https://github.com/carlossan1993/cuartos-android/issues/5). Entrega:
 - Validación local: typecheck/lint/build correctos y 65 pruebas de dominio/idioma correctas.
 - E2E teléfono/tablet y paleta ES/EN revisados en [CI 39850806086](https://github.com/carlossan1993/cuartos-android/actions/runs/39850806086); capturas actualizadas en `docs/screenshots`. Los checks finales web/Android y el APK se registran en el PR antes de integrar.
 
-Las funciones de datos todavía no se exponen como controles de creación/edición. Convenciones, límites y pendientes: [DOMAIN](DOMAIN.md).
+Etapa 4 integrada en PR #6, commit `466cb249b8d88269149b1f3991d606f880971fb5`. CI final web/Android correcto: [39851172975](https://github.com/carlossan1993/cuartos-android/actions/runs/39851172975). Convenciones, límites y pendientes: [DOMAIN](DOMAIN.md).
+
+## Etapa 5 · Crear y reabrir una habitación
+
+Issue: [#7](https://github.com/carlossan1993/cuartos-android/issues/7). Entrega: [PR #8](https://github.com/carlossan1993/cuartos-android/pull/8). Se considera cerrada después de revisión técnica, CI verde y merge del PR.
+
+- Asistente en dos pasos: nombre de proyecto/habitación y medidas interiores de un rectángulo.
+- Metros/centímetros, coma/punto decimal, errores ES/EN y conservación de entradas al corregir o retroceder.
+- Vista previa y resumen proporcionales con ancho, fondo, altura y superficie reales. Sin gestos ni edición del plano todavía.
+- Guardado mínimo Dexie/IndexedDB: crear, listar y reabrir; escritura confirmada antes de publicar en el store.
+- Errores de lectura/escritura traducidos con reintento; registros inválidos conservados sin modificaciones.
+- 94 pruebas unitarias y ocho E2E teléfono/tablet correctos en local; typecheck, lint y build web correctos. Se revisaron las capturas ES/EN de inicio, asistente, resumen y lista de proyectos.
+- Evidencia visual: asistente en [teléfono EN](screenshots/wizard-phone.png) y [tablet ES](screenshots/wizard-tablet.png); resumen en [teléfono EN](screenshots/room-phone.png) y [tablet ES](screenshots/room-tablet.png). Las capturas de inicio también están actualizadas.
+- QA local con Chromium 153 obtenido como herramienta temporal fuera de las dependencias del proyecto. CI conserva el Chromium fijado por Playwright. La [primera ejecución](https://github.com/carlossan1993/cuartos-android/actions/runs/39854810292) pasó código/pruebas/build y agotó el tiempo en descargas apt de fuentes/dependencias de Ubuntu. Se limita la instalación al navegador headless; los checks finales web/Android y APK se registran en el PR antes de integrar.
+
+Alcance y verificaciones manuales pendientes: [STORAGE](STORAGE.md). Autosave/gestión completa en etapa 13; editor interactivo en etapa 6.
 
 ## Siguiente implementación
 
-Etapa 5: asistente de nuevo proyecto, medidas/altura de habitación rectangular y persistencia mínima, conectado al modelo validado.
+Después de integrar la etapa 5: editor 2D base (etapa 6), con cuadrícula, cotas, selección, pan/zoom y manejo táctil.
