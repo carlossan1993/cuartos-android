@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** etapa 0 en revisión. Base de gobierno del repositorio; todavía no hay aplicación instalable. El estado verificable está en [STATUS](docs/STATUS.md).
+**Estado:** etapa 0 integrada; base Android, CI y pantalla ES/EN en revisión (etapas 1–3). La pantalla actual es de inicio: crear habitaciones y editar planos llegará en las etapas 4–6. El estado verificable está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
@@ -24,7 +24,26 @@ V1 no incorpora cuentas, backend, anuncios, pagos, IA, AR ni catálogos comercia
 
 React + TypeScript + Vite; Zustand; Konva/react-konva; Three.js/React Three Fiber; Dexie/IndexedDB; i18next/react-i18next; Capacitor Android.
 
-Las dependencias y versiones se incorporarán con lockfile en la etapa 1. No se presenta un scaffold web como una app Android terminada.
+Node 24, dependencias con versiones fijadas y `package-lock.json`. Android: Capacitor 8, Java 21, minSdk 24 y compile/targetSdk 36. El nombre `Cuartos` y el applicationId `com.carlossan1993.cuartos` son de desarrollo y deberán ratificarse antes de la primera subida a Play.
+
+## Compilar y comprobar
+
+```sh
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+npm run android:sync
+cd android
+./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug
+```
+
+GitHub Actions ejecuta esos controles en Ubuntu estándar y guarda `cuartos-debug` (APK de prueba) y `web-evidence` durante tres días. El APK debug sirve para pruebas; todavía no hay AAB release firmado. `testDebugUnitTest` no acredita pruebas de dispositivo ni dominio Android: todavía no hay lógica nativa propia que probar.
+
+Los recursos de inicio, estilos, traducciones e iconos se incluyen en el paquete. No hay fuentes externas, analítica, cuentas ni servidor remoto. El Android de Capacitor conserva su permiso de Internet estándar; esta versión no hace solicitudes a servicios externos.
 
 ## Trabajo y verificación
 

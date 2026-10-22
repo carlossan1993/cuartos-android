@@ -1,0 +1,15 @@
+{
+  "app": { "name": "Cuartos", "title": "Cuartos · Diseña tu espacio" },
+  "language": { "label": "Idioma", "spanish": "Español", "english": "English" },
+  "home": {
+    "eyebrow": "UN ESPACIO, MUCHAS POSIBILIDADES",
+    "title": "Imagina cómo quieres vivirlo.",
+    "description": "Cada habitación puede contar una historia diferente. Dale espacio a tus ideas.",
+    "planCaption": "Un buen espacio empieza con una idea.",
+    "projects": "Tus proyectos",
+    "emptyTitle": "Aquí empiezan tus ideas",
+    "emptyDescription": "Todavía no tienes proyectos guardados.",
+    "localNote": "Tu espacio es tuyo. Sin cuentas, sin conexión.",
+    "footer": "Hecho para pensar en metros. Y en posibilidades."
+  }
+}

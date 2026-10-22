@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cuartos</string>
+    <string name="title_activity_main">Cuartos</string>
+    <string name="package_name">com.carlossan1993.cuartos</string>
+    <string name="custom_url_scheme">com.carlossan1993.cuartos</string>
+</resources>
