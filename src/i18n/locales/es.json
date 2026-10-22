@@ -76,5 +76,27 @@
     "planCaption": "Plano de la habitación creada, a escala proporcional.",
     "summaryNote": "Este resumen muestra las medidas de tu habitación. Puedes volver a abrirlo desde tus proyectos.",
     "noRoom": "Este proyecto todavía no tiene habitaciones."
+  },
+  "editor": {
+    "open": "Abrir plano 2D",
+    "back": "Volver al resumen",
+    "eyebrow": "PLANO DE TU HABITACIÓN",
+    "tools": "Controles del plano",
+    "zoomOut": "Alejar",
+    "zoomIn": "Acercar",
+    "zoomLevel": "Nivel de zoom",
+    "fit": "Encuadrar",
+    "grid": "Cuadrícula",
+    "help": "Arrastra para desplazarte. Pellizca o usa la rueda para acercar. Toca una habitación para seleccionarla.",
+    "keyboard": "Con el plano enfocado, usa las flechas para desplazar, más o menos para el zoom, 0 para encuadrar, Enter para seleccionar y Escape para quitar la selección.",
+    "canvas": "Plano 2D interactivo",
+    "gridStep": "Cuadrícula: {{value}} m",
+    "gridOff": "Cuadrícula oculta",
+    "metres": "Medidas en metros",
+    "rooms": "Habitaciones",
+    "selected": "Habitación seleccionada",
+    "noSelection": "Selecciona una habitación para consultar sus medidas.",
+    "clearSelection": "Quitar selección",
+    "loading": "Abriendo el plano…"
   }
 }

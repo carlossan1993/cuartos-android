@@ -1,0 +1,45 @@
+.editor-page { padding-block: 16px 28px; }
+.editor-page .back-link { margin-bottom: 12px; }
+.editor-heading { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 22px; }
+.editor-heading > div { min-width: 0; }
+.editor-heading .eyebrow { margin-bottom: 8px; }
+.editor-heading h1 { font-size: clamp(28px, 3vw, 40px); max-width: none; margin: 0; letter-spacing: -1px; overflow-wrap: anywhere; }
+.editor-mode { background: var(--primary); color: white; padding: 9px 12px; border-radius: 9px; font-size: 13px; font-weight: 700; }
+.editor-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.zoom-controls { display: flex; align-items: center; gap: 4px; }
+.icon-button { width: 44px; height: 44px; min-height: 44px; padding: 0; font-size: 22px; font-weight: 500; }
+.zoom-controls output { min-width: 58px; text-align: center; color: var(--primary); font-size: 13px; font-variant-numeric: tabular-nums; }
+.editor-grid-toggle { display: flex; gap: 8px; align-items: center; min-height: 44px; padding-inline: 8px; font-size: 13px; color: var(--muted); cursor: pointer; }
+.editor-grid-toggle input { width: 18px; height: 18px; accent-color: var(--primary); margin: 0; }
+.editor-help { color: var(--muted); font-size: 12px; line-height: 1.7; margin-block: 15px 18px; max-width: 800px; }
+.editor-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 240px; align-items: start; gap: 22px; }
+.plan-workspace { min-width: 0; }
+.canvas-frame { border: 1px solid #c9ccdf; border-radius: 14px; overflow: hidden; background: #f9f9fc; }
+.canvas-surface { width: 100%; height: clamp(300px, 55svh, 620px); touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab; overflow: hidden; position: relative; }
+.canvas-surface:active { cursor: grabbing; }
+.canvas-surface:focus-visible { outline: 3px solid var(--primary); outline-offset: -4px; }
+.konva-drawing { pointer-events: none; }
+.canvas-caption { display: flex; justify-content: space-between; gap: 15px; font-size: 11px; line-height: 1.6; color: var(--muted); margin: 10px 0 0; }
+.editor-sidebar { background: #fcfbf7; border: 1px solid var(--line); border-radius: 14px; padding: 20px; }
+.editor-sidebar h2 { font-size: 15px; margin-bottom: 17px; }
+.editor-room-list { padding: 0; margin: 0; list-style: none; display: grid; gap: 8px; }
+.editor-room-list button { width: 100%; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 11px; font-size: 13px; line-height: 1.5; text-align: left; color: var(--ink); border: 1px solid var(--line); border-radius: 8px; background: white; overflow-wrap: anywhere; }
+.editor-room-list button[aria-pressed=true] { color: var(--primary); border-color: var(--primary); background: #eeeeff; }
+.room-list-mark { width: 16px; height: 13px; border: 1.5px solid var(--primary); flex-shrink: 0; }
+.editor-selection { font-size: 12px; color: var(--muted); line-height: 1.7; margin: 20px 0 0; }
+.selected-measures { margin-top: 8px; }
+.selected-measures dd { font-size: 13px; }
+.selected-measures dt { font-size: 12px; }
+.clear-selection { margin: 13px 0 -5px -10px; font-size: 12px; padding-inline: 10px; }
+.open-editor { margin-top: 20px; }
+@media (max-width: 800px) {
+  .editor-workspace { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .editor-sidebar { padding: 18px; }
+  .selected-measures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 25px; }
+  .editor-heading { margin-bottom: 18px; }
+  .editor-toolbar { gap: 8px; }
+  .editor-grid-toggle { padding-inline: 0; }
+}
+@media (max-height: 550px) and (min-width: 701px) {
+  .canvas-surface { height: 280px; }
+}

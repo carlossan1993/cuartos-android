@@ -4,7 +4,7 @@ import type { Project } from '../domain/types'
 import { polygonArea } from '../geometry/rooms'
 import { RoomPreview } from '../components/RoomPreview'
 
-export function ProjectSummary({ project, onBack }: { project: Project; onBack: () => void }) {
+export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Project; onBack: () => void; onOpenEditor: () => void }) {
   const { t, i18n } = useTranslation()
   const heading = useRef<HTMLHeadingElement>(null)
   useEffect(() => { heading.current?.focus() }, [project.id])
@@ -26,6 +26,7 @@ export function ProjectSummary({ project, onBack }: { project: Project; onBack: 
             <div><dt>{t('room.area')}</dt><dd>{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(polygonArea(room.polygon))} m²</dd></div>
           </dl>
           <p className="form-help">{t('room.summaryNote')}</p>
+          <button className="button button-primary open-editor" type="button" onClick={onOpenEditor}>{t('editor.open')}</button>
         </div>
       </div> : <p>{t('room.noRoom')}</p>}
     </section>
