@@ -35,14 +35,15 @@ No hay editor de habitaciones ni proyectos guardados todavía. No hay AAB releas
 
 ## Etapa 4 · Modelo de dominio y azul principal
 
-Issue: [#5](https://github.com/carlossan1993/cuartos-android/issues/5). El PR de entrega registra los checks finales y su integración.
+Issue: [#5](https://github.com/carlossan1993/cuartos-android/issues/5). Entrega: [PR #6](https://github.com/carlossan1993/cuartos-android/pull/6), que registra los checks finales y su integración.
 
 - Tipos serializables Project, Room, Opening, FurnitureItem, CatalogItem y ViewSettings.
 - Metros internos, conversión cm/m, correspondencia determinista X/Y → X/Z y referencias dirigidas de pared estables.
 - Geometría ortogonal, validación del esquema 1 y codec JSON; sin migración silenciosa de versiones desconocidas.
 - Store Zustand vanilla, snapshots inmutables, acciones atómicas y borrado en cascada de dependientes de una habitación.
 - Azul `#03038c` incorporado a la interfaz y al icono Android. La estructura de pantalla aprobada se conserva.
-- Validación local: typecheck/lint correctos; pruebas de dominio/idioma. E2E visual y build Android se verifican en el PR antes de integrar.
+- Validación local: typecheck/lint/build correctos y 65 pruebas de dominio/idioma correctas.
+- E2E teléfono/tablet y paleta ES/EN revisados en [CI 39850806086](https://github.com/carlossan1993/cuartos-android/actions/runs/39850806086); capturas actualizadas en `docs/screenshots`. Los checks finales web/Android y el APK se registran en el PR antes de integrar.
 
 Las funciones de datos todavía no se exponen como controles de creación/edición. Convenciones, límites y pendientes: [DOMAIN](DOMAIN.md).
 
