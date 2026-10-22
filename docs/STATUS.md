@@ -4,7 +4,7 @@ Actualizado: 22 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
-## Etapa actual: 0 · Repositorio y gobierno
+## Etapa 0 · Repositorio y gobierno
 
 Issue: [#1](https://github.com/carlossan1993/cuartos-android/issues/1).
 
@@ -33,6 +33,20 @@ Issue: [#3](https://github.com/carlossan1993/cuartos-android/issues/3). Entrega:
 
 No hay editor de habitaciones ni proyectos guardados todavía. No hay AAB release ni publicación en Play. La instalación manual del APK en dispositivo queda pendiente.
 
+## Etapa 4 · Modelo de dominio y azul principal
+
+Issue: [#5](https://github.com/carlossan1993/cuartos-android/issues/5). Entrega: [PR #6](https://github.com/carlossan1993/cuartos-android/pull/6), que registra los checks finales y su integración.
+
+- Tipos serializables Project, Room, Opening, FurnitureItem, CatalogItem y ViewSettings.
+- Metros internos, conversión cm/m, correspondencia determinista X/Y → X/Z y referencias dirigidas de pared estables.
+- Geometría ortogonal, validación del esquema 1 y codec JSON; sin migración silenciosa de versiones desconocidas.
+- Store Zustand vanilla, snapshots inmutables, acciones atómicas y borrado en cascada de dependientes de una habitación.
+- Azul `#03038c` incorporado a la interfaz y al icono Android. La estructura de pantalla aprobada se conserva.
+- Validación local: typecheck/lint/build correctos y 65 pruebas de dominio/idioma correctas.
+- E2E teléfono/tablet y paleta ES/EN revisados en [CI 39850806086](https://github.com/carlossan1993/cuartos-android/actions/runs/39850806086); capturas actualizadas en `docs/screenshots`. Los checks finales web/Android y el APK se registran en el PR antes de integrar.
+
+Las funciones de datos todavía no se exponen como controles de creación/edición. Convenciones, límites y pendientes: [DOMAIN](DOMAIN.md).
+
 ## Siguiente implementación
 
-Una vez integrado el PR #4, continuar con el modelo de dominio (etapa 4) y el asistente de creación de habitaciones (etapa 5).
+Etapa 5: asistente de nuevo proyecto, medidas/altura de habitación rectangular y persistencia mínima, conectado al modelo validado.
