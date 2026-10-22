@@ -20,7 +20,7 @@ REQUIRED = (
     ".github/ISSUE_TEMPLATE/feature.yml",
     ".github/ISSUE_TEMPLATE/bug.yml",
     ".github/ISSUE_TEMPLATE/config.yml",
-    ".github/workflows/foundation.yml",
+    ".github/workflows/ci.yml",
 )
 
 

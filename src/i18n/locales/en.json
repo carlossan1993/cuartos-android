@@ -1,0 +1,15 @@
+{
+  "app": { "name": "Cuartos", "title": "Cuartos · Design your space" },
+  "language": { "label": "Language", "spanish": "Español", "english": "English" },
+  "home": {
+    "eyebrow": "ONE SPACE, MANY POSSIBILITIES",
+    "title": "Imagine how you want to live.",
+    "description": "Every room can tell a different story. Make room for your ideas.",
+    "planCaption": "A great space starts with an idea.",
+    "projects": "Your projects",
+    "emptyTitle": "Your ideas begin here",
+    "emptyDescription": "You have no saved projects yet.",
+    "localNote": "Your space is yours. No account, no connection.",
+    "footer": "Made for thinking in metres. And in possibilities."
+  }
+}
