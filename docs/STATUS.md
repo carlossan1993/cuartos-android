@@ -49,14 +49,16 @@ Etapa 4 integrada en PR #6, commit `466cb249b8d88269149b1f3991d606f880971fb5`. C
 
 ## Etapa 5 · Crear y reabrir una habitación
 
-Issue: [#7](https://github.com/carlossan1993/cuartos-android/issues/7). Se considera cerrada después de revisión técnica, CI verde y merge de su PR.
+Issue: [#7](https://github.com/carlossan1993/cuartos-android/issues/7). Entrega: [PR #8](https://github.com/carlossan1993/cuartos-android/pull/8). Se considera cerrada después de revisión técnica, CI verde y merge del PR.
 
 - Asistente en dos pasos: nombre de proyecto/habitación y medidas interiores de un rectángulo.
 - Metros/centímetros, coma/punto decimal, errores ES/EN y conservación de entradas al corregir o retroceder.
 - Vista previa y resumen proporcionales con ancho, fondo, altura y superficie reales. Sin gestos ni edición del plano todavía.
 - Guardado mínimo Dexie/IndexedDB: crear, listar y reabrir; escritura confirmada antes de publicar en el store.
 - Errores de lectura/escritura traducidos con reintento; registros inválidos conservados sin modificaciones.
-- 94 pruebas unitarias correctas; typecheck, lint y build web correctos en local. Los E2E teléfono/tablet, capturas y APK Android se verifican en el PR antes de integrar.
+- 94 pruebas unitarias y ocho E2E teléfono/tablet correctos en local; typecheck, lint y build web correctos. Se revisaron las capturas ES/EN de inicio, asistente, resumen y lista de proyectos.
+- Evidencia visual: asistente en [teléfono EN](screenshots/wizard-phone.png) y [tablet ES](screenshots/wizard-tablet.png); resumen en [teléfono EN](screenshots/room-phone.png) y [tablet ES](screenshots/room-tablet.png). Las capturas de inicio también están actualizadas.
+- QA local con Chromium 153 obtenido como herramienta temporal fuera de las dependencias del proyecto. CI conserva el Chromium fijado por Playwright. La [primera ejecución](https://github.com/carlossan1993/cuartos-android/actions/runs/39854810292) pasó código/pruebas/build y agotó el tiempo en descargas apt de fuentes/dependencias de Ubuntu. Se limita la instalación al navegador headless; los checks finales web/Android y APK se registran en el PR antes de integrar.
 
 Alcance y verificaciones manuales pendientes: [STORAGE](STORAGE.md). Autosave/gestión completa en etapa 13; editor interactivo en etapa 6.
 

@@ -23,7 +23,7 @@ export function ProjectSummary({ project, onBack }: { project: Project; onBack: 
             <div><dt>{t('wizard.width')}</dt><dd>{format(width)} m</dd></div>
             <div><dt>{t('wizard.depth')}</dt><dd>{format(depth)} m</dd></div>
             <div><dt>{t('wizard.height')}</dt><dd>{format(room.height)} m</dd></div>
-            <div><dt>{t('room.area')}</dt><dd>{format(polygonArea(room.polygon))} m²</dd></div>
+            <div><dt>{t('room.area')}</dt><dd>{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(polygonArea(room.polygon))} m²</dd></div>
           </dl>
           <p className="form-help">{t('room.summaryNote')}</p>
         </div>

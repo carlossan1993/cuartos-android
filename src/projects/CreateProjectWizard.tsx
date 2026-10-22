@@ -97,7 +97,7 @@ export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => v
             <figure className="creation-preview">
               {width !== null && depth !== null ? <RoomPreview width={width} depth={depth} /> : <div className="preview-placeholder">{t('wizard.previewPending')}</div>}
               <figcaption>{t('wizard.previewCaption')}</figcaption>
-              {width !== null && depth !== null && <p className="area-preview">{format(width * depth)} <span>m² · {t('room.area')}</span></p>}
+              {width !== null && depth !== null && <p className="area-preview">{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(width * depth)} <span>m² · {t('room.area')}</span></p>}
             </figure>
           </div>
         </fieldset>

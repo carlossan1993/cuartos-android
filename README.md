@@ -47,6 +47,8 @@ Los recursos de inicio, estilos, traducciones e iconos se incluyen en el paquete
 
 Evidencia de la pantalla inicial: [teléfono en inglés](docs/screenshots/home-phone.png) · [tablet en español](docs/screenshots/home-tablet.png). La ilustración es decorativa; no es todavía el editor interactivo.
 
+Creación de habitación: [asistente](docs/screenshots/wizard-tablet.png) y [resumen guardado](docs/screenshots/room-tablet.png).
+
 ## Trabajo y verificación
 
 - [Cómo contribuir](CONTRIBUTING.md).

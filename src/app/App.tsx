@@ -85,7 +85,7 @@ export function App() {
             <p className="eyebrow">{t('home.eyebrow')}</p>
             <h1 id="welcome-title" ref={homeHeading} tabIndex={-1}>{t('home.title')}</h1>
             <p className="intro">{t('home.description')}</p>
-            <button type="button" className="button button-primary create-button" disabled={opening !== null} onClick={() => setScreen('create')}><span aria-hidden="true">＋</span> {t('home.create')}</button>
+            <button type="button" className="button button-primary create-button" disabled={opening !== null} onClick={() => setScreen('create')}><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 3v14M3 10h14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>{t('home.create')}</button>
             <p className="local-note"><span aria-hidden="true">◌</span>{t('home.localNote')}</p>
           </div>
           <figure className="plan-card">
@@ -100,7 +100,7 @@ export function App() {
           {unreadable && !loading && <p className="error-notice" role="alert">{t('storage.unreadable')}</p>}
           {openError && <p className="error-notice" role="alert">{t('storage.openError')}</p>}
           {cards.length > 0 ? <ul className="project-list">{cards.map(card => <li key={card.id}><button type="button" className="project-card" disabled={opening !== null} onClick={() => { void openProject(card.id) }} aria-label={`${t('home.open')}: ${card.name}`}>
-            <span className="project-card-icon" aria-hidden="true">▱</span><span className="project-card-copy"><strong>{card.name}</strong><span>{card.roomName}{card.roomName && ' · '}{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(card.area)} m²</span><small>{t('home.savedLocally')}</small></span><span className="project-card-arrow" aria-hidden="true">↗</span>
+            <span className="project-card-icon" aria-hidden="true">▱</span><span className="project-card-copy"><strong>{card.name}</strong><span>{card.roomName}{card.roomName && ' · '}{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(card.area)} m²</span><small>{t('home.savedLocally')}</small></span><span className="project-card-arrow" aria-hidden="true">↗</span>
           </button></li>)}</ul> : !loading && !listError && <div className="empty-state">
             <svg viewBox="0 0 48 48" width="48" height="48" aria-hidden="true"><rect x="8" y="8" width="32" height="32" rx="5" fill="none" stroke="currentColor" strokeWidth="1.5" /><path d="M8 22h18V8m0 14v18m0-12h14" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
             <div><h3>{t('home.emptyTitle')}</h3><p>{t('home.emptyDescription')}</p></div>
