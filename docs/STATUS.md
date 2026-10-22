@@ -21,17 +21,18 @@ Etapa 0 cerrada. El repositorio mantiene las etiquetas predeterminadas; las etiq
 
 ## Etapas 1–3 · Base Android, CI e idiomas
 
-Issue: [#3](https://github.com/carlossan1993/cuartos-android/issues/3). Implementación en revisión.
+Issue: [#3](https://github.com/carlossan1993/cuartos-android/issues/3). Entrega: [PR #4](https://github.com/carlossan1993/cuartos-android/pull/4). El PR registra los checks finales y su integración; solo se considera cerrado tras CI verde y merge.
 
 - React/TypeScript/Vite, Capacitor Android, Gradle wrapper y lockfile.
 - Pantalla inicial responsive, recursos locales, selector ES/EN, detección del idioma y preferencia persistida.
 - CI con lint, typecheck, pruebas de idioma, build web, E2E teléfono/tablet y build/lint Android.
 - Validación local inicial: lint/typecheck/build correctos y siete pruebas de idioma correctas.
 - E2E teléfono/tablet, cambio de idioma y reapertura sin activos remotos: correctos en [CI 39832735040](https://github.com/carlossan1993/cuartos-android/actions/runs/39832735040). Capturas revisadas en ambos idiomas.
-- El primer job Android detectó que `sdkmanager` no estaba en PATH; el workflow ahora instala/configura explícitamente las herramientas SDK antes de compilar. Pendiente verificar el nuevo job.
+- El SDK se instala/configura explícitamente mediante setup-android. Se eliminó del estilo base un atributo de navegación que exigía API 27; SystemBars configura los iconos claros/oscuros con compatibilidad nativa sin elevar minSdk 24.
+- Las barras del sistema usan estilo oscuro sobre el fondo claro y manejo nativo de áreas seguras. La compilación final y el APK se verifican en los checks del PR #4 antes de integrar.
 
 No hay editor de habitaciones ni proyectos guardados todavía. No hay AAB release ni publicación en Play. La instalación manual del APK en dispositivo queda pendiente.
 
 ## Siguiente implementación
 
-Cerrar las etapas 1–3 con checks verdes y el APK debug; continuar después con el modelo de dominio (etapa 4) y el asistente de creación de habitaciones (etapa 5).
+Una vez integrado el PR #4, continuar con el modelo de dominio (etapa 4) y el asistente de creación de habitaciones (etapa 5).

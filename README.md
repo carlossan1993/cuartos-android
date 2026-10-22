@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** etapa 0 integrada; base Android, CI y pantalla ES/EN en revisión (etapas 1–3). La pantalla actual es de inicio: crear habitaciones y editar planos llegará en las etapas 4–6. El estado verificable está en [STATUS](docs/STATUS.md).
+**Estado:** base Android, CI y pantalla ES/EN (etapas 0–3). La pantalla actual es de inicio: crear habitaciones y editar planos llegará en las etapas 4–6. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
