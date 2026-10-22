@@ -45,6 +45,8 @@ GitHub Actions ejecuta esos controles en Ubuntu estándar y guarda `cuartos-debu
 
 Los recursos de inicio, estilos, traducciones e iconos se incluyen en el paquete. No hay fuentes externas, analítica, cuentas ni servidor remoto. El Android de Capacitor conserva su permiso de Internet estándar; esta versión no hace solicitudes a servicios externos.
 
+Evidencia de la pantalla inicial: [teléfono en inglés](docs/screenshots/home-phone.png) · [tablet en español](docs/screenshots/home-tablet.png). La ilustración es decorativa; no es todavía el editor interactivo.
+
 ## Trabajo y verificación
 
 - [Cómo contribuir](CONTRIBUTING.md).

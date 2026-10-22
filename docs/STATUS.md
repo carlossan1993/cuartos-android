@@ -27,7 +27,8 @@ Issue: [#3](https://github.com/carlossan1993/cuartos-android/issues/3). Implemen
 - Pantalla inicial responsive, recursos locales, selector ES/EN, detección del idioma y preferencia persistida.
 - CI con lint, typecheck, pruebas de idioma, build web, E2E teléfono/tablet y build/lint Android.
 - Validación local inicial: lint/typecheck/build correctos y siete pruebas de idioma correctas.
-- La descarga local de Chromium no pudo completarse; E2E y Android se validarán en Actions antes del cierre.
+- E2E teléfono/tablet, cambio de idioma y reapertura sin activos remotos: correctos en [CI 39832735040](https://github.com/carlossan1993/cuartos-android/actions/runs/39832735040). Capturas revisadas en ambos idiomas.
+- El primer job Android detectó que `sdkmanager` no estaba en PATH; el workflow ahora instala/configura explícitamente las herramientas SDK antes de compilar. Pendiente verificar el nuevo job.
 
 No hay editor de habitaciones ni proyectos guardados todavía. No hay AAB release ni publicación en Play. La instalación manual del APK en dispositivo queda pendiente.
 

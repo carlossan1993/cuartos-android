@@ -59,6 +59,9 @@ jobs:
           cache: gradle
       - run: npm ci
       - run: npm run android:sync
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: ''
       - name: Ensure Android SDK
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - name: Lint, unit task and debug APK
