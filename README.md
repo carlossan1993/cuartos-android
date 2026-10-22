@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** base Android, CI y pantalla ES/EN; modelo de dominio de la etapa 4. La pantalla actual es de inicio: el asistente para crear habitaciones y el editor visual llegan en las etapas 5–6. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
+**Estado:** base Android, CI, ES/EN y modelo compartido. La etapa 5 incorpora el asistente de habitación rectangular, guardado local y reapertura con un resumen proporcional. El editor interactivo corresponde a la etapa 6. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
@@ -53,6 +53,7 @@ Evidencia de la pantalla inicial: [teléfono en inglés](docs/screenshots/home-p
 - [Instrucciones para agentes](AGENTS.md).
 - [Arquitectura](docs/ARCHITECTURE.md).
 - [Modelo de dominio y convenciones](docs/DOMAIN.md).
+- [Guardado mínimo y creación de habitaciones](docs/STORAGE.md).
 - [Decisiones iniciales](docs/decisions/0001-platform.md).
 - [Estado y siguiente paso](docs/STATUS.md).
 - [Configuración inicial de GitHub](docs/REPOSITORY_SETUP.md).

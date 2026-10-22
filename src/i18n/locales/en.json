@@ -1,6 +1,13 @@
 {
-  "app": { "name": "Cuartos", "title": "Cuartos · Design your space" },
-  "language": { "label": "Language", "spanish": "Español", "english": "English" },
+  "app": {
+    "name": "Cuartos",
+    "title": "Cuartos · Design your space"
+  },
+  "language": {
+    "label": "Language",
+    "spanish": "Español",
+    "english": "English"
+  },
   "home": {
     "eyebrow": "ONE SPACE, MANY POSSIBILITIES",
     "title": "Imagine how you want to live.",
@@ -10,6 +17,64 @@
     "emptyTitle": "Your ideas begin here",
     "emptyDescription": "You have no saved projects yet.",
     "localNote": "Your space is yours. No account, no connection.",
-    "footer": "Made for thinking in metres. And in possibilities."
+    "footer": "Made for thinking in metres. And in possibilities.",
+    "create": "Create a project",
+    "open": "Open project",
+    "savedLocally": "Saved locally"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Continue",
+    "retry": "Try again"
+  },
+  "wizard": {
+    "step": "STEP {{current}} OF {{total}}",
+    "title": "Give your idea a name.",
+    "description": "Create a project and start with a rectangular room.",
+    "measureTitle": "It starts with the measurements.",
+    "measureDescription": "Enter the room’s interior dimensions. You can use metres or centimetres.",
+    "progress": "Creation progress",
+    "names": "Your project",
+    "measures": "Measurements",
+    "projectName": "Project name",
+    "roomName": "Room name",
+    "shape": "Room shape",
+    "rectangle": "Rectangular",
+    "unit": "Measurement unit",
+    "units": {
+      "m": "Metres (m)",
+      "cm": "Centimetres (cm)"
+    },
+    "width": "Width",
+    "depth": "Depth",
+    "height": "Height",
+    "range": "Each measurement must be between {{min}} and {{max}} {{unit}}. A decimal comma or point is accepted.",
+    "previewPending": "Enter a valid width and depth to preview the room.",
+    "previewCaption": "A proportional preview of your room.",
+    "create": "Create and save",
+    "saving": "Saving…",
+    "errors": {
+      "nameRequired": "Enter a name.",
+      "nameTooLong": "Use no more than 120 characters.",
+      "measurement": "Enter a measurement between {{min}} and {{max}} {{unit}}."
+    }
+  },
+  "storage": {
+    "loading": "Loading your projects…",
+    "listError": "We could not read projects on this device. Try loading them again.",
+    "unreadable": "Some projects could not be opened. They have been kept unchanged on this device.",
+    "openError": "We could not open this project. Its saved data has not been changed. You can try again.",
+    "saveError": "Could not save on this device. Your entries are still in the form; check the available storage and try again."
+  },
+  "room": {
+    "previewLabel": "Room {{width}} wide by {{depth}} deep",
+    "area": "Floor area",
+    "yourSpace": "YOUR SPACE, YOUR DIMENSIONS",
+    "saved": "Saved on this device",
+    "backToProjects": "Back to your projects",
+    "planCaption": "A proportional plan of the room you created.",
+    "summaryNote": "This summary shows your room’s dimensions. You can reopen it from your projects.",
+    "noRoom": "This project has no rooms yet."
   }
 }

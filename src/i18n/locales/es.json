@@ -1,6 +1,13 @@
 {
-  "app": { "name": "Cuartos", "title": "Cuartos · Diseña tu espacio" },
-  "language": { "label": "Idioma", "spanish": "Español", "english": "English" },
+  "app": {
+    "name": "Cuartos",
+    "title": "Cuartos · Diseña tu espacio"
+  },
+  "language": {
+    "label": "Idioma",
+    "spanish": "Español",
+    "english": "English"
+  },
   "home": {
     "eyebrow": "UN ESPACIO, MUCHAS POSIBILIDADES",
     "title": "Imagina cómo quieres vivirlo.",
@@ -10,6 +17,64 @@
     "emptyTitle": "Aquí empiezan tus ideas",
     "emptyDescription": "Todavía no tienes proyectos guardados.",
     "localNote": "Tu espacio es tuyo. Sin cuentas, sin conexión.",
-    "footer": "Hecho para pensar en metros. Y en posibilidades."
+    "footer": "Hecho para pensar en metros. Y en posibilidades.",
+    "create": "Crear un proyecto",
+    "open": "Abrir proyecto",
+    "savedLocally": "Guardado localmente"
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "back": "Atrás",
+    "next": "Continuar",
+    "retry": "Reintentar"
+  },
+  "wizard": {
+    "step": "PASO {{current}} DE {{total}}",
+    "title": "Dale nombre a tu idea.",
+    "description": "Crea un proyecto y empieza por una habitación rectangular.",
+    "measureTitle": "Todo empieza con las medidas.",
+    "measureDescription": "Ingresa las medidas interiores de la habitación. Puedes usar metros o centímetros.",
+    "progress": "Progreso de creación",
+    "names": "Tu proyecto",
+    "measures": "Las medidas",
+    "projectName": "Nombre del proyecto",
+    "roomName": "Nombre de la habitación",
+    "shape": "Forma de la habitación",
+    "rectangle": "Rectangular",
+    "unit": "Unidad de medida",
+    "units": {
+      "m": "Metros (m)",
+      "cm": "Centímetros (cm)"
+    },
+    "width": "Ancho",
+    "depth": "Fondo",
+    "height": "Altura",
+    "range": "Cada medida debe estar entre {{min}} y {{max}} {{unit}}. Se acepta coma o punto decimal.",
+    "previewPending": "Ingresa ancho y fondo válidos para ver la habitación.",
+    "previewCaption": "Vista previa proporcional de tu habitación.",
+    "create": "Crear y guardar",
+    "saving": "Guardando…",
+    "errors": {
+      "nameRequired": "Escribe un nombre.",
+      "nameTooLong": "Usa un máximo de 120 caracteres.",
+      "measurement": "Ingresa una medida entre {{min}} y {{max}} {{unit}}."
+    }
+  },
+  "storage": {
+    "loading": "Cargando tus proyectos…",
+    "listError": "No pudimos leer los proyectos del dispositivo. Reintenta para volver a cargarlos.",
+    "unreadable": "Algunos proyectos no se pudieron abrir. Se conservaron sin cambios en este dispositivo.",
+    "openError": "No pudimos abrir este proyecto. Sus datos guardados no se han modificado. Puedes reintentar.",
+    "saveError": "No se pudo guardar en este dispositivo. Tus datos siguen en el formulario; revisa el espacio disponible y vuelve a intentarlo."
+  },
+  "room": {
+    "previewLabel": "Habitación de {{width}} de ancho por {{depth}} de fondo",
+    "area": "Superficie",
+    "yourSpace": "TU ESPACIO, A TU MEDIDA",
+    "saved": "Guardado en este dispositivo",
+    "backToProjects": "Volver a tus proyectos",
+    "planCaption": "Plano de la habitación creada, a escala proporcional.",
+    "summaryNote": "Este resumen muestra las medidas de tu habitación. Puedes volver a abrirlo desde tus proyectos.",
+    "noRoom": "Este proyecto todavía no tiene habitaciones."
   }
 }

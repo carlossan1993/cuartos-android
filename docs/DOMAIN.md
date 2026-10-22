@@ -24,7 +24,7 @@ Los IDs de paredes no dependen del índice del array: mover vértices o cambiar 
 
 Cada acción valida y copia el resultado antes de publicarlo. Los snapshots son inmutables en tipos y se congelan recursivamente. Un fallo de validación deja intacto el snapshot anterior. Eliminar una habitación elimina sus muebles/aberturas; modificarla no escala automáticamente sus muebles.
 
-El store público no expone `setState`. Dos renderizadores pueden suscribirse al mismo snapshot sin mantener copias independientes. En esta etapa la pantalla inicial todavía no consume proyectos; se conecta en la etapa 5.
+El store público no expone `setState`. Dos renderizadores pueden suscribirse al mismo snapshot sin mantener copias independientes. La etapa 5 conecta el asistente y el resumen a este store; la creación se publica después de guardar correctamente.
 
 ## Validación y portabilidad
 
@@ -36,7 +36,7 @@ Los muebles conservan sus dimensiones y materiales aunque su `catalogId` no teng
 
 Límites de validación V1: dos habitaciones, 4–64 vértices por contorno, 256 aberturas, 2.000 muebles, 256 partes de material por objeto y JSON de hasta 2 MiB en UTF-8. Coordenadas entre −10.000 y 10.000 m y medidas positivas acotadas a 10.000 m. Son límites defensivos, no dimensiones recomendadas. No se incorporan casas completas ni varias plantas.
 
-`serializeProject`/`deserializeProject` operan en memoria. No sustituyen Dexie, autosave, copias de archivos nativos ni los controles de importar/exportar, previstos en etapas posteriores.
+`serializeProject`/`deserializeProject` operan en memoria. La etapa 5 los conecta a [Dexie para el guardado mínimo](STORAGE.md). Autosave, copias de archivos nativos y los controles de importar/exportar se incorporan en etapas posteriores.
 
 ## Dirección de color
 
