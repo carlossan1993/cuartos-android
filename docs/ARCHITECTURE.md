@@ -33,13 +33,15 @@ Unidades internas: metros. El plano usa X/Y; el render deriva X/Z de forma deter
 
 La geometría no importa React, Konva, Three.js ni componentes. El estado aplica acciones del dominio. El 2D y el 3D leen el mismo proyecto. El almacenamiento valida y versiona datos; no define una segunda fuente de verdad durante la edición.
 
+La vista 3D se carga bajo demanda desde el editor 2D. `viewer3d/model.ts` deriva descriptores serializables; `viewer3d/geometry.ts` los convierte en geometrías Three.js transitorias y `Scene3D` administra cámara y recursos. No existe escritura de cámara en esta etapa. Detalles: [VIEWER_3D](VIEWER_3D.md).
+
 ## Estructura objetivo
 
 | Ruta | Uso |
 | --- | --- |
 | `src/app`, `src/components` | UI y navegación |
 | `src/geometry`, `src/state` | Dominio, reglas y acciones |
-| `src/editor2d`, `src/editor3d` | Representaciones del proyecto |
+| `src/editor2d`, `src/viewer3d` | Representaciones del proyecto |
 | `src/furniture` | Catálogo y renderizadores |
 | `src/i18n/locales` | Traducciones ES/EN |
 | `src/storage`, `src/tests` | Persistencia y pruebas |

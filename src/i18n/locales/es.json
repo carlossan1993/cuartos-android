@@ -248,5 +248,29 @@
       "sink": "Lavabo",
       "toilet": "Inodoro"
     }
+  },
+  "viewer": {
+    "open": "Ver habitación 3D",
+    "back": "Volver al plano 2D",
+    "eyebrow": "TU HABITACIÓN EN VOLUMEN",
+    "tools": "Cámara de la vista 3D",
+    "zoomOut": "Alejar",
+    "zoomIn": "Acercar",
+    "left": "Girar izquierda",
+    "right": "Girar derecha",
+    "top": "Desde arriba",
+    "fit": "Encuadrar",
+    "cutaway": "Vista abierta",
+    "help": "Arrastra para girar. Usa dos dedos para acercar o desplazar; con ratón, rueda para acercar y botón derecho para desplazar. La vista abierta oculta las paredes delanteras para ver el interior.",
+    "keyboard": "Flechas: girar e inclinar. W, A, S y D: desplazar. Más o menos: acercar o alejar. Cero o Inicio: encuadrar. T: desde arriba.",
+    "canvas": "Vista 3D interactiva de la habitación",
+    "loading": "Preparando la vista 3D…",
+    "details": "Medidas del proyecto",
+    "thickness": "Espesor de pared",
+    "openings": "Puertas y ventanas",
+    "scope": "Vista de la habitación y sus acabados. Los muebles se conservan en el proyecto; su representación 3D se incorporará en la próxima etapa.",
+    "unavailable": "No pudimos mostrar la vista 3D en este dispositivo.",
+    "lost": "La vista 3D se interrumpió.",
+    "recovery": "Tu proyecto sigue intacto. Puedes reintentar o volver al plano 2D."
   }
 }

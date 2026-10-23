@@ -119,6 +119,21 @@ Issue: [#15](https://github.com/carlossan1993/cuartos-android/issues/15). La ent
 
 Reglas y límites de superposición, compatibilidad y QA físico pendiente: [FURNITURE](FURNITURE.md).
 
+Etapa 9 integrada en [PR #16](https://github.com/carlossan1993/cuartos-android/pull/16), commit `ed752e681bef31f337fbc951da40f1cf2d2d4bd5`. [CI final 39900597584](https://github.com/carlossan1993/cuartos-android/actions/runs/39900597584) web/Android correcto: 180 unitarias, 24 E2E y APK debug.
+
+## Etapa 10 · Habitación 3D
+
+Issue: [#17](https://github.com/carlossan1993/cuartos-android/issues/17). La entrega se considera cerrada después de revisión técnica, checks verdes y merge; la evidencia final se registra en GitHub antes de integrar.
+
+- Motor Three.js/React Three Fiber cargado al abrir 3D desde el plano; mismo proyecto serializable, sin escrituras al navegar.
+- Piso poligonal con espesor, paredes hacia el exterior de las medidas interiores y huecos reales para puertas/ventanas, incluidos antepechos y dinteles. Hoja de puerta abierta y vidrio esquemático.
+- Colores por pared y texturas de piso locales; vista abierta automática o paredes completas, iluminación y sombras.
+- Órbita, zoom, pan, vista superior y encuadre por botones, teclado, ratón y gestos. Orientación/DPR adaptables, render bajo demanda y recuperación ante pérdida de contexto WebGL.
+- 193 pruebas unitarias y 30 E2E locales correctos, incluidas regresiones. Lint, typecheck y build web correctos. Capturas revisadas en teléfono ES/tablet EN.
+- Dependencias MIT con versiones exactas; módulo 3D separado (~946 kB minificados / 250 kB gzip), sin descargas de activos externos. Perfilado y comprobación física Android pendientes.
+
+Representación, evidencia y límites: [VIEWER_3D](VIEWER_3D.md). Los muebles se conservan en el proyecto y plano; su representación 3D corresponde a la etapa 11.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 9: motor 3D de la habitación con piso, paredes, aberturas, cámara e iluminación coherentes con el mismo modelo 2D (etapa 10).
+Después de integrar la etapa 10: muebles procedurales 3D a partir del catálogo local, con medidas, centro y giro del mismo modelo (etapa 11).

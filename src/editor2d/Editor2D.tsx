@@ -110,7 +110,7 @@ function PlanDrawing({ project, scene, grid, selected, selectedOpening, previewW
   </Stage></div>
 }
 
-export default function Editor2D({ project, onBack }: { project: Project; onBack: () => void }) {
+export default function Editor2D({ project, onBack, onOpen3D }: { project: Project; onBack: () => void; onOpen3D: () => void }) {
   const { t, i18n } = useTranslation()
   const bounds = useMemo(() => roomBounds(project.rooms), [project.rooms])
   const surface = useRef<HTMLDivElement>(null)
@@ -278,6 +278,7 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
       <button type="button" className="button button-secondary" onClick={fit} disabled={!scene}>{t('editor.fit')}</button>
       <label className="editor-grid-toggle"><input type="checkbox" checked={grid} onChange={event => setGrid(event.target.checked)} />{t('editor.grid')}</label>
       <label className="editor-grid-toggle"><input type="checkbox" checked={snap} disabled={!!furniturePreview || busy} onChange={event => setSnap(event.target.checked)} />{t('furniture.snap', { value: format(project.viewSettings.gridSize) })}</label>
+      <button className="button button-primary open-3d" type="button" disabled={busy || !!tool || !!furniturePreview} onClick={onOpen3D}>{t('viewer.open')}</button>
     </div>
     {notice && tool !== 'furniture' && <div className={notice.error ? 'error-notice furniture-feedback' : 'opening-saved furniture-feedback'} role={notice.error ? 'alert' : 'status'}><p>{t(notice.key)}</p>{retryFurniture && <><p>{t('furniture.retryHelp')}{retryFurniture.type === 'update' && ` ${t('furniture.selectedInfo', { x: format(retryFurniture.item.position.x), y: format(retryFurniture.item.position.y), rotation: format(retryFurniture.item.rotation) })}`}</p><div className="action-group"><button className="button button-secondary" disabled={busy} type="button" onClick={() => { void commitFurniture(retryFurniture, true) }}>{t('furniture.retry')}</button><button className="button button-quiet" disabled={busy} type="button" onClick={() => { setRetryFurniture(null); setNotice(null) }}>{t('common.cancel')}</button></div></>}</div>}
     <p id="canvas-help" className="editor-help">{t('editor.help')} {t('furniture.canvasHelp')}</p><p id="canvas-keyboard" className="sr-only">{t('editor.keyboard')}</p>
