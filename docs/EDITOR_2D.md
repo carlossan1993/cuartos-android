@@ -11,7 +11,7 @@ El resumen de un proyecto guardado permite abrir su plano. React Konva dibuja lo
 - La lista de habitaciones permite seleccionar sin interactuar con el canvas. Las medidas seleccionadas también se muestran como HTML accesible.
 - Con el plano enfocado: flechas desplazan, `+`/`-` amplían/alejan, `0` o Home encuadran, Enter selecciona y Escape limpia la selección.
 
-La posición de cámara, cuadrícula y selección son temporales en esta etapa. Regresar al resumen o reabrir el editor restablece la vista; no cambia las medidas, materiales ni fechas del proyecto guardado. El zoom de navegación no se presenta como una edición de la geometría. La gestión completa de preferencias/autosave se amplía en la etapa 13.
+Desde la etapa 13, «Recordar opciones 2D» guarda cuadrícula, ajuste y zoom relativo para la próxima apertura, mediante el mismo guardado transaccional del diseño. La navegación por sí sola no escribe ni altera fechas. El desplazamiento y la selección son temporales; el esquema 1 no contiene un centro de cámara 2D. Reabrir centra el proyecto con el zoom recordado, limitado al intervalo admitido por el editor (25–800 %). [STORAGE](STORAGE.md) detalla estados y recuperación.
 
 ## Geometría y representación
 

@@ -20,6 +20,13 @@ export function createProjectRepository(name = PROJECT_DATABASE) {
     return project
   }
 
+  async function checkPrevious(previous: Project) {
+    const expected = serializeProject(previous), record = await projects.get(previous.id)
+    if (!record) throw new ProjectSaveError('missing')
+    try { decode(record) } catch { throw new ProjectSaveError('unreadable') }
+    if (record.json !== expected) throw new ProjectSaveError('conflict')
+  }
+
   return {
     async create(project: Project): Promise<void> {
       // Encode before the transaction; add refuses collisions instead of
@@ -33,14 +40,25 @@ export function createProjectRepository(name = PROJECT_DATABASE) {
       return decode(record)
     },
     async replace(project: Project, previous: Project): Promise<void> {
-      const json = serializeProject(project), expected = serializeProject(previous)
+      const json = serializeProject(project)
       if (project.id !== previous.id || project.createdAt !== previous.createdAt || Date.parse(project.updatedAt) < Date.parse(previous.updatedAt)) throw new Error('Project identity/date mismatch')
       await db.transaction('rw', projects, async () => {
-        const record = await projects.get(project.id)
-        if (!record) throw new ProjectSaveError('missing')
-        try { decode(record) } catch { throw new ProjectSaveError('unreadable') }
-        if (record.json !== expected) throw new ProjectSaveError('conflict')
+        await checkPrevious(previous)
         await projects.update(project.id, { json })
+      })
+    },
+    async copy(project: Project, previous: Project): Promise<void> {
+      const json = serializeProject(project)
+      if (project.id === previous.id) throw new Error('Copy requires a new project ID')
+      await db.transaction('rw', projects, async () => {
+        await checkPrevious(previous)
+        await projects.add({ id: project.id, json })
+      })
+    },
+    async remove(previous: Project): Promise<void> {
+      await db.transaction('rw', projects, async () => {
+        await checkPrevious(previous)
+        await projects.delete(previous.id)
       })
     },
     async list(): Promise<{ projects: Project[]; unreadable: number }> {

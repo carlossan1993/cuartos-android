@@ -298,5 +298,39 @@
     "preview": "Vista previa de la distribución; los números identifican cada espacio.",
     "multiple": "Dos espacios",
     "composite": "Espacio compuesto"
+  },
+  "projects": {
+    "rename": "Renombrar",
+    "duplicate": "Duplicar",
+    "remove": "Eliminar",
+    "actions": "Acciones de {{name}}",
+    "copyName": "{{name}} (copia)",
+    "confirmRemove": "¿Eliminar «{{name}}» de este dispositivo? Se eliminarán sus habitaciones, muebles y acabados. Esta acción no se puede deshacer.",
+    "confirmDelete": "Sí, eliminar proyecto",
+    "createCopy": "Crear copia",
+    "saveName": "Guardar nombre",
+    "reload": "Recargar proyecto",
+    "remember2d": "Recordar opciones 2D",
+    "remember3d": "Recordar cámara 3D",
+    "viewSaved": "Preferencias guardadas para la próxima apertura.",
+    "viewError": "No se pudieron guardar estas preferencias. Tu diseño anterior sigue intacto; puedes volver a intentarlo.",
+    "status": {
+      "saving": "Guardando en este dispositivo…",
+      "saved": "Diseño guardado en este dispositivo",
+      "error": "El último cambio no se guardó. Revisa el aviso de la edición."
+    },
+    "done": {
+      "rename": "Nombre guardado.",
+      "duplicate": "Copia creada en este dispositivo.",
+      "remove": "Proyecto eliminado de este dispositivo."
+    },
+    "errors": {
+      "name": "Escribe un nombre de 1 a 120 caracteres.",
+      "read": "No pudimos leer este proyecto. Puedes recargarlo o cancelar; sus datos se conservan.",
+      "write": "No se pudo completar la operación. Se conservó la copia anterior; puedes reintentar con el mismo botón.",
+      "conflict": "El proyecto cambió desde que abriste este panel. Recárgalo y revisa sus datos antes de confirmar de nuevo.",
+      "missing": "El proyecto ya no está disponible. No se ha recreado ni modificado ningún otro proyecto.",
+      "unreadable": "La copia guardada no se puede leer. Se conservó sin sobrescribirla ni eliminarla."
+    }
   }
 }

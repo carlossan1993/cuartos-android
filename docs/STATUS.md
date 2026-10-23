@@ -164,6 +164,20 @@ Issue: [#21](https://github.com/carlossan1993/cuartos-android/issues/21). Se con
 
 Alcance y evidencia: [LAYOUTS](LAYOUTS.md).
 
+Etapa 12 integrada en [PR #22](https://github.com/carlossan1993/cuartos-android/pull/22), commit `729d1e8ac2158ccc149194b1444d8a3615d239ca`. [CI final 39910023280](https://github.com/carlossan1993/cuartos-android/actions/runs/39910023280) web/Android correcto: 240 unitarias, 40 E2E y APK debug.
+
+## Etapa 13 · Proyectos offline
+
+Issue: [#23](https://github.com/carlossan1993/cuartos-android/issues/23). Entrega: [PR #24](https://github.com/carlossan1993/cuartos-android/pull/24). La entrega se considera cerrada tras revisión técnica, CI verde e integración. El PR registra los resultados finales y APK antes del merge.
+
+- Lista con renombrar, duplicar y eliminar con confirmación ES/EN. Copias independientes con nuevos IDs y referencias completas para todas las formas, aberturas, acabados y muebles.
+- Autosave de cambios semánticos confirmados e indicador guardando/guardado/fallo después del commit. Ninguna escritura por frame, movimiento de cámara o borrador provisional.
+- Guardado explícito y restauración de cuadrícula, ajuste y zoom 2D, y cámara 3D. Navegación temporal sin escrituras; mismo esquema 1 y sin dependencias nuevas.
+- Comparación transaccional antes de renombrar/copiar/eliminar. Fallos conservan datos y entradas; conflicto ofrece recarga explícita; registros eliminados, corruptos o futuros nunca se recrean/sobrescriben.
+- 252 unitarias y 46 E2E locales; lint/typecheck/build y revisión visual ES/EN en teléfono/tablet. La evidencia final web/Android queda en el PR. QA físico de instalación/reapertura y presión de almacenamiento Android pendiente.
+
+Contrato, recuperación y capturas: [STORAGE](STORAGE.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 12: persistencia offline ampliada, gestión de proyectos y recuperación al cerrar/reabrir, con guardado y estados de error claros (etapa 13).
+Después de integrar la etapa 13: importar/exportar JSON versionado y PNG nítido con resolución explícita, Filesystem/Share y recuperación íntegra del proyecto (etapa 14).

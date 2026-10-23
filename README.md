@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** crear/guardar/reabrir habitaciones rectangulares, en L y dos espacios conectados mediante un paso abierto, y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. El plano permite añadir, editar y eliminar puertas/ventanas, validar sus medidas y guardarlas localmente. Incluye biblioteca local de acabados, colores personalizados y aplicación a piso o paredes. El catálogo incluye 16 muebles con arrastre, giro, duplicado, eliminación y ajuste a cuadrícula. La vista 3D muestra piso, paredes, puertas y ventanas con cámara táctil, vista abierta y los acabados guardados. Las 16 piezas del catálogo tienen representación 3D procedural; al editar su posición o giro en el plano, la vista 3D refleja los cambios guardados. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
+**Estado:** crear/guardar/reabrir habitaciones rectangulares, en L y dos espacios conectados mediante un paso abierto, y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. El plano permite añadir, editar y eliminar puertas/ventanas, validar sus medidas y guardarlas localmente. Incluye biblioteca local de acabados, colores personalizados y aplicación a piso o paredes. El catálogo incluye 16 muebles con arrastre, giro, duplicado, eliminación y ajuste a cuadrícula. La vista 3D muestra piso, paredes, puertas y ventanas con cámara táctil, vista abierta y los acabados guardados. Las 16 piezas del catálogo tienen representación 3D procedural; al editar su posición o giro en el plano, la vista 3D refleja los cambios guardados. La lista permite renombrar, duplicar y eliminar con confirmación. Cada cambio confirmado se guarda antes de publicarse y muestra su estado; las opciones 2D y la cámara 3D pueden recordarse para la próxima apertura. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
@@ -63,13 +63,15 @@ Muebles 3D: [teléfono ES](docs/screenshots/furniture3d-phone.png) · [tablet EN
 
 Distribuciones: [L en tablet](docs/screenshots/layout-l-3d-tablet.png) · [dos espacios en teléfono](docs/screenshots/layout-right-3d-phone.png).
 
+Proyectos offline: [lista en teléfono ES](docs/screenshots/projects-list-phone.png) · [confirmación en tablet EN](docs/screenshots/projects-delete-tablet.png) · [conflicto en teléfono ES](docs/screenshots/projects-conflict-phone.png).
+
 ## Trabajo y verificación
 
 - [Cómo contribuir](CONTRIBUTING.md).
 - [Instrucciones para agentes](AGENTS.md).
 - [Arquitectura](docs/ARCHITECTURE.md).
 - [Modelo de dominio y convenciones](docs/DOMAIN.md).
-- [Guardado mínimo y creación de habitaciones](docs/STORAGE.md).
+- [Guardado offline, gestión y recuperación de proyectos](docs/STORAGE.md).
 - [Editor 2D y gestos](docs/EDITOR_2D.md).
 - [Puertas, ventanas y guardado de cambios](docs/OPENINGS.md).
 - [Biblioteca de acabados y colores](docs/FINISHES.md).
