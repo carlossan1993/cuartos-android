@@ -41,3 +41,7 @@ Límites de validación V1: dos habitaciones, 4–64 vértices por contorno, 256
 ## Dirección de color
 
 Por indicación del propietario, el azul `#03038c` es el acento principal: títulos, marca, icono, selector, foco y partes de la ilustración. Se conservan fondos neutros, salvia secundaria y un detalle cálido. El objetivo es contraste y presencia de color, sin una paleta completamente pastel.
+
+## Distribuciones · Etapa 12
+
+La L usa un polígono ortogonal de seis vértices. Dos espacios conectados son dos Room con bordes coincidentes y sus interiores a lados opuestos. Ese tramo común se representa abierto de piso a techo; no introduce una entidad de conexión ni cambia el esquema 1. El codec estructural conserva proyectos anteriores. La frontera de edición de aberturas rechaza puertas/ventanas nuevas que invadan el paso abierto; el borrado o la corrección de registros anteriores siguen disponibles. Detalles y límites: [LAYOUTS](LAYOUTS.md).

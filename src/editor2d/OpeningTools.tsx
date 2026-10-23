@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Opening, Project } from '../domain/types'
+import { visibleWallSpans } from '../geometry/layout'
 import { getWalls } from '../geometry/rooms'
 import { fromMeters, type LengthUnit } from '../geometry/units'
 import { saveOpeningChange } from '../projects/save-opening'
@@ -53,9 +54,9 @@ function OpeningForm({ project, id, roomId, type, existing, onBusy, onPreviewWal
       <fieldset disabled={saving} className="wizard-fields"><legend className="sr-only">{t('openings.properties')}</legend>
         <div className="opening-form-grid"><div>
           <div className="opening-selects"><div className="form-field"><label htmlFor="opening-type">{t('openings.type')}</label><select id="opening-type" value={draft.type} onChange={e => { const type = e.target.value as Opening['type']; setDraft(d => ({ ...d, type, sillHeight: type === 'door' ? '0' : d.sillHeight })); setErrors({}); setIssue(null) }}><option value="door">{t('openings.door')}</option><option value="window">{t('openings.window')}</option></select></div>
-          <div className="form-field"><label htmlFor="opening-roomId">{t('openings.roomId')}</label><select id="opening-roomId" value={draft.roomId} onChange={e => { const roomId = e.target.value, nextRoom = project.rooms.find(r => r.id === roomId); setDraft(d => ({ ...d, roomId, wallId: nextRoom ? getWalls(nextRoom)[0].id : '' })); setErrors({}); setIssue(null) }}>{project.rooms.map(room => <option key={room.id} value={room.id}>{room.name}</option>)}</select></div></div>
-          <div className="form-field"><label htmlFor="opening-wallId">{t('openings.wallId')}</label><select id="opening-wallId" value={draft.wallId} aria-invalid={!!errors.wallId} onChange={e => { setDraft(d => ({ ...d, wallId: e.target.value })); setErrors({}); setIssue(null) }}>{walls.map((wall, i) => <option key={wall.id} value={wall.id}>{t('openings.wallOption', { number: i + 1, length: format(fromMeters(wall.length, draft.unit)), unit: draft.unit })}</option>)}</select>{errors.wallId && <p className="field-error" role="alert">{t('openings.errors.choose')}</p>}</div>
-          {room && <WallMap room={room} wallId={draft.wallId} />}
+          <div className="form-field"><label htmlFor="opening-roomId">{t('openings.roomId')}</label><select id="opening-roomId" value={draft.roomId} onChange={e => { const roomId = e.target.value, nextRoom = project.rooms.find(r => r.id === roomId); setDraft(d => ({ ...d, roomId, wallId: nextRoom ? getWalls(nextRoom).find(wall => visibleWallSpans(nextRoom, wall, project.rooms).length)?.id ?? '' : '' })); setErrors({}); setIssue(null) }}>{project.rooms.map(room => <option key={room.id} value={room.id}>{room.name}</option>)}</select></div></div>
+          <div className="form-field"><label htmlFor="opening-wallId">{t('openings.wallId')}</label><select id="opening-wallId" value={draft.wallId} aria-invalid={!!errors.wallId} onChange={e => { setDraft(d => ({ ...d, wallId: e.target.value })); setErrors({}); setIssue(null) }}>{walls.map((wall, i) => <option key={wall.id} value={wall.id} disabled={!visibleWallSpans(room!, wall, project.rooms).length}>{!visibleWallSpans(room!, wall, project.rooms).length && `${t('layout.openPassage')} · `}{t('openings.wallOption', { number: i + 1, length: format(fromMeters(wall.length, draft.unit)), unit: draft.unit })}</option>)}</select>{errors.wallId && <p className="field-error" role="alert">{t('openings.errors.choose')}</p>}</div>
+          {room && <WallMap room={room} rooms={project.rooms} wallId={draft.wallId} />}
         </div><div>
           <div className="form-field"><label htmlFor="opening-unit">{t('wizard.unit')}</label><select id="opening-unit" value={draft.unit} onChange={e => unit(e.target.value as LengthUnit)}><option value="m">{t('wizard.units.m')}</option><option value="cm">{t('wizard.units.cm')}</option></select></div>
           <div className="opening-measures">{field('offset')}{field('width')}{field('height')}{draft.type === 'window' && field('sillHeight')}</div>

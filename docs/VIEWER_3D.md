@@ -8,7 +8,7 @@ Un metro del modelo equivale a una unidad de escena: X/Y del plano se representa
 
 Cada pared conserva su ID dirigido y material. Los cortes en los extremos de las aberturas dividen la pared; los tramos sólidos son el complemento de las elevaciones ocupadas. Son huecos reales con antepechos y dinteles, admiten ventanas encima de puertas y aberturas contiguas. Las geometrías de los tramos se unen por pared. Un presupuesto de 4096 tramos por habitación limita entradas patológicas y ofrece recuperación sin modificar datos.
 
-La hoja de puerta abre 90° hacia dentro con la convención del símbolo 2D. Ventanas con lámina transparente esquemática; no se modelan herrajes ni carpintería detallada. Las esquinas convexas completan el espesor exterior. La losa y los encuentros entre habitaciones conectadas se ampliarán con su etapa correspondiente.
+La hoja de puerta abre 90° hacia dentro con la convención del símbolo 2D. Ventanas con lámina transparente esquemática; no se modelan herrajes ni carpintería detallada. Las esquinas convexas completan el espesor exterior. La etapa 12 incorpora [L y dos espacios conectados](LAYOUTS.md): el suelo sigue su polígono y los tramos comunes se omiten de piso a techo, incluidos los pilares que cerrarían el paso.
 
 Piso y paredes leen los colores guardados, incluido `#03038c`. Tablones y baldosas usan CanvasTexture local con juntas métricas; un ID de textura desconocido mantiene el color y el dato original. No se descargan imágenes, fuentes ni modelos. Iluminación y sombras son esquemáticas, no una simulación fotométrica.
 

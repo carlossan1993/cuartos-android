@@ -36,7 +36,7 @@ export function App() {
     let active = true
     void projectRepository.list().then(result => {
       if (!active) return
-      setCards(result.projects.map(p => ({ id: p.id, name: p.name, roomName: p.rooms[0]?.name ?? '', area: p.rooms.reduce((sum, room) => sum + polygonArea(room.polygon), 0) })))
+      setCards(result.projects.map(p => ({ id: p.id, name: p.name, roomName: p.rooms.map(room => room.name).join(' / '), area: p.rooms.reduce((sum, room) => sum + polygonArea(room.polygon), 0) })))
       setUnreadable(result.unreadable > 0)
     }).catch(() => { if (active) setListError(true) }).finally(() => { if (active) setLoading(false) })
     homeHeading.current?.focus()

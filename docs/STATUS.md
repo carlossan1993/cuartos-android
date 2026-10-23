@@ -149,6 +149,21 @@ Issue: [#19](https://github.com/carlossan1993/cuartos-android/issues/19). Se con
 
 Detalles y evidencia: [FURNITURE_3D](FURNITURE_3D.md).
 
+Etapa 11 integrada en [PR #20](https://github.com/carlossan1993/cuartos-android/pull/20), commit `23899dcbe1f071bec98b77156cf595e9c03571a6`. [CI final 39906614229](https://github.com/carlossan1993/cuartos-android/actions/runs/39906614229) web/Android correcto: 222 unitarias, 34 E2E y APK debug.
+
+## Etapa 12 · Formas L y dos espacios
+
+Issue: [#21](https://github.com/carlossan1993/cuartos-android/issues/21). Se considera cerrada tras revisión técnica, CI verde e integración; los checks finales y APK se registran en GitHub antes del merge.
+
+- Asistente ES/EN con rectángulo, L de seis vértices y dos espacios rectangulares contiguos. Recorte inferior derecho configurable; medidas/nombres independientes del segundo espacio y ubicación derecha/debajo, con altura común.
+- Metros/centímetros exactos, validación del recorte y conservación del borrador al corregir, retroceder, cambiar idioma o fallar el guardado. Vista previa y resumen muestran el contorno real y las dos habitaciones.
+- La coincidencia de bordes opuestos deriva un paso abierto de piso a techo en el tramo común. Sin pared ni puerta divisoria; sin duplicar un estado de conexión ni cambiar el esquema 1.
+- 2D/3D omiten los tramos compartidos y sus pilares de esquina; mantienen las paredes exteriores restantes, acabados por habitación y muebles. Etiquetas dentro de la concavidad y distinción entre selección y pared física.
+- Puertas/ventanas nuevas no pueden invadir el paso abierto. Paredes completamente abiertas no se ofrecen para aberturas/acabados; materiales e IDs guardados se conservan. Lectura de registros anteriores sin reescrituras.
+- 240 unitarias y 40 E2E locales correctos; lint/typecheck/build correctos. Los checks finales web/Android y APK se registran en el PR. Capturas de asistente, plano, vista 3D y superior en teléfono/tablet. Instalación, GPU, gestos y perfilado Android físicos pendientes.
+
+Alcance y evidencia: [LAYOUTS](LAYOUTS.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 11: formas en L y dos espacios conectados, con geometría coherente en 2D y 3D (etapa 12).
+Después de integrar la etapa 12: persistencia offline ampliada, gestión de proyectos y recuperación al cerrar/reabrir, con guardado y estados de error claros (etapa 13).

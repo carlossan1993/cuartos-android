@@ -106,7 +106,7 @@ function Health({ onReady, onLost }: { onReady: () => void; onLost: () => void }
   return null
 }
 export function Scene3D({ project, cutaway, command, onReady, onLost }: { project: Project; cutaway: boolean; command: CameraCommand; onReady: () => void; onLost: () => void }) {
-  const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings)), [project])
+  const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings, project.rooms)), [project])
   const furniture = useMemo(() => buildFurnitureSet3D(project.furniture), [project.furniture])
   const bounds = useMemo(() => sceneBounds(project), [project]), extent = Math.max(...bounds.size)
   return <>

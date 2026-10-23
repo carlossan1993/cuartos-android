@@ -1,3 +1,4 @@
+import { assertOpeningOutsideConnection } from '../geometry/layout'
 import { createStore } from 'zustand/vanilla'
 import { DomainError } from '../domain/errors'
 import { cloneProject, createProject, deserializeProject, serializeProject } from '../domain/project'
@@ -77,8 +78,8 @@ export function createProjectStore(dependencies: { now?: () => Date; id?: () => 
         openings: project.openings.filter(item => item.roomId !== roomId),
         furniture: project.furniture.filter(item => item.roomId !== roomId),
       })),
-      addOpening: opening => edit(project => ({ ...project, openings: [...project.openings, opening] })),
-      updateOpening: opening => edit(project => ({ ...project, openings: replace(project.openings, opening) })),
+      addOpening: opening => edit(project => { assertOpeningOutsideConnection(opening, project); return { ...project, openings: [...project.openings, opening] } }),
+      updateOpening: opening => edit(project => { assertOpeningOutsideConnection(opening, project); return { ...project, openings: replace(project.openings, opening) } }),
       removeOpening: openingId => edit(project => ({ ...project, openings: remove(project.openings, openingId) })),
       addFurniture: item => edit(project => ({ ...project, furniture: [...project.furniture, { ...item, rotation: normalizeRotation(item.rotation) }] })),
       updateFurniture: item => edit(project => ({ ...project, furniture: replace(project.furniture, { ...item, rotation: normalizeRotation(item.rotation) }) })),

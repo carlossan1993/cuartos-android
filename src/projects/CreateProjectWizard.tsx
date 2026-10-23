@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RoomPreview } from '../components/RoomPreview'
+import { LayoutPreview } from '../components/LayoutPreview'
+import { polygonArea } from '../geometry/rooms'
 import { fromMeters, type LengthUnit } from '../geometry/units'
 import { createRoomProject } from './create-room-project'
-import { convertMeasurementText, initialRoomDraft, MAX_ROOM_SIZE, MIN_ROOM_SIZE, readMeasurement, validateRoomDraft, type DraftErrors, type DraftField, type RoomDraft } from './room-draft'
+import { convertMeasurementText, initialRoomDraft, measurementFields, nameFields, roomsFromRoomDraft, MAX_ROOM_SIZE, MIN_ROOM_SIZE, readMeasurement, validateRoomDraft, type DraftErrors, type DraftField, type RoomDraft } from './room-draft'
 
 export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => void; onCreated: () => void }) {
   const { t, i18n } = useTranslation()
@@ -20,6 +22,9 @@ export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => v
   const format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(n)
   const range = { min: format(fromMeters(MIN_ROOM_SIZE, draft.unit)), max: format(fromMeters(MAX_ROOM_SIZE, draft.unit)), unit: draft.unit }
   const width = readMeasurement(draft.width, draft.unit), depth = readMeasurement(draft.depth, draft.unit)
+  const previewDraft = { ...draft, projectName: 'Preview', roomName: 'One', room2Name: 'Two' }
+  let nextId = 0
+  const preview = Object.keys(validateRoomDraft(previewDraft)).length ? null : roomsFromRoomDraft(previewDraft, () => `preview-${++nextId}`)
 
   function update(field: DraftField, value: string) {
     setDraft(current => ({ ...current, [field]: value }))
@@ -27,18 +32,13 @@ export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => v
     setSaveError(false)
   }
   function changeUnit(unit: LengthUnit) {
-    setDraft(current => ({
-      ...current, unit,
-      width: convertMeasurementText(current.width, current.unit, unit),
-      depth: convertMeasurementText(current.depth, current.unit, unit),
-      height: convertMeasurementText(current.height, current.unit, unit),
-    }))
+    setDraft(current => ({ ...current, unit, ...Object.fromEntries((['width', 'depth', 'height', 'width2', 'depth2', 'cutWidth', 'cutDepth'] as const).map(field => [field, convertMeasurementText(current[field], current.unit, unit)])) }))
   }
   async function submit(event: FormEvent) {
     event.preventDefault()
     if (pending.current) return
     const all = validateRoomDraft(draft)
-    const fields: DraftField[] = step === 1 ? ['projectName', 'roomName'] : ['projectName', 'roomName', 'width', 'depth', 'height']
+    const fields = step === 1 ? nameFields(draft) : [...nameFields(draft), ...measurementFields(draft)]
     const first = fields.find(field => all[field])
     if (first) {
       setErrors(Object.fromEntries(fields.filter(field => all[field]).map(field => [field, all[field]])))
@@ -84,20 +84,23 @@ export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => v
           <div className="wizard-grid">
             <div className="form-panel">
               {step === 1 ? <>
-                {input('projectName')}{input('roomName')}
-                <div className="shape-card"><span className="rectangle-symbol" aria-hidden="true" /><div><span className="small-label">{t('wizard.shape')}</span><strong>{t('wizard.rectangle')}</strong></div><span className="shape-check" aria-hidden="true">✓</span></div>
+                {input('projectName')}
+                <fieldset className="layout-options"><legend>{t('wizard.shape')}</legend>{(['rectangle', 'l', 'connected'] as const).map(shape => <label key={shape} className={draft.shape === shape ? 'chosen' : ''}><input type="radio" name="shape" value={shape} checked={draft.shape === shape} onChange={() => { setDraft(current => ({ ...current, shape })); setErrors({}); setSaveError(false) }} /><span><strong>{t(`layout.${shape}`)}</strong><small>{t(`layout.${shape}Help`)}</small></span></label>)}</fieldset>
+                {input('roomName')}{draft.shape === 'connected' && input('room2Name')}
               </> : <>
                 <fieldset className="unit-options"><legend>{t('wizard.unit')}</legend>
                   {(['m', 'cm'] as const).map(unit => <label key={unit}><input type="radio" name="unit" value={unit} checked={draft.unit === unit} onChange={() => changeUnit(unit)} />{t(`wizard.units.${unit}`)}</label>)}
                 </fieldset>
                 <div className="measure-fields">{input('width', true)}{input('depth', true)}{input('height', true)}</div>
+                {draft.shape === 'l' && <><p className="form-help">{t('layout.cutHelp')}</p><div className="measure-fields layout-extra-fields">{input('cutWidth', true)}{input('cutDepth', true)}</div></>}
+                {draft.shape === 'connected' && <><p className="form-help">{t('layout.secondHelp')}</p><div className="measure-fields layout-extra-fields">{input('width2', true)}{input('depth2', true)}</div><div className="form-field"><label htmlFor="layout-orientation">{t('layout.orientation')}</label><select id="layout-orientation" value={draft.orientation} onChange={event => setDraft(current => ({ ...current, orientation: event.target.value as RoomDraft['orientation'] }))}><option value="right">{t('layout.right')}</option><option value="below">{t('layout.below')}</option></select></div></>}
                 <p className="form-help" id="measure-help">{t('wizard.range', range)}</p>
               </>}
             </div>
             <figure className="creation-preview">
-              {width !== null && depth !== null ? <RoomPreview width={width} depth={depth} /> : <div className="preview-placeholder">{t('wizard.previewPending')}</div>}
+              {preview ? draft.shape === 'rectangle' && width !== null && depth !== null ? <RoomPreview width={width} depth={depth} /> : <LayoutPreview rooms={preview} /> : <div className="preview-placeholder">{t('wizard.previewPending')}</div>}
               <figcaption>{t('wizard.previewCaption')}</figcaption>
-              {width !== null && depth !== null && <p className="area-preview">{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(width * depth)} <span>m² · {t('room.area')}</span></p>}
+              {preview && <p className="area-preview">{new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 2 }).format(preview.reduce((sum, room) => sum + polygonArea(room.polygon), 0))} <span>m² · {t('room.area')}</span></p>}
             </figure>
           </div>
         </fieldset>
