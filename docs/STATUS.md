@@ -168,7 +168,7 @@ Etapa 12 integrada en [PR #22](https://github.com/carlossan1993/cuartos-android/
 
 ## Etapa 13 · Proyectos offline
 
-Issue: [#23](https://github.com/carlossan1993/cuartos-android/issues/23). La entrega se considera cerrada tras revisión técnica, CI verde e integración. El PR registra los resultados finales y APK antes del merge.
+Issue: [#23](https://github.com/carlossan1993/cuartos-android/issues/23). Entrega: [PR #24](https://github.com/carlossan1993/cuartos-android/pull/24). La entrega se considera cerrada tras revisión técnica, CI verde e integración. El PR registra los resultados finales y APK antes del merge.
 
 - Lista con renombrar, duplicar y eliminar con confirmación ES/EN. Copias independientes con nuevos IDs y referencias completas para todas las formas, aberturas, acabados y muebles.
 - Autosave de cambios semánticos confirmados e indicador guardando/guardado/fallo después del commit. Ninguna escritura por frame, movimiento de cámara o borrador provisional.
