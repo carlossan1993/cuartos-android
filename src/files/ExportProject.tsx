@@ -5,14 +5,14 @@ import { FileError, jsonFile, type ExportFile } from './project-files'
 import { deliverFile, nativeFiles } from './file-delivery'
 
 export function ExportProject({ project, onBusy }: { project: Project; onBusy: (busy: boolean) => void }) {
-  const { t } = useTranslation(), [format, setFormat] = useState<'json' | 'png'>('json'), [width, setWidth] = useState(2048)
+  const { t, i18n } = useTranslation(), [format, setFormat] = useState<'json' | 'png'>('json'), [width, setWidth] = useState(2048)
   const [busy, setBusy] = useState(false), [message, setMessage] = useState<string | null>(null), [error, setError] = useState(false)
   const pending = useRef(false), cached = useRef<{ project: Project; key: string; file: ExportFile } | null>(null)
   async function send(mode: 'save' | 'share') {
     if (pending.current) return
     pending.current = true; setBusy(true); onBusy(true); setMessage(null); setError(false)
     try {
-      const key = `${format}-${width}`
+      const key = `${format}-${width}-${i18n.resolvedLanguage}`
       if (cached.current?.project !== project || cached.current.key !== key) {
         const file = format === 'json' ? jsonFile(project) : await (await import('./export-plan')).pngFile(project, width)
         cached.current = { project, key, file }
