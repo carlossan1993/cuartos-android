@@ -178,6 +178,20 @@ Issue: [#23](https://github.com/carlossan1993/cuartos-android/issues/23). Entreg
 
 Contrato, recuperación y capturas: [STORAGE](STORAGE.md).
 
+Etapa 13 integrada en PR #24, commit `53697b48ba905589bcbf6f3b677cc3818fc94d18`. [CI final 39981744452](https://github.com/carlossan1993/cuartos-android/actions/runs/39981744452) web/Android correcto: 252 unitarias, 46 E2E y APK debug.
+
+## Etapa 14 · Archivos portables
+
+Issue: [#25](https://github.com/carlossan1993/cuartos-android/issues/25). La entrega se cierra tras revisión técnica, checks web/Android verdes e integración. El PR registra evidencia final y APK antes del merge.
+
+- Exportar el proyecto confirmado a JSON UTF-8 del esquema 1. Importación validada, vista previa/nombre y copia independiente; nunca sobrescribe el original ni convierte versiones futuras.
+- Exportar el plano completo a PNG de 1024 × 768 o 2048 × 1536, mediante el mismo dibujo del editor. Cotas, acabados, muebles, aberturas, título y nombres/áreas; encuadre propio sin selección ni borradores. Sin dependencia del viewport, zoom o DPR.
+- Filesystem 8.1.5 y Share 8.0.3, MIT y versiones fijadas. Android permite guardar en una ubicación elegida mediante el selector del sistema, o abrir la hoja de compartir. Sin permisos generales de almacenamiento. FileProvider limitado a las exportaciones de caché.
+- Cancelación, fallo de lectura/escritura/imagen y reintento diferenciados; datos y fechas del proyecto conservados. Sin servicios remotos ni cambio de esquema.
+- 267 unitarias web y 58 E2E locales; revisión visual ES/EN en teléfono/tablet y PNG reales. Cinco pruebas JVM para la política de archivos del puente Android se ejecutan en CI. Los resultados finales de CI y APK se registran en el PR. Selector/Share físicos y comportamiento con proveedores externos pendientes.
+
+Contrato y límites: [FILES](FILES.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 13: importar/exportar JSON versionado y PNG nítido con resolución explícita, Filesystem/Share y recuperación íntegra del proyecto (etapa 14).
+Después de integrar la etapa 14: historial de acciones semánticas, deshacer/rehacer y robustez del guardado (etapa 15).

@@ -76,8 +76,10 @@ jobs:
           if-no-files-found: error
           retention-days: 3
       - uses: actions/upload-artifact@v6
-        if: failure()
+        if: always()
         with:
           name: android-reports
-          path: android/app/build/reports/
+          path: |
+            android/app/build/reports/
+            android/app/build/test-results/
           retention-days: 3

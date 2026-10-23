@@ -24,7 +24,7 @@ Los fallos de cuota/lectura/escritura conservan los registros y las entradas par
 
 «Recordar opciones 2D» guarda cuadrícula, ajuste y zoom relativo; «Recordar cámara 3D» guarda posición y objetivo reales en coordenadas del proyecto. Ambas acciones usan `saveProjectChange`, combinan las preferencias con el diseño vigente y muestran éxito solamente tras confirmar la escritura. Navegar sigue sin escribir. El centro del plano, selección y vista abierta 3D son temporales porque no forman parte del contrato de preferencias guardadas. Detalles: [EDITOR_2D](EDITOR_2D.md) y [VIEWER_3D](VIEWER_3D.md).
 
-Cerrar/reabrir recupera el último diseño confirmado: rectángulo, L, dos espacios, aberturas, acabados, muebles y preferencias. No se afirma recuperación de un borrador aún no confirmado. Exportación de respaldos corresponde a la etapa 14; desinstalar o borrar los datos de la app elimina los proyectos locales.
+Cerrar/reabrir recupera el último diseño confirmado: rectángulo, L, dos espacios, aberturas, acabados, muebles y preferencias. No se afirma recuperación de un borrador aún no confirmado. La etapa 14 incorpora [respaldos JSON e imágenes PNG](FILES.md); desinstalar o borrar los datos de la app elimina los proyectos locales.
 
 ## Evidencia y límites
 

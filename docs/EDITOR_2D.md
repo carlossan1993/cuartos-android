@@ -21,6 +21,8 @@ La cuadrícula usa intervalos 1/2/5, a partir de `gridSize`, y muestra su separa
 
 El canvas ocupa el contenedor observado con ResizeObserver. Su bitmap usa el DPR del dispositivo entre 1 y 3, actualizado con cambios de resolución/resize; el límite superior controla memoria. La densidad no cambia la escala geométrica ni la tolerancia de selección. Se usa una capa con `listening=false`: los eventos DOM se convierten a coordenadas del modelo y no dependen de un segundo grafo de hit-testing.
 
+Desde la etapa 14, `PlanDrawing` es compartido con [exportación PNG](FILES.md). Se dibuja una escena independiente de 1024 × 768 y se exporta con pixelRatio explícito 1 o 2; el editor conserva su cámara/DPR y no se exportan selección, arrastres ni formularios provisionales. Un borde blanco bajo las líneas de puertas/ventanas mantiene su legibilidad también sobre el piso azul oscuro.
+
 ## Evidencia y límites
 
 - 24 casos nuevos de transformaciones, encuadre, zoom limitado, grid y transiciones de gestos; total 118 pruebas unitarias.

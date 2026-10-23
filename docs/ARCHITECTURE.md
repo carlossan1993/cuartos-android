@@ -14,7 +14,7 @@ Android distribuido por Google Play; núcleo web incluido en el paquete mediante
 | Guardado | Dexie / IndexedDB | Proyectos y preferencias locales |
 | Idiomas | i18next / react-i18next | ES/EN y cambio manual |
 | Android | Capacitor Android | Contenedor y puentes nativos mínimos |
-| Archivos | Capacitor Filesystem / Share | Portabilidad de proyectos y exportaciones |
+| Archivos | Capacitor Filesystem / Share + Storage Access Framework | Caché de exportaciones, compartir y guardar en una ubicación elegida |
 | Calidad | Vitest / Playwright / Gradle | Dominio, flujos y Android |
 
 ## Modelo compartido
@@ -34,6 +34,8 @@ Unidades internas: metros. El plano usa X/Y; el render deriva X/Z de forma deter
 La geometría no importa React, Konva, Three.js ni componentes. El estado aplica acciones del dominio. El 2D y el 3D leen el mismo proyecto. El almacenamiento valida y versiona datos; no define una segunda fuente de verdad durante la edición.
 
 La vista 3D se carga bajo demanda desde el editor 2D. `viewer3d/model.ts` deriva descriptores serializables; `viewer3d/geometry.ts` los convierte en geometrías Three.js transitorias y `Scene3D` administra cámara y recursos. `furniture/model3d.ts` deriva las piezas procedurales del FurnitureItem guardado; `viewer3d/furniture-geometry.ts` une sus primitivas en una geometría con colores de vértice por pieza. Los gestos de cámara no escriben; desde la etapa 13, el control «Recordar cámara 3D» guarda explícitamente posición/objetivo en las preferencias del mismo proyecto. Detalles: [VIEWER_3D](VIEWER_3D.md).
+
+La etapa 14 añade `src/files`: codec JSON validado, importación como copia y exportación de PNG mediante el mismo `PlanDrawing` del editor. El render de PNG se carga bajo demanda; no captura el viewport ni serializa Konva. Filesystem escribe una copia temporal en caché, Share abre la hoja Android y `DocumentExportPlugin` copia únicamente esa exportación al documento creado por el selector del sistema. No se solicitan permisos generales de almacenamiento. [FILES](FILES.md) documenta contrato y límites.
 
 ## Estructura objetivo
 
