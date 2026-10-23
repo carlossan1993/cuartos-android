@@ -375,5 +375,30 @@
     },
     "selectFile": "Seleccionar archivo JSON",
     "noFile": "Ningún archivo seleccionado."
+  },
+  "history": {
+    "title": "Historial del diseño",
+    "undo": "Deshacer",
+    "redo": "Rehacer",
+    "count": "{{undo}} para deshacer · {{redo}} para rehacer",
+    "scopeTitle": "Acerca del historial",
+    "scope": "Aberturas, acabados y muebles de esta sesión. Hasta 50 acciones y 8 MiB de datos de historial; al alcanzar el límite se descartan las más antiguas. Se vacía al cerrar, recargar o importar un proyecto. Las opciones de vista y los archivos exportados son independientes. No recupera proyectos eliminados.",
+    "shortcuts": "Ctrl/Cmd+Z: deshacer. Ctrl/Cmd+Shift+Z o Ctrl+Y: rehacer. Termina o cancela el formulario o gesto antes de usar el historial.",
+    "limit": "Se alcanzó el límite: las acciones más antiguas ya no están disponibles.",
+    "undoDone": "Acción deshecha y guardada.",
+    "redoDone": "Acción rehecha y guardada.",
+    "retryHelp": "El diseño y el historial no cambiaron. Puedes reintentar con Deshacer o Rehacer. Para usar otra copia guardada, recárgala explícitamente.",
+    "reload": "Recargar diseño y vaciar historial",
+    "reloaded": "Se cargó el diseño guardado. El historial de esta sesión se vació.",
+    "errors": {
+      "failed": "No se pudo guardar el cambio de historial.",
+      "conflict": "El proyecto guardado cambió en otra sesión. No se sobrescribió.",
+      "missing": "El proyecto guardado ya no está disponible. No se volvió a crear.",
+      "unreadable": "El proyecto guardado no se puede leer. No se sobrescribió.",
+      "busy": "Espera a que termine el guardado actual.",
+      "unavailable": "No hay una acción disponible en esa dirección.",
+      "stale": "El historial ya no coincide con el diseño activo. Recarga la copia guardada.",
+      "reload": "No se pudo recargar el diseño guardado."
+    }
   }
 }

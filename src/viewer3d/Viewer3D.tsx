@@ -1,3 +1,6 @@
+import { useStore } from 'zustand'
+import { projectStore } from '../state/project-store'
+import { HistoryControls } from '../history/HistoryControls'
 import { ConnectionSummary } from '../components/ConnectionSummary'
 import { Component, useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { Canvas } from '@react-three/fiber'
@@ -45,6 +48,8 @@ export default function Viewer3D({ project, onBack }: { project: Project; onBack
   const [ready, setReady] = useState(false), [error, setError] = useState<'unavailable' | 'lost' | null>(null), [attempt, setAttempt] = useState(0)
   const [cutaway, setCutaway] = useState(true), [command, setCommand] = useState<CameraCommand>({ sequence: 0, kind: 'fit' })
   const capture = useRef<CameraReader | null>(null), [savingView, setSavingView] = useState(false), [viewMessage, setViewMessage] = useState<string | null>(null)
+  const pending = useStore(projectStore, state => state.pending)
+  const busy = savingView || pending !== null
   const onCapture = useCallback((reader: CameraReader | null) => { capture.current = reader }, [])
   const dpr = useDpr(), format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 3 }).format(n)
   const onReady = useCallback(() => setReady(true), []), onLost = useCallback(() => { setReady(false); setError('lost') }, []), onError = useCallback(() => { setReady(false); setError('unavailable') }, [])
@@ -64,12 +69,13 @@ export default function Viewer3D({ project, onBack }: { project: Project; onBack
     const commands: Record<string, CameraCommandKind> = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', '+': 'zoomIn', '=': 'zoomIn', '-': 'zoomOut', Home: 'fit', '0': 'fit', t: 'top', w: 'panForward', s: 'panBack', a: 'panLeft', d: 'panRight' }
     if (commands[event.key]) { event.preventDefault(); run(commands[event.key]) }
   }
-  const fallback = <div className="viewer-unavailable" role="alert"><h2>{t(`viewer.${error ?? 'unavailable'}`)}</h2><p>{t('viewer.recovery')}</p><button type="button" className="button button-primary" onClick={retry}>{t('common.retry')}</button><button type="button" className="button button-secondary" onClick={onBack}>{t('viewer.back')}</button></div>
-  return <section className="viewer-page" aria-labelledby="viewer-title"><button type="button" className="button button-quiet back-link" disabled={savingView} onClick={onBack}>← {t('viewer.back')}</button><div className="viewer-heading"><div><p className="eyebrow">{t('viewer.eyebrow')}</p><h1 id="viewer-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="viewer-mode">3D</span></div>
+  const fallback = <div className="viewer-unavailable" role="alert"><h2>{t(`viewer.${error ?? 'unavailable'}`)}</h2><p>{t('viewer.recovery')}</p><button type="button" className="button button-primary" onClick={retry}>{t('common.retry')}</button><button type="button" className="button button-secondary" disabled={busy} onClick={onBack}>{t('viewer.back')}</button></div>
+  return <section className="viewer-page" aria-labelledby="viewer-title"><button type="button" className="button button-quiet back-link" disabled={busy} onClick={onBack}>← {t('viewer.back')}</button><div className="viewer-heading"><div><p className="eyebrow">{t('viewer.eyebrow')}</p><h1 id="viewer-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="viewer-mode">3D</span></div>
+    <HistoryControls disabled={savingView} onReload={() => setViewMessage(null)} />
     <div className="viewer-toolbar" role="group" aria-label={t('viewer.tools')}>
-      {(['zoomOut', 'zoomIn', 'left', 'right', 'top', 'fit'] as const).map(kind => <button key={kind} type="button" className="button button-secondary" disabled={!ready || !!error || savingView} onClick={() => run(kind)}>{t(`viewer.${kind}`)}</button>)}
-      <button type="button" className="button button-secondary" disabled={!ready || !!error || savingView} onClick={() => { void rememberView() }}>{t('projects.remember3d')}</button>
-      <label className="viewer-toggle"><input type="checkbox" checked={cutaway} disabled={!ready || !!error || savingView} onChange={event => setCutaway(event.target.checked)} />{t('viewer.cutaway')}</label>
+      {(['zoomOut', 'zoomIn', 'left', 'right', 'top', 'fit'] as const).map(kind => <button key={kind} type="button" className="button button-secondary" disabled={!ready || !!error || busy} onClick={() => run(kind)}>{t(`viewer.${kind}`)}</button>)}
+      <button type="button" className="button button-secondary" disabled={!ready || !!error || busy} onClick={() => { void rememberView() }}>{t('projects.remember3d')}</button>
+      <label className="viewer-toggle"><input type="checkbox" checked={cutaway} disabled={!ready || !!error || busy} onChange={event => setCutaway(event.target.checked)} />{t('viewer.cutaway')}</label>
     </div>
     {viewMessage && <p className="form-help" role="status">{t(viewMessage)}</p>}
     <p id="viewer-help" className="viewer-help">{t('viewer.help')}</p><p id="viewer-keyboard" className="sr-only">{t('viewer.keyboard')}</p>

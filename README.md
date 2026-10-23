@@ -75,6 +75,7 @@ Archivos portables: [importar en teléfono ES](docs/screenshots/files-import-pho
 - [Modelo de dominio y convenciones](docs/DOMAIN.md).
 - [Guardado offline, gestión y recuperación de proyectos](docs/STORAGE.md).
 - [Importar/exportar JSON y PNG, guardar y compartir](docs/FILES.md).
+- [Deshacer/rehacer, límites y recuperación del historial](docs/HISTORY.md).
 - [Editor 2D y gestos](docs/EDITOR_2D.md).
 - [Puertas, ventanas y guardado de cambios](docs/OPENINGS.md).
 - [Biblioteca de acabados y colores](docs/FINISHES.md).
