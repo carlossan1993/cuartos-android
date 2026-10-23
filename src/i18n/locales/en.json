@@ -98,5 +98,52 @@
     "noSelection": "Select a room to see its dimensions.",
     "clearSelection": "Clear selection",
     "loading": "Opening the plan…"
+  },
+  "openings": {
+    "title": "Doors and windows",
+    "addDoor": "Add door",
+    "addWindow": "Add window",
+    "door": "Door",
+    "window": "Window",
+    "item": "{{type}} {{number}}",
+    "empty": "This project has no doors or windows yet.",
+    "type": "Opening type",
+    "roomId": "Room",
+    "wallId": "Wall",
+    "wallMarker": "W{{number}}",
+    "wallOption": "Wall {{number}} · {{length}} {{unit}}",
+    "wallMap": "Selected wall in orange, with its start marked zero and the measurement direction shown by the arrow",
+    "offset": "Distance from start",
+    "width": "Width",
+    "height": "Opening height",
+    "sillHeight": "Height above floor",
+    "addTitle": "New door or window",
+    "editTitle": "Edit opening",
+    "properties": "Opening properties",
+    "formHelp": "Choose the wall and enter the measurements. Confirm to save the change.",
+    "positionHelp": "Distance is measured from the zero marked on the wall. A decimal comma or point is accepted.",
+    "available": "Wall: {{length}} {{unit}}. Room height: {{height}} {{unit}}.",
+    "save": "Save opening",
+    "saved": "Change saved on this device.",
+    "edit": "Edit opening",
+    "remove": "Delete opening",
+    "selectedInfo": "Start: {{offset}} m · Height above floor: {{sill}} m.",
+    "errors": {
+      "choose": "Choose a valid room and wall.",
+      "positive": "Enter a measurement greater than zero, up to 10,000 m.",
+      "nonNegative": "Enter a measurement of zero or more, up to 10,000 m.",
+      "wallFit": "The width and starting distance must fit within the wall.",
+      "heightFit": "The height above floor plus opening height must fit within the room.",
+      "overlap": "This opening overlaps another on the same wall. Change its position or dimensions.",
+      "limit": "This project has reached its limit of 256 openings.",
+      "notFound": "This opening no longer exists. Cancel and reopen the project.",
+      "invalid": "Could not validate the opening. Check its dimensions and wall."
+    },
+    "saveErrors": {
+      "failed": "Could not save the change. The previous project is still intact. Try again.",
+      "conflict": "The project changed in another screen. Reopen it from your projects before saving.",
+      "missing": "This project is no longer saved on the device. Go back to your projects.",
+      "unreadable": "Could not read the saved copy. It has been kept without replacing it."
+    }
   }
 }

@@ -1,7 +1,8 @@
 export type DomainErrorCode = 'invalid_value' | 'invalid_polygon' | 'invalid_reference' |
-  'unsupported_schema' | 'invalid_json' | 'file_too_large' | 'missing_project' | 'not_found'
+  'unsupported_schema' | 'invalid_json' | 'file_too_large' | 'missing_project' | 'not_found' |
+  'opening_outside_wall' | 'opening_outside_height' | 'opening_overlap' | 'door_above_floor'
 
-// Internal diagnostics. Future UI maps code/path to translated copy.
+// Internal diagnostics. UI maps code/path to translated copy.
 export class DomainError extends Error {
   readonly code: DomainErrorCode
   readonly path: string

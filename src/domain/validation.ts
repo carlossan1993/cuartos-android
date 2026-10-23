@@ -121,16 +121,16 @@ export function assertProject(value: unknown): asserts value is Project {
     number(o.offset, `${path}.offset`, 0); positive(o.width, `${path}.width`)
     positive(o.height, `${path}.height`); number(o.sillHeight, `${path}.sillHeight`, 0)
     const typed = opening as Project['openings'][number]
-    if (typed.offset + typed.width > wall.length + EPSILON) invalid(path, 'opening exceeds wall length')
-    if (typed.sillHeight + typed.height > room.height + EPSILON) invalid(path, 'opening exceeds room height')
-    if (typed.type === 'door' && typed.sillHeight !== 0) invalid(path, 'door must start at floor level')
+    if (typed.offset + typed.width > wall.length + EPSILON) throw new DomainError('opening_outside_wall', path, 'opening exceeds wall length')
+    if (typed.sillHeight + typed.height > room.height + EPSILON) throw new DomainError('opening_outside_height', path, 'opening exceeds room height')
+    if (typed.type === 'door' && typed.sillHeight !== 0) throw new DomainError('door_above_floor', path, 'door must start at floor level')
   })
   for (let i = 0; i < project.openings.length; i++) {
     const a = project.openings[i]
     for (const b of project.openings.slice(i + 1)) {
       if (a.roomId === b.roomId && a.wallId === b.wallId &&
         Math.min(a.offset + a.width, b.offset + b.width) - Math.max(a.offset, b.offset) > EPSILON &&
-        Math.min(a.sillHeight + a.height, b.sillHeight + b.height) - Math.max(a.sillHeight, b.sillHeight) > EPSILON) invalid('openings', 'overlapping wall openings')
+        Math.min(a.sillHeight + a.height, b.sillHeight + b.height) - Math.max(a.sillHeight, b.sillHeight) > EPSILON) throw new DomainError('opening_overlap', 'openings', 'overlapping wall openings')
     }
   }
   v.furniture.forEach((item, i) => {

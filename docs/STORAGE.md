@@ -1,4 +1,4 @@
-# Guardado mínimo · Etapa 5
+# Guardado local · Etapas 5 y 7
 
 Los proyectos se guardan en IndexedDB mediante Dexie 4, dentro del origen local de la app. No hay servidor, cuentas ni sincronización remota. En Android el bundle y los datos se usan desde el contenedor Capacitor.
 
@@ -11,7 +11,7 @@ Los proyectos se guardan en IndexedDB mediante Dexie 4, dentro del origen local 
 
 El asistente crea una habitación rectangular por proyecto con ancho, fondo y altura entre 0,1 y 100 m, nombres de hasta 120 caracteres y medidas interiores. Admite coma/punto decimal y metros/centímetros. Cambiar la unidad desplaza el separador en el texto sin redondearlo; el modelo conserva números en metros. La vista previa y el resumen son proporcionales y de solo lectura.
 
-Esta entrega ofrece crear, listar y reabrir. El editor corresponde a la etapa 6. Autosave de ediciones, duplicar/eliminar, migraciones de la base y recuperación ampliada corresponden a la etapa 13; exportaciones de respaldo a la 14. Desinstalar o borrar los datos de la app elimina los proyectos locales.
+La base ofrece crear, listar y reabrir; el plano interactivo se incorporó en la etapa 6. En la etapa 7, `replace` valida el diseño candidato y ejecuta una transacción de lectura/escritura que comprueba identidad, fechas y coincidencia con el JSON anterior. Rechaza conflictos de otra pantalla, registros ilegibles/versiones desconocidas y proyectos eliminados. La edición de aberturas publica el resultado en Zustand después de confirmar la escritura; un fallo conserva formulario y datos anteriores. Una finalización tardía no cambia el proyecto activo si la persona abrió otro. Detalles: [OPENINGS](OPENINGS.md). Autosave de ediciones, duplicar/eliminar, migraciones de la base y recuperación ampliada corresponden a la etapa 13; exportaciones de respaldo a la 14. Desinstalar o borrar los datos de la app elimina los proyectos locales.
 
 ## Evidencia y límites
 

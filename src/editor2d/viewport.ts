@@ -1,5 +1,6 @@
-import type { Point, Room } from '../domain/types'
+import type { Point, Project, Room } from '../domain/types'
 import { getWalls, pointInPolygon } from '../geometry/rooms'
+import { openingGeometry } from '../geometry/openings'
 
 export interface Size { width: number; height: number }
 export interface Camera { x: number; y: number; scale: number }
@@ -83,6 +84,22 @@ export function roomAtPoint(point: Point, camera: Camera, rooms: readonly Room[]
   const world = screenToWorld(point, camera)
   for (const room of [...rooms].reverse()) {
     if (pointInPolygon(world, room.polygon) || getWalls(room).some(wall => distanceToSegment(world, wall.start, wall.end) <= 7 / camera.scale)) return room.id
+  }
+  return null
+}
+
+export function openingAtPoint(point: Point, camera: Camera, project: Project): string | null {
+  const world = screenToWorld(point, camera)
+  for (const opening of [...project.openings].reverse()) {
+    const room = project.rooms.find(room => room.id === opening.roomId)
+    if (!room) continue
+    const shape = openingGeometry(opening, room)
+    const segments: [Point, Point][] = [[shape.start, shape.end]]
+    if (opening.type === 'door') {
+      segments.push([shape.start, shape.leaf])
+      shape.arc.slice(1).forEach((point, i) => segments.push([shape.arc[i], point]))
+    }
+    if (segments.some(([a, b]) => distanceToSegment(world, a, b) <= 9 / camera.scale)) return opening.id
   }
   return null
 }

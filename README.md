@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** crear/guardar/reabrir habitaciones y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. Puertas, ventanas y decoración se incorporan en las siguientes etapas. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
+**Estado:** crear/guardar/reabrir habitaciones y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. El plano permite añadir, editar y eliminar puertas/ventanas, validar sus medidas y guardarlas localmente. Acabados y mobiliario siguen en las próximas etapas. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
@@ -51,6 +51,8 @@ Creación de habitación: [asistente](docs/screenshots/wizard-tablet.png) y [res
 
 Plano interactivo: [teléfono ES](docs/screenshots/editor-phone.png) · [tablet EN](docs/screenshots/editor-tablet.png).
 
+Puertas y ventanas: [teléfono ES](docs/screenshots/openings-phone.png) · [tablet EN](docs/screenshots/openings-tablet.png).
+
 ## Trabajo y verificación
 
 - [Cómo contribuir](CONTRIBUTING.md).
@@ -59,6 +61,7 @@ Plano interactivo: [teléfono ES](docs/screenshots/editor-phone.png) · [tablet 
 - [Modelo de dominio y convenciones](docs/DOMAIN.md).
 - [Guardado mínimo y creación de habitaciones](docs/STORAGE.md).
 - [Editor 2D y gestos](docs/EDITOR_2D.md).
+- [Puertas, ventanas y guardado de cambios](docs/OPENINGS.md).
 - [Decisiones iniciales](docs/decisions/0001-platform.md).
 - [Estado y siguiente paso](docs/STATUS.md).
 - [Configuración inicial de GitHub](docs/REPOSITORY_SETUP.md).
