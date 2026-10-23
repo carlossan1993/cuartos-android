@@ -145,3 +145,19 @@ h1:focus, .page-title:focus { outline: none; }
 @media (max-width: 370px) {
   .action-group { flex-direction: column-reverse; }
 }
+
+.layout-options { border: 0; padding: 0; margin: 20px 0; display: grid; gap: 10px; }
+.layout-options legend { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+.layout-options label { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; background: #fcfbf7; }
+.layout-options label.chosen { border-color: var(--primary); background: #f0f0f8; }
+.layout-options input { accent-color: var(--primary); width: 18px; height: 18px; flex-shrink: 0; }
+.layout-options strong { display: block; font-size: 13px; color: var(--primary); }
+.layout-options small { display: block; font-size: 11px; line-height: 1.6; color: var(--muted); margin-top: 5px; }
+.summary-room + .summary-room { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 20px; }
+
+.connection-summary { padding: 13px 16px; border-left: 3px solid var(--primary); background: #eeeff6; color: var(--muted); margin-block: 18px; font-size: 12px; line-height: 1.7; }
+.connection-summary p { margin: 0 0 8px; }
+.connection-summary ul { margin: 0; padding-left: 18px; }
+
+.layout-extra-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.layout-extra-fields label { gap: 8px; flex-wrap: wrap; }

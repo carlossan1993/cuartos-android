@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { Project, Room, SurfaceMaterial } from '../domain/types'
 import { FINISH_PRESETS, parseFinishColor, patternKind, presetFor, sameMaterial } from '../finishes/catalog'
 import type { FinishTarget } from '../finishes/changes'
+import { visibleWallSpans } from '../geometry/layout'
 import { getWalls } from '../geometry/rooms'
 import { saveFinishChange } from '../projects/save-finish'
 import { ProjectSaveError } from '../storage/project-repository'
@@ -49,8 +50,8 @@ function FinishForm({ project, initialRoomId, onClose, onBusy, onTarget, onSaved
       <fieldset className="wizard-fields" disabled={saving}><legend className="sr-only">{t('finishes.properties')}</legend>
         <div className="finish-form-grid"><div>
           <div className="form-field"><label htmlFor="finish-room">{t('openings.roomId')}</label><select id="finish-room" value={roomId} onChange={event => load(project.rooms.find(room => room.id === event.target.value)!, 'floor')}>{project.rooms.map(room => <option key={room.id} value={room.id}>{room.name}</option>)}</select></div>
-          <div className="form-field"><label htmlFor="finish-surface">{t('finishes.surface')}</label><select id="finish-surface" value={surface} onChange={event => load(room, event.target.value)}><option value="floor">{t('finishes.floor')}</option><option value="allWalls">{t('finishes.allWalls')}</option>{walls.map((wall, i) => <option key={wall.id} value={wall.id}>{t('openings.wallMarker', { number: i + 1 })}</option>)}</select></div>
-          {surface !== 'floor' && surface !== 'allWalls' && <WallMap room={room} wallId={surface} />}
+          <div className="form-field"><label htmlFor="finish-surface">{t('finishes.surface')}</label><select id="finish-surface" value={surface} onChange={event => load(room, event.target.value)}><option value="floor">{t('finishes.floor')}</option><option value="allWalls">{t('finishes.allWalls')}</option>{walls.map((wall, i) => <option key={wall.id} value={wall.id} disabled={!visibleWallSpans(room, wall, project.rooms).length}>{!visibleWallSpans(room, wall, project.rooms).length && `${t('layout.openPassage')} · `}{t('openings.wallMarker', { number: i + 1 })}</option>)}</select></div>
+          {surface !== 'floor' && surface !== 'allWalls' && <WallMap room={room} rooms={project.rooms} wallId={surface} />}
           {surface === 'allWalls' && <p className="form-help">{t(mixed ? 'finishes.mixed' : 'finishes.allHelp')}</p>}
           <div className={`finish-preview pattern-${kind}`} style={{ backgroundColor: parsed ?? draft.color }} aria-hidden="true" />
           <p className="finish-preview-label">{t('finishes.preview')}</p>
@@ -76,7 +77,7 @@ export function FinishTools({ project, roomId, active, disabled, onOpen, onClose
   const { t } = useTranslation(), [saved, setSaved] = useState(false)
   const room = project.rooms.find(room => room.id === roomId) ?? project.rooms[0]
   if (!room) return null
-  const surfaces = [{ id: 'floor', label: t('finishes.floor'), material: room.floorMaterial }, ...getWalls(room).map((wall, i) => ({ id: wall.id, label: t('openings.wallMarker', { number: i + 1 }), material: room.wallMaterials[wall.id] }))]
+  const surfaces = [{ id: 'floor', label: t('finishes.floor'), material: room.floorMaterial }, ...getWalls(room).flatMap((wall, i) => visibleWallSpans(room, wall, project.rooms).length ? [{ id: wall.id, label: t('openings.wallMarker', { number: i + 1 }), material: room.wallMaterials[wall.id] }] : [])]
   return <section className="finish-tools" aria-labelledby="finish-tools-title"><div className="opening-tools-heading"><h2 id="finish-tools-title">{t('finishes.title')}</h2><button type="button" className="button button-secondary" disabled={disabled || active} onClick={() => { setSaved(false); onOpen() }}>{t('finishes.edit')}</button></div>
     {!active && <><p className="form-help">{room.name}</p><dl className="finish-summary">{surfaces.map(surface => { const preset = presetFor(surface.material); return <div key={surface.id}><dt>{surface.label}</dt><dd><span aria-hidden="true" className={`finish-summary-swatch pattern-${patternKind(surface.material)}`} style={{ backgroundColor: surface.material.color }} /><span>{preset ? t(`finishes.presets.${preset.id}`) : t('finishes.custom')}<small>{surface.material.color.toUpperCase()}</small></span></dd></div> })}</dl></>}
     {saved && <p className="opening-saved" role="status">{t('openings.saved')}</p>}

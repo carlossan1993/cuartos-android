@@ -1,8 +1,10 @@
+import { ConnectionSummary } from '../components/ConnectionSummary'
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Circle, Group, Layer, Line, Rect, Stage, Text } from 'react-konva'
 import type Konva from 'konva'
 import type { FurnitureItem, Point, Project } from '../domain/types'
+import { roomLabelCell, sharedWallSpans, visibleWallSpans, wallInward, wallPoint } from '../geometry/layout'
 import { getWalls, polygonArea } from '../geometry/rooms'
 import { openingGeometry } from '../geometry/openings'
 import { FurnitureDrawing } from './FurnitureDrawing'
@@ -67,23 +69,31 @@ function PlanDrawing({ project, scene, grid, selected, selectedOpening, previewW
         const points = room.polygon.map(point => worldToScreen(point, camera))
         const bounds = roomBounds([room])
         const a = worldToScreen({ x: bounds.left, y: bounds.top }, camera), b = worldToScreen({ x: bounds.right, y: bounds.bottom }, camera)
+        const labelCell = roomLabelCell(room), labelA = worldToScreen({ x: labelCell.left, y: labelCell.top }, camera)
+        const labelWidth = labelCell.width * camera.scale, labelHeight = labelCell.depth * camera.scale
         const width = b.x - a.x, height = b.y - a.y, center = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
         return <Group key={room.id} listening={false}>
           <Line points={points.flatMap(p => [p.x, p.y])} closed fill={room.floorMaterial.color} stroke="#586078" strokeWidth={1} lineJoin="round" perfectDrawEnabled={false} />
           <Group clipFunc={context => { context.beginPath(); points.forEach((point, i) => { if (i === 0) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y) }); context.closePath() }}>
             {finishPattern(room.floorMaterial, bounds, camera.scale).map(([a, b], i) => { const start = worldToScreen(a, camera), end = worldToScreen(b, camera); return <Line key={i} points={[start.x, start.y, end.x, end.y]} stroke="#263040" opacity={0.23} strokeWidth={1} /> })}
           </Group>
-          {active && <Line points={points.flatMap(p => [p.x, p.y])} closed stroke="#03038c" strokeWidth={15} dash={[5, 4]} opacity={0.7} lineJoin="round" />}
+          {active && (project.rooms.length === 1 ? <Line points={points.flatMap(p => [p.x, p.y])} closed stroke="#03038c" strokeWidth={15} dash={[5, 4]} opacity={0.7} lineJoin="round" /> : <Group>{getWalls(room).flatMap(wall => [...visibleWallSpans(room, wall, project.rooms).map(span => ({ ...span, open: false })), ...sharedWallSpans(room, wall, project.rooms).map(span => ({ ...span, open: true }))].map((span, j) => { const a = worldToScreen(wallPoint(wall, span.start), camera), b = worldToScreen(wallPoint(wall, span.end), camera); return <Line key={`${wall.id}-${j}`} points={[a.x, a.y, b.x, b.y]} stroke="#03038c" strokeWidth={span.open ? 1 : 15} dash={span.open ? [3, 8] : [5, 4]} opacity={span.open ? .4 : .7} /> }))}</Group>)}
           {getWalls(room).map((wall, i) => {
-            const a = worldToScreen(wall.start, camera), b = worldToScreen(wall.end, camera), mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
-            const dx = center.x - mid.x, dy = center.y - mid.y, distance = Math.max(1, Math.hypot(dx, dy))
-            return <Group key={wall.id}><Line points={[a.x, a.y, b.x, b.y]} stroke="#596078" strokeWidth={10} lineCap="butt" /><Line points={[a.x, a.y, b.x, b.y]} stroke={room.wallMaterials[wall.id].color} strokeWidth={7} lineCap="butt" />{wall.id === previewWall && <Line points={[a.x, a.y, b.x, b.y]} stroke="#ad5728" strokeWidth={13} dash={[6, 4]} opacity={0.8} />}<Rect x={mid.x + dx / distance * 16 - 16} y={mid.y + dy / distance * 16 - 7} width={32} height={15} fill="#ffffff" opacity={0.9} cornerRadius={3} /><Text x={mid.x + dx / distance * 16 - 15} y={mid.y + dy / distance * 16 - 5} width={30} align="center" text={t('openings.wallMarker', { number: i + 1 })} fontSize={10} fill={wall.id === previewWall ? '#ad5728' : '#626a80'} fontFamily="sans-serif" /></Group>
+            const spans = visibleWallSpans(room, wall, project.rooms)
+            if (!spans.length) return null
+            const longest = [...spans].sort((a, b) => b.end - b.start - (a.end - a.start))[0]
+            const mid = worldToScreen(wallPoint(wall, (longest.start + longest.end) / 2), camera)
+            const inward = wallInward(room, wall), dx = inward.x, dy = inward.y, distance = 1
+            return <Group key={wall.id}>{spans.map((span, j) => {
+              const a = worldToScreen(wallPoint(wall, span.start), camera), b = worldToScreen(wallPoint(wall, span.end), camera)
+              return <Group key={j}><Line points={[a.x, a.y, b.x, b.y]} stroke="#596078" strokeWidth={10} lineCap="butt" /><Line points={[a.x, a.y, b.x, b.y]} stroke={room.wallMaterials[wall.id].color} strokeWidth={7} lineCap="butt" />{wall.id === previewWall && <Line points={[a.x, a.y, b.x, b.y]} stroke="#ad5728" strokeWidth={13} dash={[6, 4]} opacity={0.8} />}</Group>
+            })}<Rect x={mid.x + dx / distance * 16 - 16} y={mid.y + dy / distance * 16 - 7} width={32} height={15} fill="#ffffff" opacity={0.9} cornerRadius={3} /><Text x={mid.x + dx / distance * 16 - 15} y={mid.y + dy / distance * 16 - 5} width={30} align="center" text={t('openings.wallMarker', { number: i + 1 })} fontSize={10} fill={wall.id === previewWall ? '#ad5728' : '#626a80'} fontFamily="sans-serif" /></Group>
           })}
           {active && points.map((point, i) => <Circle key={room.polygon[i].id} x={point.x} y={point.y} radius={4} fill="white" stroke="#03038c" strokeWidth={1.5} />)}
-          {width > 80 && height > 55 && !project.furniture.some(item => item.roomId === room.id) && <>
-            <Rect x={a.x + Math.max(5, width * .12)} y={center.y - 24} width={Math.max(1, width * .76)} height={50} fill="#ffffff" opacity={0.9} cornerRadius={5} />
-            <Text x={a.x + 10} y={center.y - 17} width={Math.max(1, width - 20)} text={room.name} align="center" fontSize={13} fontFamily="sans-serif" fontStyle="bold" fill="#03038c" wrap="none" ellipsis />
-            <Text x={a.x + 10} y={center.y + 6} width={Math.max(1, width - 20)} text={`${format(polygonArea(room.polygon), 2)} m²`} align="center" fontSize={12} fontFamily="sans-serif" fill="#5d6372" wrap="none" ellipsis />
+          {labelWidth > 80 && labelHeight > 55 && !project.furniture.some(item => item.roomId === room.id) && <>
+            <Rect x={labelA.x + Math.max(5, labelWidth * .12)} y={labelA.y + labelHeight / 2 - 24} width={Math.max(1, labelWidth * .76)} height={50} fill="#ffffff" opacity={0.9} cornerRadius={5} />
+            <Text x={labelA.x + 10} y={labelA.y + labelHeight / 2 - 17} width={Math.max(1, labelWidth - 20)} text={room.name} align="center" fontSize={13} fontFamily="sans-serif" fontStyle="bold" fill="#03038c" wrap="none" ellipsis />
+            <Text x={labelA.x + 10} y={labelA.y + labelHeight / 2 + 6} width={Math.max(1, labelWidth - 20)} text={`${format(polygonArea(room.polygon), 2)} m²`} align="center" fontSize={12} fontFamily="sans-serif" fill="#5d6372" wrap="none" ellipsis />
           </>}
           {width > 35 && <Group>
             <Line points={[a.x, b.y + 16, a.x, b.y + 28, a.x, b.y + 22, b.x, b.y + 22, b.x, b.y + 16, b.x, b.y + 28]} stroke="#747b90" strokeWidth={1} />
@@ -281,7 +291,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
       <button className="button button-primary open-3d" type="button" disabled={busy || !!tool || !!furniturePreview} onClick={onOpen3D}>{t('viewer.open')}</button>
     </div>
     {notice && tool !== 'furniture' && <div className={notice.error ? 'error-notice furniture-feedback' : 'opening-saved furniture-feedback'} role={notice.error ? 'alert' : 'status'}><p>{t(notice.key)}</p>{retryFurniture && <><p>{t('furniture.retryHelp')}{retryFurniture.type === 'update' && ` ${t('furniture.selectedInfo', { x: format(retryFurniture.item.position.x), y: format(retryFurniture.item.position.y), rotation: format(retryFurniture.item.rotation) })}`}</p><div className="action-group"><button className="button button-secondary" disabled={busy} type="button" onClick={() => { void commitFurniture(retryFurniture, true) }}>{t('furniture.retry')}</button><button className="button button-quiet" disabled={busy} type="button" onClick={() => { setRetryFurniture(null); setNotice(null) }}>{t('common.cancel')}</button></div></>}</div>}
-    <p id="canvas-help" className="editor-help">{t('editor.help')} {t('furniture.canvasHelp')}</p><p id="canvas-keyboard" className="sr-only">{t('editor.keyboard')}</p>
+    <ConnectionSummary rooms={project.rooms} /><p id="canvas-help" className="editor-help">{t('editor.help')} {t('furniture.canvasHelp')}</p><p id="canvas-keyboard" className="sr-only">{t('editor.keyboard')}</p>
     <div className="editor-workspace">
       <div className="plan-workspace"><div className="canvas-frame"><div ref={surface} className="canvas-surface" role="region" tabIndex={0} aria-label={t('editor.canvas')} aria-describedby="canvas-help canvas-keyboard"
         onPointerDown={down} onPointerMove={move} onPointerUp={event => up(event)} onPointerCancel={event => up(event, true)} onLostPointerCapture={event => up(event, true)} onKeyDown={key}>

@@ -31,9 +31,9 @@
   "wizard": {
     "step": "STEP {{current}} OF {{total}}",
     "title": "Give your idea a name.",
-    "description": "Create a project and start with a rectangular room.",
+    "description": "Name your project and choose a rectangle, an L-shaped room or two connected spaces.",
     "measureTitle": "It starts with the measurements.",
-    "measureDescription": "Enter the room’s interior dimensions. You can use metres or centimetres.",
+    "measureDescription": "Enter the interior measurements in metres or centimetres; connected spaces share the same height.",
     "progress": "Creation progress",
     "names": "Your project",
     "measures": "Measurements",
@@ -50,15 +50,21 @@
     "depth": "Depth",
     "height": "Height",
     "range": "Each measurement must be between {{min}} and {{max}} {{unit}}. A decimal comma or point is accepted.",
-    "previewPending": "Enter a valid width and depth to preview the room.",
+    "previewPending": "Check the measurements to preview the layout.",
     "previewCaption": "A proportional preview of your room.",
     "create": "Create and save",
     "saving": "Saving…",
     "errors": {
       "nameRequired": "Enter a name.",
       "nameTooLong": "Use no more than 120 characters.",
-      "measurement": "Enter a measurement between {{min}} and {{max}} {{unit}}."
-    }
+      "measurement": "Enter a measurement between {{min}} and {{max}} {{unit}}.",
+      "cutout": "The cutout must leave at least {{min}} {{unit}} in each arm of the L."
+    },
+    "room2Name": "Second space name",
+    "width2": "Second space width",
+    "depth2": "Second space depth",
+    "cutWidth": "Cutout width",
+    "cutDepth": "Cutout depth"
   },
   "storage": {
     "loading": "Loading your projects…",
@@ -137,7 +143,8 @@
       "overlap": "This opening overlaps another on the same wall. Change its position or dimensions.",
       "limit": "This project has reached its limit of 256 openings.",
       "notFound": "This opening no longer exists. Cancel and reopen the project.",
-      "invalid": "Could not validate the opening. Check its dimensions and wall."
+      "invalid": "Could not validate the opening. Check its dimensions and wall.",
+      "connection": "That span is the open passage between spaces. Choose an exterior wall or change the position and width."
     },
     "saveErrors": {
       "failed": "Could not save the change. The previous project is still intact. Try again.",
@@ -272,5 +279,24 @@
     "unavailable": "We could not display 3D on this device.",
     "lost": "The 3D view was interrupted.",
     "recovery": "Your project is still intact. Retry or return to the 2D plan."
+  },
+  "layout": {
+    "rectangle": "Rectangle",
+    "rectangleHelp": "One space with width and depth.",
+    "l": "L-shaped room",
+    "lHelp": "One space with a cutout at the bottom-right corner of the plan.",
+    "connected": "Two connected spaces",
+    "connectedHelp": "Two rectangles joined by an open passage, with independent dimensions.",
+    "cutHelp": "Set the empty cutout at the bottom-right corner. The initial width and depth are the overall L dimensions.",
+    "secondHelp": "Second space measurements. Edges align at the top or left and the common span stays open.",
+    "orientation": "Second space position",
+    "right": "To the right",
+    "below": "Below in the plan",
+    "openPassage": "Open passage",
+    "openHelp": "Connected spaces share an open floor-to-ceiling passage, with no door or dividing wall along the common span.",
+    "connection": "{{first}} ↔ {{second}} · open passage: {{width}} m",
+    "preview": "Layout preview; numbers identify each space.",
+    "multiple": "Two spaces",
+    "composite": "Composite room"
   }
 }

@@ -1,6 +1,7 @@
 import type { Opening, Point, Project, Room, SurfaceMaterial } from '../domain/types'
 import { EPSILON, getWalls } from '../geometry/rooms'
 import { furnitureCorners } from '../furniture/geometry'
+import { sharedWallSpans } from '../geometry/layout'
 
 export interface Solid3D { center: readonly [number, number, number]; size: readonly [number, number, number]; rotationY: number }
 export interface Wall3D {
@@ -15,7 +16,7 @@ export const MAX_WALL_SOLIDS = 4096
 export const FLOOR_DEPTH = .08
 const unique = (values: number[]) => [...new Set(values)].sort((a, b) => a - b)
 
-export function buildRoom3D(room: Room, openings: readonly Opening[]): Room3D {
+export function buildRoom3D(room: Room, openings: readonly Opening[], rooms: readonly Room[] = [room]): Room3D {
   const walls = getWalls(room), signed = room.polygon.reduce((sum, a, i) => { const b = room.polygon[(i + 1) % room.polygon.length]; return sum + a.x * b.y - b.x * a.y }, 0)
   const sign = signed > 0 ? 1 : -1
   let count = 0
@@ -23,8 +24,10 @@ export function buildRoom3D(room: Room, openings: readonly Opening[]): Room3D {
     const u = { x: (wall.end.x - wall.start.x) / wall.length, y: (wall.end.y - wall.start.y) / wall.length }
     const outward = { x: u.y * sign, y: -u.x * sign }, rotationY = -Math.atan2(u.y, u.x)
     const apertures = openings.filter(o => o.roomId === room.id && o.wallId === wall.id)
+    const passages = sharedWallSpans(room, wall, rooms).map(span => ({ offset: span.start, width: span.end - span.start, sillHeight: 0, height: room.height }))
+    const voids = [...apertures, ...passages]
     // Geometry cuts are clamped only within the domain's numeric tolerance.
-    const cuts = unique([0, wall.length, ...apertures.flatMap(o => [Math.max(0, Math.min(wall.length, o.offset)), Math.max(0, Math.min(wall.length, o.offset + o.width))])])
+    const cuts = unique([0, wall.length, ...voids.flatMap(o => [Math.max(0, Math.min(wall.length, o.offset)), Math.max(0, Math.min(wall.length, o.offset + o.width))])])
     const solids: Solid3D[] = []
     const solid = (start: number, end: number, bottom: number, top: number): Solid3D => ({ center: [wall.start.x + u.x * (start + end) / 2 + outward.x * room.wallThickness / 2, (bottom + top) / 2, wall.start.y + u.y * (start + end) / 2 + outward.y * room.wallThickness / 2], size: [end - start, top - bottom, room.wallThickness], rotationY })
     const add = (a: number, b: number, bottom: number, top: number) => {
@@ -34,7 +37,7 @@ export function buildRoom3D(room: Room, openings: readonly Opening[]): Room3D {
     }
     for (let i = 0; i < cuts.length - 1; i++) {
       const a = cuts[i], b = cuts[i + 1], middle = (a + b) / 2
-      const occupied = apertures.filter(o => middle > o.offset && middle < o.offset + o.width).map(o => [Math.max(0, o.sillHeight), Math.min(room.height, o.sillHeight + o.height)]).sort((a, b) => a[0] - b[0])
+      const occupied = voids.filter(o => middle > o.offset && middle < o.offset + o.width).map(o => [Math.max(0, o.sillHeight), Math.min(room.height, o.sillHeight + o.height)]).sort((a, b) => a[0] - b[0])
       let bottom = 0
       for (const [low, high] of occupied) { add(a, b, bottom, low); bottom = Math.max(bottom, high) }
       add(a, b, bottom, room.height)
@@ -53,6 +56,7 @@ export function buildRoom3D(room: Room, openings: readonly Opening[]): Room3D {
     const a = walls[(i + walls.length - 1) % walls.length], b = walls[i]
     const cross = (a.end.x - a.start.x) * (b.end.y - b.start.y) - (a.end.y - a.start.y) * (b.end.x - b.start.x)
     if (cross * sign <= 0) return
+    if (sharedWallSpans(room, b, rooms).some(span => span.start <= EPSILON) || sharedWallSpans(room, a, rooms).some(span => span.end >= a.length - EPSILON)) return
     corners.push({ walls: [previous.id, wall.id], material: wall.material, solid: { center: [vertex.x + (previous.outward.x + wall.outward.x) * room.wallThickness / 2, room.height / 2, vertex.y + (previous.outward.y + wall.outward.y) * room.wallThickness / 2], size: [room.wallThickness, room.height, room.wallThickness], rotationY: 0 } })
   })
   return { room, walls: result, corners }

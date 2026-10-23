@@ -31,9 +31,9 @@
   "wizard": {
     "step": "PASO {{current}} DE {{total}}",
     "title": "Dale nombre a tu idea.",
-    "description": "Crea un proyecto y empieza por una habitación rectangular.",
+    "description": "Nombra tu proyecto y elige una habitación rectangular, en L o dos espacios conectados.",
     "measureTitle": "Todo empieza con las medidas.",
-    "measureDescription": "Ingresa las medidas interiores de la habitación. Puedes usar metros o centímetros.",
+    "measureDescription": "Ingresa las medidas interiores. Puedes usar metros o centímetros; la altura es común a los espacios conectados.",
     "progress": "Progreso de creación",
     "names": "Tu proyecto",
     "measures": "Las medidas",
@@ -50,15 +50,21 @@
     "depth": "Fondo",
     "height": "Altura",
     "range": "Cada medida debe estar entre {{min}} y {{max}} {{unit}}. Se acepta coma o punto decimal.",
-    "previewPending": "Ingresa ancho y fondo válidos para ver la habitación.",
+    "previewPending": "Revisa las medidas para ver la distribución.",
     "previewCaption": "Vista previa proporcional de tu habitación.",
     "create": "Crear y guardar",
     "saving": "Guardando…",
     "errors": {
       "nameRequired": "Escribe un nombre.",
       "nameTooLong": "Usa un máximo de 120 caracteres.",
-      "measurement": "Ingresa una medida entre {{min}} y {{max}} {{unit}}."
-    }
+      "measurement": "Ingresa una medida entre {{min}} y {{max}} {{unit}}.",
+      "cutout": "El recorte debe dejar al menos {{min}} {{unit}} en cada brazo de la L."
+    },
+    "room2Name": "Nombre del segundo espacio",
+    "width2": "Ancho del segundo espacio",
+    "depth2": "Fondo del segundo espacio",
+    "cutWidth": "Ancho del recorte",
+    "cutDepth": "Fondo del recorte"
   },
   "storage": {
     "loading": "Cargando tus proyectos…",
@@ -137,7 +143,8 @@
       "overlap": "Esta abertura se superpone con otra en la misma pared. Cambia su posición o medidas.",
       "limit": "Se alcanzó el límite de 256 aberturas por proyecto.",
       "notFound": "Esta abertura ya no existe. Cancela y vuelve a abrir el proyecto.",
-      "invalid": "No se pudo validar la abertura. Revisa sus medidas y la pared elegida."
+      "invalid": "No se pudo validar la abertura. Revisa sus medidas y la pared elegida.",
+      "connection": "Ese tramo es el paso abierto entre espacios. Elige una pared exterior o cambia la posición y el ancho."
     },
     "saveErrors": {
       "failed": "No se pudo guardar el cambio. El proyecto anterior sigue intacto. Reintenta.",
@@ -272,5 +279,24 @@
     "unavailable": "No pudimos mostrar la vista 3D en este dispositivo.",
     "lost": "La vista 3D se interrumpió.",
     "recovery": "Tu proyecto sigue intacto. Puedes reintentar o volver al plano 2D."
+  },
+  "layout": {
+    "rectangle": "Rectangular",
+    "rectangleHelp": "Un espacio con ancho y fondo.",
+    "l": "Habitación en L",
+    "lHelp": "Un espacio con recorte en la esquina inferior derecha del plano.",
+    "connected": "Dos espacios conectados",
+    "connectedHelp": "Dos rectángulos unidos por un paso abierto, con medidas independientes.",
+    "cutHelp": "Indica el recorte vacío en la esquina inferior derecha. Ancho y fondo iniciales son las medidas totales de la L.",
+    "secondHelp": "Medidas del segundo espacio. Los bordes se alinean arriba o a la izquierda y el tramo común queda abierto.",
+    "orientation": "Ubicación del segundo espacio",
+    "right": "A la derecha",
+    "below": "Debajo en el plano",
+    "openPassage": "Paso abierto",
+    "openHelp": "Los espacios conectados comparten un paso abierto de piso a techo, sin puerta ni pared divisoria en el tramo común.",
+    "connection": "{{first}} ↔ {{second}} · paso abierto: {{width}} m",
+    "preview": "Vista previa de la distribución; los números identifican cada espacio.",
+    "multiple": "Dos espacios",
+    "composite": "Espacio compuesto"
   }
 }

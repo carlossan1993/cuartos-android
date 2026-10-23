@@ -2,7 +2,7 @@
 
 Aplicación para diseñar y decorar habitaciones con medidas reales, un plano 2D y una vista 3D sincronizada. Español e inglés, proyectos locales y funcionamiento sin conexión.
 
-**Estado:** crear/guardar/reabrir habitaciones y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. El plano permite añadir, editar y eliminar puertas/ventanas, validar sus medidas y guardarlas localmente. Incluye biblioteca local de acabados, colores personalizados y aplicación a piso o paredes. El catálogo incluye 16 muebles con arrastre, giro, duplicado, eliminación y ajuste a cuadrícula. La vista 3D muestra piso, paredes, puertas y ventanas con cámara táctil, vista abierta y los acabados guardados. Las 16 piezas del catálogo tienen representación 3D procedural; al editar su posición o giro en el plano, la vista 3D refleja los cambios guardados. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
+**Estado:** crear/guardar/reabrir habitaciones rectangulares, en L y dos espacios conectados mediante un paso abierto, y abrir su plano 2D con cuadrícula, cotas, selección, pan y zoom táctil. ES/EN y funcionamiento local en Android. El plano permite añadir, editar y eliminar puertas/ventanas, validar sus medidas y guardarlas localmente. Incluye biblioteca local de acabados, colores personalizados y aplicación a piso o paredes. El catálogo incluye 16 muebles con arrastre, giro, duplicado, eliminación y ajuste a cuadrícula. La vista 3D muestra piso, paredes, puertas y ventanas con cámara táctil, vista abierta y los acabados guardados. Las 16 piezas del catálogo tienen representación 3D procedural; al editar su posición o giro en el plano, la vista 3D refleja los cambios guardados. El estado verificable de las entregas está en [STATUS](docs/STATUS.md).
 
 ## Fuente de verdad
 
@@ -61,6 +61,8 @@ Habitación 3D: [teléfono ES](docs/screenshots/viewer3d-phone.png) · [tablet E
 
 Muebles 3D: [teléfono ES](docs/screenshots/furniture3d-phone.png) · [tablet EN](docs/screenshots/furniture3d-tablet.png).
 
+Distribuciones: [L en tablet](docs/screenshots/layout-l-3d-tablet.png) · [dos espacios en teléfono](docs/screenshots/layout-right-3d-phone.png).
+
 ## Trabajo y verificación
 
 - [Cómo contribuir](CONTRIBUTING.md).
@@ -74,6 +76,7 @@ Muebles 3D: [teléfono ES](docs/screenshots/furniture3d-phone.png) · [tablet EN
 - [Catálogo y edición de muebles 2D](docs/FURNITURE.md).
 - [Habitación y cámara 3D](docs/VIEWER_3D.md).
 - [Muebles procedurales 3D](docs/FURNITURE_3D.md).
+- [Formas en L y espacios conectados](docs/LAYOUTS.md).
 - [Decisiones iniciales](docs/decisions/0001-platform.md).
 - [Estado y siguiente paso](docs/STATUS.md).
 - [Configuración inicial de GitHub](docs/REPOSITORY_SETUP.md).
