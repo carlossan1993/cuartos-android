@@ -1,22 +1,39 @@
-# Guardado local · Etapas 5, 7, 8 y 9
+# Proyectos offline · Etapa 13
 
-Los proyectos se guardan en IndexedDB mediante Dexie 4, dentro del origen local de la app. No hay servidor, cuentas ni sincronización remota. En Android el bundle y los datos se usan desde el contenedor Capacitor.
+Los proyectos se guardan en IndexedDB mediante Dexie 4, dentro del origen local de la app. En Android los datos pertenecen al contenedor Capacitor. No hay servidor, cuentas ni sincronización remota.
 
-- Base `cuartos-local`, versión 1, tabla `projects` con clave primaria `id`.
-- Cada registro contiene `{ id, json }`. El JSON usa el contrato `schemaVersion: 1` de [DOMAIN](DOMAIN.md); no se mantienen modelos alternativos para dibujo y almacenamiento.
-- Crear valida el proyecto completo y usa `add`, que rechaza IDs repetidos. La interfaz anuncia guardado y publica el proyecto en Zustand solamente después de confirmar la escritura.
-- Un error de almacenamiento conserva el formulario y el proyecto activo anterior. La persona puede corregir o reintentar; no hay un guardado ficticio en memoria como sustituto.
-- Cargar valida el JSON y comprueba que el ID interno coincida con la clave. La lista omite registros ilegibles, muestra un aviso y los conserva intactos. No se borran automáticamente ni se migra silenciosamente un esquema de proyecto desconocido.
-- Al volver al inicio se lee la lista de nuevo. Abrir una tarjeta recupera el proyecto de la base y lo publica con la acción `loadProject`. Las tarjetas son resúmenes de lectura, no estados editables independientes.
+## Contrato y transacciones
 
-El asistente crea una habitación rectangular por proyecto con ancho, fondo y altura entre 0,1 y 100 m, nombres de hasta 120 caracteres y medidas interiores. Admite coma/punto decimal y metros/centímetros. Cambiar la unidad desplaza el separador en el texto sin redondearlo; el modelo conserva números en metros. La vista previa y el resumen son proporcionales y de solo lectura.
+- Base `cuartos-local`, versión 1, tabla `projects`, clave primaria `id`; registros `{ id, json }` con `schemaVersion: 1`. No se cambia ni migra el esquema en esta entrega.
+- Crear valida el proyecto completo y usa `add`, que rechaza IDs repetidos. Cargar valida JSON e identidad. La lista omite registros ilegibles, anuncia el problema y los conserva intactos, incluidas versiones futuras.
+- Las ediciones confirmadas (aberturas, acabados, muebles y preferencias) preparan un candidato en un store aislado. La transacción `replace` lee el registro, valida el anterior y compara su JSON exacto antes de escribir. Un registro eliminado, ilegible o modificado desde otra conexión se rechaza sin sobrescribirlo ni recrearlo.
+- Solo después del commit se publica el candidato en Zustand. Una finalización tardía no reemplaza otro proyecto activo. El indicador distingue guardando, guardado y fallo del último cambio; un token impide que una operación anterior borre el estado de una nueva.
+- Autosave semántico: confirmar un formulario, soltar un mueble o ejecutar giro/duplicado/borrado confirma una escritura. No se escribe por cada movimiento, tecla de navegación ni frame. Los borradores de formularios y arrastres no se guardan antes de confirmar.
 
-La base ofrece crear, listar y reabrir; el plano interactivo se incorporó en la etapa 6. En la etapa 7, `replace` valida el diseño candidato y ejecuta una transacción de lectura/escritura que comprueba identidad, fechas y coincidencia con el JSON anterior. Rechaza conflictos de otra pantalla, registros ilegibles/versiones desconocidas y proyectos eliminados. La edición de aberturas publica el resultado en Zustand después de confirmar la escritura; un fallo conserva formulario y datos anteriores. Una finalización tardía no cambia el proyecto activo si la persona abrió otro. La etapa 8 comparte este servicio transaccional entre aberturas y acabados, usando la acción semántica `updateRoom` para materiales. Solo se reemplaza la superficie elegida; geometría, aberturas, muebles y otras habitaciones se conservan. La etapa 9 usa el mismo servicio para altas, cambios, duplicados y borrados de muebles, con una escritura al confirmar o soltar el arrastre. El provisional nunca se publica en el store ni se escribe por cada evento. Detalles: [OPENINGS](OPENINGS.md), [FINISHES](FINISHES.md) y [FURNITURE](FURNITURE.md). Autosave de ediciones, duplicar/eliminar, migraciones de la base y recuperación ampliada corresponden a la etapa 13; exportaciones de respaldo a la 14. Desinstalar o borrar los datos de la app elimina los proyectos locales.
+## Lista y gestión
+
+Al volver al inicio se lee la lista de nuevo; abrir recupera el proyecto íntegro de la base. Las tarjetas permiten renombrar, duplicar y eliminar, con textos ES/EN y acciones excluyentes durante una operación.
+
+Renombrar conserva ID, creación, geometría, materiales, muebles y preferencias. Duplicar genera un proyecto independiente, nuevas fechas y nuevos IDs de proyecto, habitaciones, vértices, aberturas y muebles. Remapea referencias de habitación/pared y claves de acabados; conserva medidas, posiciones, catálogo, texturas, datos desconocidos compatibles, idioma y opciones de vista. La copia valida que ningún ID propio reutilice los del original. Una única transacción comprueba que la fuente sigue vigente y añade el nuevo registro; un fallo revierte toda la operación.
+
+Eliminar requiere una confirmación que nombra el proyecto y explica la pérdida local. La transacción vuelve a comparar la copia leída antes de borrar. Cancelar no escribe. No se borra un proyecto que cambió después de mostrar la confirmación.
+
+Los fallos de cuota/lectura/escritura conservan los registros y las entradas para reintentar. La copia candidata mantiene sus IDs durante el reintento. Reabrir un registro confirmado limpia el error transitorio de la operación anterior. Un conflicto ofrece recargar explícitamente la fuente, conservando el nombre escrito; la persona confirma otra vez sobre los datos actualizados. Nunca se sustituye un error por un guardado ficticio en memoria.
+
+## Preferencias y reapertura
+
+«Recordar opciones 2D» guarda cuadrícula, ajuste y zoom relativo; «Recordar cámara 3D» guarda posición y objetivo reales en coordenadas del proyecto. Ambas acciones usan `saveProjectChange`, combinan las preferencias con el diseño vigente y muestran éxito solamente tras confirmar la escritura. Navegar sigue sin escribir. El centro del plano, selección y vista abierta 3D son temporales porque no forman parte del contrato de preferencias guardadas. Detalles: [EDITOR_2D](EDITOR_2D.md) y [VIEWER_3D](VIEWER_3D.md).
+
+Cerrar/reabrir recupera el último diseño confirmado: rectángulo, L, dos espacios, aberturas, acabados, muebles y preferencias. No se afirma recuperación de un borrador aún no confirmado. Exportación de respaldos corresponde a la etapa 14; desinstalar o borrar los datos de la app elimina los proyectos locales.
 
 ## Evidencia y límites
 
-Las pruebas unitarias usan fake-indexeddb para verificar reapertura en otra conexión, colisiones, validación, conservación de registros inválidos y publicación después de guardar. Playwright prueba el motor IndexedDB de Chromium: creación/corrección, cambios de unidad e idioma, nueva sesión, varios proyectos, cancelación, errores de escritura/lectura y reintentos en teléfono/tablet. Las capturas y el APK se registran en el PR de la etapa.
+Doce casos unitarios nuevos verifican copias de las tres formas, referencias/materiales/compatibilidad, independencia, colisiones, transacciones entre conexiones, eliminación, datos ilegibles/futuros, estados antes/después del commit, finalizaciones tardías y preferencias. Total: 252 pruebas unitarias.
 
-El APK debe compilar en CI antes de integrar. La instalación/cierre/reapertura manual en un dispositivo Android físico sigue pendiente; las pruebas de navegador no se presentan como pruebas físicas del WebView.
+Seis E2E nuevos (teléfono ES/tablet EN) cubren renombrar/cambiar idioma, nombre inválido, copiar proyecto completo, cancelar/confirmar borrado, fallos de add/put/delete/get y reintentos, edición/eliminación desde otra conexión, reapertura y restauración real de la cámara y opciones 2D. Se bloquean solicitudes externas y se comprueba el JSON; total con regresiones: 46 E2E. Las pruebas de copia/eliminación usan transacciones reales de Chromium además de fake-indexeddb.
 
-Referencia de integración: [documentación oficial de Dexie y TypeScript](https://dexie.org/docs/Typescript).
+Capturas: [lista teléfono ES](screenshots/projects-list-phone.png), [lista tablet EN](screenshots/projects-list-tablet.png), [borrado tablet EN](screenshots/projects-delete-tablet.png), [conflicto teléfono ES](screenshots/projects-conflict-phone.png), [preferencias 3D tablet EN](screenshots/projects-view-tablet.png).
+
+QA local con Chromium 153 temporal, fuera de las dependencias del proyecto. CI conserva el navegador fijado por Playwright; los resultados finales web/Android y APK se registran en el PR antes de integrar. La instalación/cierre/reapertura manual y la persistencia bajo presión de almacenamiento en Android físico siguen pendientes; el navegador no acredita pruebas físicas del WebView.
+
+Referencia: [transacciones oficiales de Dexie](https://dexie.org/docs/Dexie/Dexie.transaction/).

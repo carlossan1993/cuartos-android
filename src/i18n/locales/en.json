@@ -298,5 +298,39 @@
     "preview": "Layout preview; numbers identify each space.",
     "multiple": "Two spaces",
     "composite": "Composite room"
+  },
+  "projects": {
+    "rename": "Rename",
+    "duplicate": "Duplicate",
+    "remove": "Delete",
+    "actions": "Actions for {{name}}",
+    "copyName": "{{name}} (copy)",
+    "confirmRemove": "Delete “{{name}}” from this device? Its rooms, furniture and finishes will be deleted. This action cannot be undone.",
+    "confirmDelete": "Yes, delete project",
+    "createCopy": "Create copy",
+    "saveName": "Save name",
+    "reload": "Reload project",
+    "remember2d": "Remember 2D options",
+    "remember3d": "Remember 3D camera",
+    "viewSaved": "Preferences saved for the next opening.",
+    "viewError": "These preferences could not be saved. Your previous design is intact; you can try again.",
+    "status": {
+      "saving": "Saving on this device…",
+      "saved": "Design saved on this device",
+      "error": "The last change was not saved. Check the notice in the editor."
+    },
+    "done": {
+      "rename": "Name saved.",
+      "duplicate": "Copy created on this device.",
+      "remove": "Project deleted from this device."
+    },
+    "errors": {
+      "name": "Enter a name of 1–120 characters.",
+      "read": "We could not read this project. Reload or cancel; its data is kept.",
+      "write": "The operation could not be completed. The previous copy is kept; retry with the same button.",
+      "conflict": "The project changed after you opened this panel. Reload it and review its data before confirming again.",
+      "missing": "The project is no longer available. It has not been recreated and no other project was changed.",
+      "unreadable": "The saved copy cannot be read. It was kept without overwriting or deleting it."
+    }
   }
 }

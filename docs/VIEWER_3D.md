@@ -1,6 +1,6 @@
 # Habitación 3D · Etapa 10
 
-Desde el plano, «Ver habitación en 3D» abre una vista del mismo proyecto guardado. Volver a 2D conserva aberturas, acabados y muebles. La cámara, vista abierta y reintentos son temporales: no cambian JSON, fechas ni preferencias persistidas.
+Desde el plano, «Ver habitación en 3D» abre una vista del mismo proyecto guardado. Volver a 2D conserva aberturas, acabados y muebles. Los gestos, vista abierta y reintentos no escriben. Desde la etapa 13, «Recordar cámara 3D» guarda explícitamente posición y objetivo para la próxima apertura.
 
 ## Geometría y acabados
 
@@ -30,6 +30,6 @@ Three.js 0.186.1, React Three Fiber 9.8.2 y tipos Three.js 0.186.0, licencias MI
 - Capturas de vista abierta: [teléfono ES](screenshots/viewer3d-phone.png), [tablet EN](screenshots/viewer3d-tablet.png). Envolvente completa: [teléfono](screenshots/viewer3d-complete-phone.png), [tablet](screenshots/viewer3d-complete-tablet.png).
 - CI web/Android y APK se registran en el PR antes de integrar. Instalación física, gestos manuales, compatibilidad de GPU/WebView y perfilado de rendimiento siguen pendientes. La emulación no acredita QA físico.
 
-La etapa 11 incorpora las [16 piezas procedurales 3D](FURNITURE_3D.md) y su lista accesible, derivadas del mismo FurnitureItem. El encuadre también incluye muebles anteriores fuera de los límites actuales de la habitación. No hay edición 3D, fotorealismo, exportación, autosave de cámara ni cambios del esquema.
+La etapa 11 incorpora las [16 piezas procedurales 3D](FURNITURE_3D.md) y su lista accesible, derivadas del mismo FurnitureItem. El encuadre también incluye muebles anteriores fuera de los límites actuales de la habitación. No hay edición 3D, fotorealismo ni exportación. La cámara se guarda solo al pulsar «Recordar cámara 3D», sin cambio de esquema. Se capturan coordenadas del proyecto, descontando el recentrado visual; abrir y navegar no modifica el JSON. La cámara inicial histórica `{position: {x: 6, y: 6, z: 6}, target: {x: 0, y: 0, z: 0}}` conserva su significado de encuadre automático para proyectos anteriores. Las demás cámaras se restauran antes de aceptar comandos, sin reemplazarlas por el encuadre inicial.
 
 Referencias oficiales: [Canvas](https://r3f.docs.pmnd.rs/api/canvas), [render bajo demanda](https://r3f.docs.pmnd.rs/advanced/scaling-performance), [OrbitControls](https://threejs.org/docs/pages/OrbitControls.html), [WebGLRenderer](https://threejs.org/docs/pages/WebGLRenderer.html).

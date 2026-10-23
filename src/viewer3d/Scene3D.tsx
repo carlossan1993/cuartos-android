@@ -1,16 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Group, PerspectiveCamera, Spherical, Vector3 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import type { Project, Room } from '../domain/types'
+import type { Project, Room, ViewSettings } from '../domain/types'
 import { buildRoom3D, sceneBounds, wallFacesCamera, type Room3D, type SceneBounds, type Solid3D } from './model'
 import { floorGeometry, solidGeometry } from './geometry'
 import { floorTexture } from './texture'
 import { cameraLimits, fitDistance } from './camera'
 import { FurnitureScene } from './FurnitureScene'
+import { automaticCamera } from '../projects/view-preferences'
 import { buildFurnitureSet3D } from '../furniture/model3d'
 
 export type CameraCommandKind = 'fit' | 'top' | 'zoomIn' | 'zoomOut' | 'left' | 'right' | 'up' | 'down' | 'panLeft' | 'panRight' | 'panForward' | 'panBack'
+export type CameraReader = () => ViewSettings['camera3d']
 export interface CameraCommand { sequence: number; kind: CameraCommandKind }
 
 function Floor({ room }: { room: Room }) {
@@ -36,8 +38,9 @@ function RoomScene({ model, origin, cutaway }: { model: Room3D; origin: readonly
     {wall.openings.map(opening => <mesh key={opening.id} position={[...opening.solid.center]} rotation={[0, opening.solid.rotationY, 0]} castShadow={opening.type === 'door'}><boxGeometry args={[...opening.solid.size]} /><meshStandardMaterial color={opening.type === 'door' ? '#c39a68' : '#96c4d3'} transparent={opening.type === 'window'} opacity={opening.type === 'window' ? .3 : 1} depthWrite={opening.type !== 'window'} roughness={opening.type === 'window' ? .3 : .85} /></mesh>)}
   </group>)}{model.corners.map(corner => <group key={corner.walls.join('|')} ref={node => { const id = corner.walls.join('|'); if (node) cornerGroups.current.set(id, node); else cornerGroups.current.delete(id) }}><Solids solids={[corner.solid]} color={corner.material.color} /></group>)}</group>
 }
-function CameraRig({ bounds, command }: { bounds: SceneBounds; command: CameraCommand }) {
+function CameraRig({ bounds, command, initialCamera, onCapture }: { bounds: SceneBounds; command: CameraCommand; initialCamera: ViewSettings['camera3d']; onCapture: (reader: CameraReader | null) => void }) {
   const get = useThree(state => state.get), invalidate = useThree(state => state.invalidate), size = useThree(state => state.size)
+  const [savedCamera] = useState(initialCamera)
   const controls = useRef<OrbitControls | null>(null), previousFit = useRef<number | null>(null), lastCommand = useRef<number | null>(null)
   const preset = useCallback((top: boolean) => {
     const { camera } = get()
@@ -58,8 +61,9 @@ function CameraRig({ bounds, command }: { bounds: SceneBounds; command: CameraCo
     orbit.target.copy(orbit.cursor)
     orbit.addEventListener('change', change)
     controls.current = orbit
-    return () => { orbit.removeEventListener('change', change); orbit.dispose(); controls.current = null }
-  }, [get, invalidate, bounds])
+    onCapture(() => { const { camera } = get(); return { position: { x: camera.position.x + bounds.center[0], y: camera.position.y, z: camera.position.z + bounds.center[2] }, target: { x: orbit.target.x + bounds.center[0], y: orbit.target.y, z: orbit.target.z + bounds.center[2] } } })
+    return () => { onCapture(null); orbit.removeEventListener('change', change); orbit.dispose(); controls.current = null }
+  }, [get, invalidate, bounds, onCapture])
   useEffect(() => {
     const orbit = controls.current
     if (!orbit) return
@@ -67,14 +71,22 @@ function CameraRig({ bounds, command }: { bounds: SceneBounds; command: CameraCo
     const fitted = fitDistance(bounds, size.width / Math.max(1, size.height)), limits = cameraLimits(bounds)
     if (camera instanceof PerspectiveCamera) { camera.near = limits.near; camera.far = Math.max(limits.far, fitted * 10); camera.updateProjectionMatrix() }
     orbit.minDistance = limits.minDistance; orbit.maxDistance = Math.max(limits.maxDistance, fitted * 4)
-    if (previousFit.current === null) preset(false)
+    if (previousFit.current === null) {
+      if (automaticCamera(savedCamera)) preset(false)
+      else {
+        orbit.target.set(savedCamera.target.x - bounds.center[0], savedCamera.target.y, savedCamera.target.z - bounds.center[2])
+        camera.position.set(savedCamera.position.x - bounds.center[0], savedCamera.position.y, savedCamera.position.z - bounds.center[2])
+        camera.lookAt(orbit.target); orbit.update(); invalidate()
+      }
+    }
     else { camera.position.sub(orbit.target).multiplyScalar(fitted / previousFit.current).add(orbit.target); orbit.update(); invalidate() }
     previousFit.current = fitted
-  }, [bounds, get, invalidate, size.width, size.height, preset])
+  }, [bounds, get, invalidate, size.width, size.height, preset, savedCamera])
   useEffect(() => {
     const orbit = controls.current
     if (!orbit) return
     if (lastCommand.current === command.sequence) return
+    if (lastCommand.current === null && command.sequence === 0) { lastCommand.current = 0; return }
     lastCommand.current = command.sequence
     const { camera } = get()
     if (command.kind === 'fit' || command.kind === 'top') { preset(command.kind === 'top'); return }
@@ -105,16 +117,17 @@ function Health({ onReady, onLost }: { onReady: () => void; onLost: () => void }
   }, [gl, onLost])
   return null
 }
-export function Scene3D({ project, cutaway, command, onReady, onLost }: { project: Project; cutaway: boolean; command: CameraCommand; onReady: () => void; onLost: () => void }) {
+export function Scene3D({ project, cutaway, command, onReady, onLost, onCapture }: { onCapture: (reader: CameraReader | null) => void; project: Project; cutaway: boolean; command: CameraCommand; onReady: () => void; onLost: () => void }) {
   const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings, project.rooms)), [project])
   const furniture = useMemo(() => buildFurnitureSet3D(project.furniture), [project.furniture])
-  const bounds = useMemo(() => sceneBounds(project), [project]), extent = Math.max(...bounds.size)
+  const metrics = useMemo(() => sceneBounds(project), [project]), [cx, cy, cz] = metrics.center, [sx, sy, sz] = metrics.size, radius = metrics.radius
+  const bounds = useMemo<SceneBounds>(() => ({ center: [cx, cy, cz], size: [sx, sy, sz], radius }), [cx, cy, cz, sx, sy, sz, radius]), extent = Math.max(...bounds.size)
   return <>
     <color attach="background" args={['#f1f2f7']} />
     <hemisphereLight args={['#ffffff', '#7c7a86', 1.7]} />
     <directionalLight position={[-extent, extent * 1.8, extent]} intensity={2.3} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} shadow-camera-left={-extent} shadow-camera-right={extent} shadow-camera-top={extent} shadow-camera-bottom={-extent} shadow-camera-near={.05} shadow-camera-far={extent * 6 + 10} shadow-normalBias={.015} />
     <group position={[-bounds.center[0], 0, -bounds.center[2]]}>{models.map(model => <RoomScene key={model.room.id} model={model} origin={bounds.center} cutaway={cutaway} />)}{furniture.map(model => <FurnitureScene key={model.id} model={model} />)}</group>
     <gridHelper args={[Math.max(8, extent * 2), 20, '#c9ccda', '#e0e2ec']} position={[0, -.085, 0]} />
-    <CameraRig bounds={bounds} command={command} /><Health onReady={onReady} onLost={onLost} />
+    <CameraRig bounds={bounds} command={command} initialCamera={project.viewSettings.camera3d} onCapture={onCapture} /><Health onReady={onReady} onLost={onLost} />
   </>
 }

@@ -161,3 +161,16 @@ h1:focus, .page-title:focus { outline: none; }
 
 .layout-extra-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .layout-extra-fields label { gap: 8px; flex-wrap: wrap; }
+
+.project-card-actions { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 12px 12px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 14px 14px; background: #fcfbf7; }
+.project-card-actions .button { font-size: 12px; padding: 10px 12px; }
+.project-list > li { min-width: 0; }
+.project-manager { margin-block: 22px; padding: clamp(18px, 3vw, 28px); border: 1px solid #b9bad9; border-radius: 14px; background: #fcfbf7; }
+.project-manager h3 { color: var(--primary); font-size: 22px; }
+.manager-source, .manager-confirmation { overflow-wrap: anywhere; line-height: 1.7; font-size: 14px; }
+.project-manager .form-field { max-width: 520px; }
+.project-manager .form-actions { margin-top: 20px; padding-top: 18px; }
+.button-danger { background: #a43430; color: white; border: 1px solid #a43430; }
+.save-indicator { font-size: 11px; color: #4c6852; text-align: right; margin: 10px 0 0; line-height: 1.6; }
+.save-indicator.save-saving { color: var(--primary); }
+.save-indicator.save-error { color: #a43430; }

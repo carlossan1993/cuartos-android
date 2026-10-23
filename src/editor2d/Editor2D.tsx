@@ -11,6 +11,8 @@ import { FurnitureDrawing } from './FurnitureDrawing'
 import { FurnitureTools } from './FurnitureTools'
 import { furnitureAtPoint, furnitureFits } from '../furniture/geometry'
 import { beginFurnitureDrag, moveFurnitureDrag, type FurnitureDrag } from '../furniture/drag'
+import { saveProjectChange } from '../projects/save-project-change'
+import { restoredZoom } from '../projects/view-preferences'
 import { saveFurnitureChange, type FurnitureChange } from '../projects/save-furniture'
 import { DomainError } from '../domain/errors'
 import { ProjectSaveError } from '../storage/project-repository'
@@ -144,6 +146,8 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const closeFinish = useCallback(() => { setTool(null); setPreviewWall(null) }, [])
   const [busy, setBusy] = useState(false)
   const [grid, setGrid] = useState(project.viewSettings.grid)
+  const initialZoom = useRef(restoredZoom(project.viewSettings.zoom2d))
+  const [viewMessage, setViewMessage] = useState<string | null>(null)
   const dpr = usePixelRatio()
   const selected = project.rooms.find(room => room.id === selectedId)
   const selectedBounds = selected ? roomBounds([selected]) : null
@@ -186,7 +190,8 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
         const current = sceneRef.current
         if (current && current.size.width === size.width && current.size.height === size.height) return
         gesture.current = emptyGesture; cancelDrag()
-        publish({ size, camera: current ? resizeCamera(current.camera, current.size, size, bounds) : fitCamera(bounds, size) })
+        const fitted = fitCamera(bounds, size)
+        publish({ size, camera: current ? resizeCamera(current.camera, current.size, size, bounds) : zoomCamera(fitted, { x: size.width / 2, y: size.height / 2 }, initialZoom.current, scaleLimits(bounds, size)) })
       })
     })
     observer.observe(element)
@@ -208,6 +213,16 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     window.addEventListener('blur', cancel)
     return () => { element.removeEventListener('wheel', wheel); window.removeEventListener('blur', cancel) }
   }, [bounds, publish])
+
+  async function rememberView() {
+    const current = sceneRef.current
+    if (!current || busy || tool || furniturePreview) return
+    setBusy(true); setViewMessage(null)
+    const zoom2d = restoredZoom(current.camera.scale / fitCamera(bounds, current.size).scale)
+    try { await saveProjectChange(state => state.setViewSettings({ ...state.project!.viewSettings, grid, snap, zoom2d })); setViewMessage('projects.viewSaved') }
+    catch { setViewMessage('projects.viewError') }
+    finally { setBusy(false) }
+  }
 
   function zoom(factor: number) {
     cancelDrag(); gesture.current = emptyGesture
@@ -288,9 +303,11 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
       <button type="button" className="button button-secondary" onClick={fit} disabled={!scene}>{t('editor.fit')}</button>
       <label className="editor-grid-toggle"><input type="checkbox" checked={grid} onChange={event => setGrid(event.target.checked)} />{t('editor.grid')}</label>
       <label className="editor-grid-toggle"><input type="checkbox" checked={snap} disabled={!!furniturePreview || busy} onChange={event => setSnap(event.target.checked)} />{t('furniture.snap', { value: format(project.viewSettings.gridSize) })}</label>
+      <button className="button button-secondary" type="button" disabled={busy || !!tool || !!furniturePreview || !scene} onClick={() => { void rememberView() }}>{t('projects.remember2d')}</button>
       <button className="button button-primary open-3d" type="button" disabled={busy || !!tool || !!furniturePreview} onClick={onOpen3D}>{t('viewer.open')}</button>
     </div>
     {notice && tool !== 'furniture' && <div className={notice.error ? 'error-notice furniture-feedback' : 'opening-saved furniture-feedback'} role={notice.error ? 'alert' : 'status'}><p>{t(notice.key)}</p>{retryFurniture && <><p>{t('furniture.retryHelp')}{retryFurniture.type === 'update' && ` ${t('furniture.selectedInfo', { x: format(retryFurniture.item.position.x), y: format(retryFurniture.item.position.y), rotation: format(retryFurniture.item.rotation) })}`}</p><div className="action-group"><button className="button button-secondary" disabled={busy} type="button" onClick={() => { void commitFurniture(retryFurniture, true) }}>{t('furniture.retry')}</button><button className="button button-quiet" disabled={busy} type="button" onClick={() => { setRetryFurniture(null); setNotice(null) }}>{t('common.cancel')}</button></div></>}</div>}
+    {viewMessage && <p className="form-help" role="status">{t(viewMessage)}</p>}
     <ConnectionSummary rooms={project.rooms} /><p id="canvas-help" className="editor-help">{t('editor.help')} {t('furniture.canvasHelp')}</p><p id="canvas-keyboard" className="sr-only">{t('editor.keyboard')}</p>
     <div className="editor-workspace">
       <div className="plan-workspace"><div className="canvas-frame"><div ref={surface} className="canvas-surface" role="region" tabIndex={0} aria-label={t('editor.canvas')} aria-describedby="canvas-help canvas-keyboard"

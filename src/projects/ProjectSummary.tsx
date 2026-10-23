@@ -18,7 +18,7 @@ export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Pro
   return (
     <section className="project-summary" aria-labelledby="project-name">
       <button type="button" className="button button-quiet back-link" onClick={onBack}>← {t('room.backToProjects')}</button>
-      <div className="summary-heading"><div><p className="eyebrow">{t('room.yourSpace')}</p><h1 className="page-title" id="project-name" ref={heading} tabIndex={-1}>{project.name}</h1></div><p className="saved-badge"><span aria-hidden="true">✓</span> {t('room.saved')}</p></div>
+      <div className="summary-heading"><div><p className="eyebrow">{t('room.yourSpace')}</p><h1 className="page-title" id="project-name" ref={heading} tabIndex={-1}>{project.name}</h1></div></div>
       {room ? <div className="summary-grid">
         <figure className="summary-preview">{project.rooms.length === 1 && room.polygon.length === 4 ? <RoomPreview width={width} depth={depth} /> : <LayoutPreview rooms={project.rooms} />}<figcaption>{t('room.planCaption')}</figcaption></figure>
         <div className="room-details"><span className="small-label">{t(project.rooms.length > 1 ? layoutConnections(project.rooms).length ? 'layout.connected' : 'layout.multiple' : room.polygon.length === 6 ? 'layout.l' : room.polygon.length > 4 ? 'layout.composite' : 'wizard.rectangle')}</span>
