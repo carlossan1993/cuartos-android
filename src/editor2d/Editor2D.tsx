@@ -5,6 +5,8 @@ import type Konva from 'konva'
 import type { Point, Project } from '../domain/types'
 import { getWalls, polygonArea } from '../geometry/rooms'
 import { openingGeometry } from '../geometry/openings'
+import { FinishTools } from './FinishTools'
+import { finishPattern } from '../finishes/pattern'
 import { OpeningTools } from './OpeningTools'
 import { beginGesture, emptyGesture, endGesture, moveGesture } from './gestures'
 import { fitCamera, gridLines, openingAtPoint, panCamera, resizeCamera, roomAtPoint, roomBounds, scaleLimits, worldToScreen, zoomCamera, MAX_ZOOM, MIN_ZOOM, type Camera, type Size } from './viewport'
@@ -60,14 +62,19 @@ function PlanDrawing({ project, scene, grid, selected, selectedOpening, previewW
         const a = worldToScreen({ x: bounds.left, y: bounds.top }, camera), b = worldToScreen({ x: bounds.right, y: bounds.bottom }, camera)
         const width = b.x - a.x, height = b.y - a.y, center = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
         return <Group key={room.id} listening={false}>
-          <Line points={points.flatMap(p => [p.x, p.y])} closed fill={active ? '#e7e7fb' : room.floorMaterial.color} stroke="#03038c" strokeWidth={active ? 4 : 2.5} lineJoin="round" perfectDrawEnabled={false} />
+          <Line points={points.flatMap(p => [p.x, p.y])} closed fill={room.floorMaterial.color} stroke="#586078" strokeWidth={1} lineJoin="round" perfectDrawEnabled={false} />
+          <Group clipFunc={context => { context.beginPath(); points.forEach((point, i) => { if (i === 0) context.moveTo(point.x, point.y); else context.lineTo(point.x, point.y) }); context.closePath() }}>
+            {finishPattern(room.floorMaterial, bounds, camera.scale).map(([a, b], i) => { const start = worldToScreen(a, camera), end = worldToScreen(b, camera); return <Line key={i} points={[start.x, start.y, end.x, end.y]} stroke="#263040" opacity={0.23} strokeWidth={1} /> })}
+          </Group>
+          {active && <Line points={points.flatMap(p => [p.x, p.y])} closed stroke="#03038c" strokeWidth={15} dash={[5, 4]} opacity={0.7} lineJoin="round" />}
           {getWalls(room).map((wall, i) => {
             const a = worldToScreen(wall.start, camera), b = worldToScreen(wall.end, camera), mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
             const dx = center.x - mid.x, dy = center.y - mid.y, distance = Math.max(1, Math.hypot(dx, dy))
-            return <Group key={wall.id}>{wall.id === previewWall && <Line points={[a.x, a.y, b.x, b.y]} stroke="#ad5728" strokeWidth={3} dash={[6, 4]} />}<Text x={mid.x + dx / distance * 16 - 15} y={mid.y + dy / distance * 16 - 5} width={30} align="center" text={t('openings.wallMarker', { number: i + 1 })} fontSize={10} fill={wall.id === previewWall ? '#ad5728' : '#626a80'} fontFamily="sans-serif" /></Group>
+            return <Group key={wall.id}><Line points={[a.x, a.y, b.x, b.y]} stroke="#596078" strokeWidth={10} lineCap="butt" /><Line points={[a.x, a.y, b.x, b.y]} stroke={room.wallMaterials[wall.id].color} strokeWidth={7} lineCap="butt" />{wall.id === previewWall && <Line points={[a.x, a.y, b.x, b.y]} stroke="#ad5728" strokeWidth={13} dash={[6, 4]} opacity={0.8} />}<Rect x={mid.x + dx / distance * 16 - 16} y={mid.y + dy / distance * 16 - 7} width={32} height={15} fill="#ffffff" opacity={0.9} cornerRadius={3} /><Text x={mid.x + dx / distance * 16 - 15} y={mid.y + dy / distance * 16 - 5} width={30} align="center" text={t('openings.wallMarker', { number: i + 1 })} fontSize={10} fill={wall.id === previewWall ? '#ad5728' : '#626a80'} fontFamily="sans-serif" /></Group>
           })}
           {active && points.map((point, i) => <Circle key={room.polygon[i].id} x={point.x} y={point.y} radius={4} fill="white" stroke="#03038c" strokeWidth={1.5} />)}
           {width > 80 && height > 55 && <>
+            <Rect x={a.x + Math.max(5, width * .12)} y={center.y - 24} width={Math.max(1, width * .76)} height={50} fill="#ffffff" opacity={0.9} cornerRadius={5} />
             <Text x={a.x + 10} y={center.y - 17} width={Math.max(1, width - 20)} text={room.name} align="center" fontSize={13} fontFamily="sans-serif" fontStyle="bold" fill="#03038c" wrap="none" ellipsis />
             <Text x={a.x + 10} y={center.y + 6} width={Math.max(1, width - 20)} text={`${format(polygonArea(room.polygon), 2)} m²`} align="center" fontSize={12} fontFamily="sans-serif" fill="#5d6372" wrap="none" ellipsis />
           </>}
@@ -86,7 +93,7 @@ function PlanDrawing({ project, scene, grid, selected, selectedOpening, previewW
         const room = project.rooms.find(room => room.id === opening.roomId)!, geometry = openingGeometry(opening, room)
         const a = worldToScreen(geometry.start, camera), b = worldToScreen(geometry.end, camera), leaf = worldToScreen(geometry.leaf, camera)
         const active = opening.id === selectedOpening, color = active ? '#ad5728' : opening.type === 'door' ? '#03038c' : '#287d87'
-        return <Group key={opening.id} listening={false}><Line points={[a.x, a.y, b.x, b.y]} stroke={room.id === selected ? '#e7e7fb' : room.floorMaterial.color} strokeWidth={7} />
+        return <Group key={opening.id} listening={false}><Line points={[a.x, a.y, b.x, b.y]} stroke={room.floorMaterial.color} strokeWidth={16} />
           {opening.type === 'door' ? <><Line points={[a.x, a.y, leaf.x, leaf.y]} stroke={color} strokeWidth={active ? 3 : 2} /><Line points={geometry.arc.flatMap(point => { const p = worldToScreen(point, camera); return [p.x, p.y] })} stroke={color} strokeWidth={1.2} dash={[4, 3]} /></> : <>{[-3, 3].map(offset => <Line key={offset} points={[a.x + geometry.inward.x * offset, a.y + geometry.inward.y * offset, b.x + geometry.inward.x * offset, b.y + geometry.inward.y * offset]} stroke={color} strokeWidth={active ? 3 : 1.8} />)}</>}
           {active && <Circle x={(a.x + b.x) / 2} y={(a.y + b.y) / 2} radius={4} fill="white" stroke={color} strokeWidth={2} />}
         </Group>
@@ -106,6 +113,10 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
   const [selectedId, select] = useState<string | null>(null)
   const [selectedOpening, selectOpening] = useState<string | null>(null)
   const [previewWall, setPreviewWall] = useState<string | null>(null)
+  const [tool, setTool] = useState<'openings' | 'finishes' | null>(null)
+  const openingEditing = useCallback((active: boolean) => setTool(current => active ? 'openings' : current === 'openings' ? null : current), [])
+  const finishTarget = useCallback((roomId: string, wallId: string | null) => { select(roomId); selectOpening(null); setPreviewWall(wallId) }, [])
+  const closeFinish = useCallback(() => { setTool(null); setPreviewWall(null) }, [])
   const [busy, setBusy] = useState(false)
   const [grid, setGrid] = useState(project.viewSettings.grid)
   const dpr = usePixelRatio()
@@ -217,6 +228,7 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
         {selected && <button className="button button-quiet clear-selection" type="button" onClick={() => { select(null); selectOpening(null) }}>{t('editor.clearSelection')}</button>}
       </aside>
     </div>
-    <OpeningTools project={project} roomId={selectedId} selectedId={selectedOpening} onBusy={setBusy} onPreviewWall={setPreviewWall} onSelect={(id, roomId) => { selectOpening(id); const owner = roomId ?? project.openings.find(o => o.id === id)?.roomId; if (owner) select(owner) }} />
+    <FinishTools project={project} roomId={selectedId} active={tool === 'finishes'} disabled={busy || tool === 'openings'} onOpen={() => setTool('finishes')} onClose={closeFinish} onBusy={setBusy} onTarget={finishTarget} />
+    <OpeningTools disabled={busy || tool === 'finishes'} onEditingChange={openingEditing} project={project} roomId={selectedId} selectedId={selectedOpening} onBusy={setBusy} onPreviewWall={setPreviewWall} onSelect={(id, roomId) => { selectOpening(id); const owner = roomId ?? project.openings.find(o => o.id === id)?.roomId; if (owner) select(owner) }} />
   </section>
 }

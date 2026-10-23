@@ -145,5 +145,48 @@
       "missing": "Este proyecto ya no está guardado en el dispositivo. Vuelve a tus proyectos.",
       "unreadable": "No pudimos leer la copia guardada. Se conservó sin reemplazarla."
     }
+  },
+  "finishes": {
+    "title": "Acabados",
+    "edit": "Editar acabados",
+    "editTitle": "Elegir un acabado",
+    "properties": "Propiedades del acabado",
+    "help": "Elige la superficie y un acabado o color. Guarda para aplicarlo al plano. Cambiar de superficie carga su acabado guardado.",
+    "surface": "Superficie",
+    "floor": "Piso",
+    "allWalls": "Todas las paredes",
+    "allHelp": "El mismo acabado se aplicará a todas las paredes de esta habitación.",
+    "mixed": "Las paredes tienen acabados diferentes. Al guardar, todas recibirán el acabado elegido.",
+    "preview": "Muestra del acabado · Aún sin guardar",
+    "color": "Color HEX",
+    "picker": "Selector de color",
+    "colorHelp": "Usa # y seis caracteres hexadecimales, por ejemplo #03038C.",
+    "colorError": "Ingresa un color HEX de seis caracteres, por ejemplo #03038C.",
+    "pattern": "Dibujo del piso",
+    "patterns": {
+      "solid": "Liso",
+      "planks": "Tablones",
+      "tiles": "Baldosas",
+      "unknown": "Patrón no reconocido (conservado)"
+    },
+    "unknownHelp": "El patrón guardado no está en esta biblioteca. Se muestra su color y se conserva al guardar; puedes elegir otro para reemplazarlo.",
+    "library": "Biblioteca de acabados",
+    "libraryHelp": "Muestras genéricas incluidas en la app. Los dibujos del piso son esquemáticos.",
+    "custom": "Personalizado",
+    "save": "Guardar acabado",
+    "presets": {
+      "white": "Blanco",
+      "chalk": "Marfil",
+      "sand": "Arena",
+      "sage": "Verde salvia",
+      "clay": "Terracota",
+      "blue": "Azul profundo",
+      "slate": "Azul pizarra",
+      "charcoal": "Carbón",
+      "oak": "Roble",
+      "walnut": "Nogal",
+      "porcelain": "Porcelanato",
+      "concrete": "Cemento"
+    }
   }
 }

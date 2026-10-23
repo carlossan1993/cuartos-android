@@ -1,32 +1,15 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import type { Opening, Project, Room } from '../domain/types'
+import type { Opening, Project } from '../domain/types'
 import { getWalls } from '../geometry/rooms'
 import { fromMeters, type LengthUnit } from '../geometry/units'
 import { saveOpeningChange } from '../projects/save-opening'
 import { ProjectSaveError } from '../storage/project-repository'
 import { convertMeasurementText } from '../projects/room-draft'
 import { initialOpeningDraft, openingDimensionsLabel, validateOpeningDraft, type OpeningDraft, type OpeningErrors, type OpeningField } from './opening-draft'
-import { fitCamera, roomBounds, worldToScreen } from './viewport'
+import { WallMap } from './WallMap'
 
 function saveErrorKey(error: unknown) { return error instanceof ProjectSaveError ? `openings.saveErrors.${error.code}` : 'openings.saveErrors.failed' }
-
-function WallMap({ room, wallId }: { room: Room; wallId: string }) {
-  const { t } = useTranslation(), marker = useId()
-  const camera = fitCamera(roomBounds([room]), { width: 260, height: 150 })
-  const points = room.polygon.map(p => worldToScreen(p, camera))
-  const center = { x: points.reduce((s, p) => s + p.x, 0) / points.length, y: points.reduce((s, p) => s + p.y, 0) / points.length }
-  return <svg viewBox="0 0 260 150" className="wall-map" role="img" aria-label={t('openings.wallMap')}>
-    <defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#ad5728" /></marker></defs>
-    <polygon points={points.map(p => `${p.x},${p.y}`).join(' ')} fill="#f3f3fc" stroke="#03038c" strokeWidth="2" />
-    {getWalls(room).map((wall, i) => {
-      const a = worldToScreen(wall.start, camera), b = worldToScreen(wall.end, camera), active = wall.id === wallId
-      const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
-      return <g key={wall.id}>{active && <><line x1={a.x} y1={a.y} x2={b.x} y2={b.y} stroke="#ad5728" strokeWidth="3" markerEnd={`url(#${marker})`} /><circle cx={a.x} cy={a.y} r="4" fill="#ad5728" /><text x={a.x + 7} y={a.y + 16} fill="#ad5728" fontSize="11">0</text></>}
-        <text x={mid.x + (center.x - mid.x) * 0.22} y={mid.y + (center.y - mid.y) * 0.22 + 4} textAnchor="middle" fontSize="11" fontWeight={active ? 700 : 400} fill={active ? '#ad5728' : '#03038c'}>{t('openings.wallMarker', { number: i + 1 })}</text></g>
-    })}
-  </svg>
-}
 
 interface FormProps {
   project: Project; id: string; roomId: string; type: Opening['type']; existing?: Opening
@@ -85,13 +68,15 @@ function OpeningForm({ project, id, roomId, type, existing, onBusy, onPreviewWal
   </section>
 }
 
-export function OpeningTools({ project, roomId, selectedId, onSelect, onBusy, onPreviewWall }: {
-  project: Project; roomId: string | null; selectedId: string | null
+export function OpeningTools({ project, roomId, selectedId, onSelect, onBusy, onPreviewWall, disabled = false, onEditingChange }: {
+  project: Project; roomId: string | null; selectedId: string | null; disabled?: boolean; onEditingChange: (editing: boolean) => void
   onSelect: (id: string | null, roomId?: string) => void; onBusy: (busy: boolean) => void; onPreviewWall: (id: string | null) => void
 }) {
   const { t, i18n } = useTranslation()
   const [form, setForm] = useState<{ id: string; type: Opening['type']; existing?: Opening } | null>(null)
   const [deleting, setDeleting] = useState(false), [message, setMessage] = useState<string | null>(null), pending = useRef(false)
+  const editing = !!form
+  useEffect(() => { onEditingChange(editing); return () => onEditingChange(false) }, [editing, onEditingChange])
   const selected = project.openings.find(o => o.id === selectedId)
   const format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(n)
   function add(type: Opening['type']) { setMessage(null); setForm({ id: crypto.randomUUID(), type }) }
@@ -102,12 +87,12 @@ export function OpeningTools({ project, roomId, selectedId, onSelect, onBusy, on
     catch (error) { setMessage(saveErrorKey(error)) }
     finally { pending.current = false; setDeleting(false); onBusy(false) }
   }
-  return <section className="opening-tools" aria-labelledby="opening-tools-title"><div className="opening-tools-heading"><h2 id="opening-tools-title">{t('openings.title')}</h2><div className="action-group"><button className="button button-secondary" type="button" disabled={!!form || deleting} onClick={() => add('door')}>{t('openings.addDoor')}</button><button className="button button-secondary" type="button" disabled={!!form || deleting} onClick={() => add('window')}>{t('openings.addWindow')}</button></div></div>
+  return <section className="opening-tools" aria-labelledby="opening-tools-title"><div className="opening-tools-heading"><h2 id="opening-tools-title">{t('openings.title')}</h2><div className="action-group"><button className="button button-secondary" type="button" disabled={disabled || !!form || deleting} onClick={() => add('door')}>{t('openings.addDoor')}</button><button className="button button-secondary" type="button" disabled={disabled || !!form || deleting} onClick={() => add('window')}>{t('openings.addWindow')}</button></div></div>
     {project.openings.length ? <ul className="opening-list">{project.openings.map((opening, i) => {
       const room = project.rooms.find(r => r.id === opening.roomId)!, wallNumber = getWalls(room).findIndex(w => w.id === opening.wallId) + 1
-      return <li key={opening.id}><button type="button" disabled={!!form || deleting} aria-pressed={opening.id === selectedId} onClick={() => onSelect(opening.id, opening.roomId)}><strong>{t('openings.item', { type: t(`openings.${opening.type}`), number: i + 1 })}</strong><span>{room.name} · {t('openings.wallMarker', { number: wallNumber })} · {openingDimensionsLabel(opening, format)}</span></button></li>
+      return <li key={opening.id}><button type="button" disabled={disabled || !!form || deleting} aria-pressed={opening.id === selectedId} onClick={() => onSelect(opening.id, opening.roomId)}><strong>{t('openings.item', { type: t(`openings.${opening.type}`), number: i + 1 })}</strong><span>{room.name} · {t('openings.wallMarker', { number: wallNumber })} · {openingDimensionsLabel(opening, format)}</span></button></li>
     })}</ul> : <p className="form-help">{t('openings.empty')}</p>}
-    {selected && !form && <div className="opening-selected"><p>{t('openings.selectedInfo', { offset: format(selected.offset), sill: format(selected.sillHeight) })}</p><div className="action-group"><button className="button button-secondary" type="button" disabled={deleting} onClick={() => { setMessage(null); setForm({ id: selected.id, type: selected.type, existing: selected }) }}>{t('openings.edit')}</button><button className="button button-quiet danger-button" type="button" disabled={deleting} onClick={() => { void remove() }}>{t(deleting ? 'wizard.saving' : 'openings.remove')}</button></div></div>}
+    {selected && !form && <div className="opening-selected"><p>{t('openings.selectedInfo', { offset: format(selected.offset), sill: format(selected.sillHeight) })}</p><div className="action-group"><button className="button button-secondary" type="button" disabled={disabled || deleting} onClick={() => { setMessage(null); setForm({ id: selected.id, type: selected.type, existing: selected }) }}>{t('openings.edit')}</button><button className="button button-quiet danger-button" type="button" disabled={disabled || deleting} onClick={() => { void remove() }}>{t(deleting ? 'wizard.saving' : 'openings.remove')}</button></div></div>}
     {message && <p className={message === 'openings.saved' ? 'opening-saved' : 'error-notice'} role={message === 'openings.saved' ? 'status' : 'alert'}>{t(message)}</p>}
     {form && <OpeningForm key={form.id} project={project} id={form.id} type={form.type} roomId={roomId ?? project.rooms[0]?.id ?? ''} existing={form.existing} onBusy={onBusy} onPreviewWall={onPreviewWall} onCancel={() => setForm(null)} onSaved={opening => { setForm(null); onSelect(opening.id, opening.roomId); setMessage('openings.saved') }} />}
   </section>
