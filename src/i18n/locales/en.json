@@ -145,5 +145,48 @@
       "missing": "This project is no longer saved on the device. Go back to your projects.",
       "unreadable": "Could not read the saved copy. It has been kept without replacing it."
     }
+  },
+  "finishes": {
+    "title": "Finishes",
+    "edit": "Edit finishes",
+    "editTitle": "Choose a finish",
+    "properties": "Finish properties",
+    "help": "Choose the surface and a finish or color. Save to apply it to the plan. Switching surfaces loads their saved finish.",
+    "surface": "Surface",
+    "floor": "Floor",
+    "allWalls": "All walls",
+    "allHelp": "The same finish will be applied to every wall in this room.",
+    "mixed": "These walls have different finishes. Saving will apply the chosen finish to all of them.",
+    "preview": "Finish sample · Not saved yet",
+    "color": "HEX color",
+    "picker": "Color picker",
+    "colorHelp": "Use # and six hexadecimal characters, for example #03038C.",
+    "colorError": "Enter a six-character HEX color, for example #03038C.",
+    "pattern": "Floor pattern",
+    "patterns": {
+      "solid": "Solid",
+      "planks": "Planks",
+      "tiles": "Tiles",
+      "unknown": "Unrecognized pattern (kept)"
+    },
+    "unknownHelp": "The saved pattern is not in this library. Its color is shown and the pattern is kept when saving; choose another to replace it.",
+    "library": "Finish library",
+    "libraryHelp": "Generic samples included in the app. Floor patterns are schematic.",
+    "custom": "Custom",
+    "save": "Save finish",
+    "presets": {
+      "white": "White",
+      "chalk": "Ivory",
+      "sand": "Sand",
+      "sage": "Sage green",
+      "clay": "Terracotta",
+      "blue": "Deep blue",
+      "slate": "Slate blue",
+      "charcoal": "Charcoal",
+      "oak": "Oak",
+      "walnut": "Walnut",
+      "porcelain": "Porcelain tile",
+      "concrete": "Concrete"
+    }
   }
 }

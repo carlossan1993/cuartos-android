@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Actualizado: 23 de octubre de 2026, UTC.
+Actualizado: 22 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
@@ -91,6 +91,19 @@ Issue: [#11](https://github.com/carlossan1993/cuartos-android/issues/11). La ent
 - 144 pruebas unitarias y 16 E2E correctos en local; typecheck, lint y build web correctos. Capturas de plano y formulario ES/EN revisadas en teléfono/tablet.
 - Evidencia y límites: [OPENINGS](OPENINGS.md). La instalación manual en Android físico sigue pendiente. Los checks finales web/Android y el APK quedan registrados en el PR antes del merge.
 
+Etapa 7 integrada en [PR #12](https://github.com/carlossan1993/cuartos-android/pull/12), commit `5ea07cf2aaf773b5adba9f267e08aacdec65cab6`. [CI final 39875774534](https://github.com/carlossan1993/cuartos-android/actions/runs/39875774534) web/Android correcto: 144 unitarias, 16 E2E y APK debug.
+
+## Etapa 8 · Acabados
+
+Issue: [#13](https://github.com/carlossan1993/cuartos-android/issues/13). La entrega se considera cerrada después de revisión técnica, checks verdes y merge de su PR; los resultados finales y el APK se registran en GitHub antes de integrar.
+
+- Biblioteca local de 12 muestras genéricas: ocho colores, roble, nogal, porcelanato y cemento. Azul profundo exacto `#03038c`, selector de color y entrada HEX.
+- Aplicar al piso, a una pared por ID estable o a todas las paredes de la habitación. Muestra del borrador, cancelación sin escritura y resumen accesible de acabados guardados.
+- Piso con color real y juntas esquemáticas de tablones/baldosas; paredes como franjas de color. Selección con contorno independiente que conserva el color del piso; rótulos legibles sobre tonos oscuros.
+- Guardado transaccional compartido con aberturas, sin cambiar esquema/base ni añadir dependencias. Formularios excluyentes evitan editar aberturas y acabados simultáneamente.
+- 161 unitarias y 20 E2E locales correctos, incluidas regresiones. Verificación de píxeles reales del canvas, cancelación/reintento, idioma y reapertura sin activos remotos. Lint, typecheck y build web correctos.
+- Capturas de plano y formulario ES/EN en teléfono/tablet revisadas. Detalles, representación y límites: [FINISHES](FINISHES.md). Comprobación manual en Android físico pendiente.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 7: biblioteca inicial de acabados y colores para paredes y piso, con guardado y representación 2D (etapa 8).
+Después de integrar la etapa 8: catálogo de al menos 15 muebles genéricos y edición 2D, con arrastre, rotación, duplicado, borrado y snapping (etapa 9).
