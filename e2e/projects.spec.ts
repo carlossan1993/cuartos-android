@@ -190,6 +190,7 @@ test('remembered 2D options and 3D camera survive reopening; failed saves keep t
   const lastSaved = await json(page), live = JSON.parse(lastSaved).viewSettings.camera3d
   for (const field of ['position', 'target'] as const) for (const axis of ['x', 'y', 'z'] as const) expect(live[field][axis]).toBeCloseTo(p.viewSettings.camera3d[field][axis], 6)
   // Reopening the confirmed record clears a previous operation's transient error.
+  await button(page, es, 'Girar izquierda', 'Rotate left').click()
   await page.evaluate(() => sessionStorage.setItem('deny-put', 'yes'))
   await button(page, es, 'Recordar cámara 3D', 'Remember 3D camera').click()
   await expect(page.locator('.save-indicator')).toContainText(es ? 'no se guardó' : 'not saved')

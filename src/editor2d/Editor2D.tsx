@@ -1,3 +1,6 @@
+import { useStore } from 'zustand'
+import { projectStore } from '../state/project-store'
+import { HistoryControls } from '../history/HistoryControls'
 import { ConnectionSummary } from '../components/ConnectionSummary'
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -65,7 +68,9 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const furnitureEditing = useCallback((active: boolean) => { setTool(current => active ? 'furniture' : current === 'furniture' ? null : current); if (active) { setNotice(null); setRetryFurniture(null) } }, [])
   const finishTarget = useCallback((roomId: string, wallId: string | null) => { select(roomId); selectOpening(null); selectFurniture(null); setPreviewWall(wallId) }, [])
   const closeFinish = useCallback(() => { setTool(null); setPreviewWall(null) }, [])
-  const [busy, setBusy] = useState(false)
+  const [localBusy, setBusy] = useState(false)
+  const pending = useStore(projectStore, state => state.pending)
+  const busy = localBusy || pending !== null
   const [grid, setGrid] = useState(project.viewSettings.grid)
   const initialZoom = useRef(restoredZoom(project.viewSettings.zoom2d))
   const [viewMessage, setViewMessage] = useState<string | null>(null)
@@ -200,6 +205,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   }
 
   function key(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.ctrlKey || event.metaKey) return
     const current = sceneRef.current
     if (!current) return
     if (drag.current) { cancelDrag(); gesture.current = emptyGesture; if (event.key === 'Escape') { event.preventDefault(); return } }
@@ -219,6 +225,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   return <section className="editor-page" aria-labelledby="editor-title">
     <button type="button" className="button button-quiet back-link" disabled={busy || !!furniturePreview} onClick={onBack}>← {t('editor.back')}</button>
     <div className="editor-heading"><div><p className="eyebrow">{t('editor.eyebrow')}</p><h1 id="editor-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="editor-mode">2D</span></div>
+    <HistoryControls disabled={!!tool || !!furniturePreview || localBusy || !!retryFurniture} onReload={() => { cancelDrag(); select(null); selectOpening(null); selectFurniture(null); setNotice(null); setRetryFurniture(null); setViewMessage(null) }} />
     <div className="editor-toolbar" role="group" aria-label={t('editor.tools')}>
       <div className="zoom-controls"><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomOut')} disabled={!scene || relativeZoom <= MIN_ZOOM + 1e-8} onClick={() => zoom(0.8)}>−</button><output aria-label={t('editor.zoomLevel')}>{Math.round(relativeZoom * 100)}%</output><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomIn')} disabled={!scene || relativeZoom >= MAX_ZOOM - 1e-8} onClick={() => zoom(1.25)}>+</button></div>
       <button type="button" className="button button-secondary" onClick={fit} disabled={!scene}>{t('editor.fit')}</button>

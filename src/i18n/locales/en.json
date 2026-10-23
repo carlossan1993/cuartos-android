@@ -375,5 +375,30 @@
     },
     "selectFile": "Select a JSON file",
     "noFile": "No file selected."
+  },
+  "history": {
+    "title": "Design history",
+    "undo": "Undo",
+    "redo": "Redo",
+    "count": "{{undo}} to undo · {{redo}} to redo",
+    "scopeTitle": "About history",
+    "scope": "Openings, finishes and furniture from this session. Up to 50 actions and 8 MiB of history data; the oldest actions are discarded at the limit. Closing, reloading or importing a project clears history. View options and exported files are independent. Deleted projects cannot be recovered.",
+    "shortcuts": "Ctrl/Cmd+Z: undo. Ctrl/Cmd+Shift+Z or Ctrl+Y: redo. Finish or cancel the form or gesture before using history.",
+    "limit": "History limit reached: the oldest actions are no longer available.",
+    "undoDone": "Action undone and saved.",
+    "redoDone": "Action redone and saved.",
+    "retryHelp": "The design and history did not change. You can retry with Undo or Redo. To use another saved copy, reload it explicitly.",
+    "reload": "Reload design and clear history",
+    "reloaded": "Saved design loaded. This session’s history was cleared.",
+    "errors": {
+      "failed": "Could not save the history change.",
+      "conflict": "The saved project changed in another session. It was not overwritten.",
+      "missing": "The saved project is no longer available. It was not recreated.",
+      "unreadable": "The saved project cannot be read. It was not overwritten.",
+      "busy": "Wait for the current save to finish.",
+      "unavailable": "No action is available in that direction.",
+      "stale": "History no longer matches the active design. Reload the saved copy.",
+      "reload": "Could not reload the saved design."
+    }
   }
 }

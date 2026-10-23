@@ -3,9 +3,17 @@ import { createStore } from 'zustand/vanilla'
 import { DomainError } from '../domain/errors'
 import { cloneProject, createProject, deserializeProject, serializeProject } from '../domain/project'
 import type { FurnitureItem, Opening, Project, Room, ViewSettings } from '../domain/types'
+import { emptyHistory, ProjectChangeError, type ProjectHistory } from './project-history'
 import { normalizeRotation } from '../geometry/units'
 
+export interface ProjectTransaction { readonly project: Project; readonly session: number; readonly token: number; readonly history: ProjectHistory }
 interface ProjectState {
+  readonly session: number
+  readonly pending: number | null
+  readonly history: ProjectHistory
+  beginSave: () => ProjectTransaction
+  finishSave: (transaction: ProjectTransaction) => void
+  commitSavedProject: (project: Project, history: ProjectHistory, transaction: ProjectTransaction) => boolean
   readonly project: Project | null
   newProject: (name: string, language: 'es' | 'en') => string
   loadProject: (project: Project) => void
@@ -49,27 +57,44 @@ function remove<T extends { readonly id: string }>(items: readonly T[], id: stri
 export function createProjectStore(dependencies: { now?: () => Date; id?: () => string } = {}) {
   const now = dependencies.now ?? (() => new Date())
   const id = dependencies.id ?? (() => crypto.randomUUID())
+  let nextToken = 0
   const store = createStore<ProjectState>()((set, get) => {
     const edit = (update: (project: Project) => Project) => {
+      if (get().pending !== null) throw new ProjectChangeError('busy')
       const current = required(get().project)
       const updated = update(current)
       // A clock adjustment must not make updatedAt precede an imported project.
       const updatedAt = new Date(Math.max(now().getTime(), Date.parse(current.updatedAt))).toISOString()
       const next = snapshot({ ...updated, updatedAt })
       // Validation/copy finish before publication; a failed edit is atomic.
-      set({ project: next })
+      set({ project: next, history: emptyHistory() })
     }
     return {
-      project: null,
+      project: null, session: 0, pending: null, history: emptyHistory(),
+      beginSave: () => {
+        const state = get(), project = required(state.project)
+        if (state.pending !== null) throw new ProjectChangeError('busy')
+        const token = ++nextToken
+        set({ pending: token })
+        return { project, history: state.history, session: state.session, token }
+      },
+      finishSave: transaction => { if (get().session === transaction.session && get().pending === transaction.token) set({ pending: null }) },
+      commitSavedProject: (project, history, transaction) => {
+        const state = get()
+        if (state.session !== transaction.session || state.project !== transaction.project || state.pending !== transaction.token) return false
+        const next = snapshot(project)
+        set({ project: next, history: freezeDeep(history), pending: null })
+        return true
+      },
       newProject: (name, language) => {
         const project = snapshot(createProject({ id: id(), name, language, now: now().toISOString() }))
-        set({ project })
+        set({ project, session: get().session + 1, pending: null, history: emptyHistory() })
         return project.id
       },
-      loadProject: project => { const next = snapshot(project); set({ project: next }) },
-      importProject: json => { const next = snapshot(deserializeProject(json)); set({ project: next }) },
+      loadProject: project => { const next = snapshot(project); set({ project: next, session: get().session + 1, pending: null, history: emptyHistory() }) },
+      importProject: json => { const next = snapshot(deserializeProject(json)); set({ project: next, session: get().session + 1, pending: null, history: emptyHistory() }) },
       exportProject: () => serializeProject(required(get().project)),
-      closeProject: () => set({ project: null }),
+      closeProject: () => set({ project: null, session: get().session + 1, pending: null, history: emptyHistory() }),
       renameProject: name => edit(project => ({ ...project, name: name.trim() })),
       addRoom: room => edit(project => ({ ...project, rooms: [...project.rooms, room] })),
       updateRoom: room => edit(project => ({ ...project, rooms: replace(project.rooms, room) })),

@@ -192,6 +192,20 @@ Issue: [#25](https://github.com/carlossan1993/cuartos-android/issues/25). La ent
 
 Contrato y límites: [FILES](FILES.md).
 
+Etapa 14 integrada en [PR #26](https://github.com/carlossan1993/cuartos-android/pull/26), commit `5ad049157aeb87935ae709d9b111e67b2a974757`. [CI final 40036351086](https://github.com/carlossan1993/cuartos-android/actions/runs/40036351086) web/Android correcto: 267 unitarias web, 58 E2E, cinco JVM y APK debug. El propietario confirmó que la APK se ve bien y funciona; no se atribuyen pruebas físicas específicas sin su registro.
+
+## Etapa 15 · Historial seguro del diseño
+
+Issue: [#27](https://github.com/carlossan1993/cuartos-android/issues/27). La entrega se cierra tras revisión técnica, checks web/Android verdes e integración; el PR registra resultados finales y APK antes del merge.
+
+- Deshacer/rehacer aberturas, acabados y muebles desde 2D/3D, con un único Project confirmado y sin objetos de renderer. Un arrastre confirmado es una acción.
+- Validación y comparación transaccional antes de publicar diseño/cursor. Fallos conservan diseño, fechas e historial; bloqueo de transacciones simultáneas y protección de sesiones frente a finalizaciones tardías.
+- Rama nueva tras undo solo al guardar con éxito; no-op sin escritura/fecha nueva. Preferencias de vista independientes y datos compatibles desconocidos conservados.
+- Historial por sesión, hasta 50 acciones/8 MiB de cadenas, sin persistir ni exportar; no recupera proyectos eliminados. Recarga explícita ante conflictos sin sobrescribir datos externos.
+- Controles/avisos ES/EN y atajos Ctrl/Cmd+Z, Shift+Z y Ctrl+Y respetan inputs, formularios y gestos. 285 unitarias web y 66 E2E locales correctos; lint/typecheck/build y revisión visual ES/EN en teléfono/tablet. Los resultados finales web/Android, cinco JVM y APK se registran en el PR.
+
+Contrato, límites y pendientes: [HISTORY](HISTORY.md). QA físico Android pendiente.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 14: historial de acciones semánticas, deshacer/rehacer y robustez del guardado (etapa 15).
+Después de integrar la etapa 15: UX Android, orientación, touch, botón Atrás y accesibilidad responsive (etapa 16).

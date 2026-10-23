@@ -187,3 +187,12 @@ h1:focus, .page-title:focus { outline: none; }
 .import-preview h2 { margin-top: 12px; }
 .file-name { font-size: 13px; color: #626a80; overflow-wrap: anywhere; }
 @media (max-width: 500px) { .import-button { margin: 12px 0 0; } }
+
+.history-panel { margin: 0 0 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.history-actions { display: flex; flex-wrap: wrap; align-items: center; gap: .65rem; }
+.history-count { color: var(--muted); font-size: .85rem; }
+.history-help { margin-top: .7rem; color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.history-help summary { cursor: pointer; width: fit-content; }
+.history-help p { max-width: 75ch; margin: .6rem 0 0; }
+.history-feedback { margin-top: .75rem; font-size: .9rem; }
+.history-feedback p { margin: .4rem 0; }
