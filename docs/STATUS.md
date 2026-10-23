@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Actualizado: 22 de octubre de 2026, America/Guayaquil.
+Actualizado: 23 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
@@ -134,6 +134,21 @@ Issue: [#17](https://github.com/carlossan1993/cuartos-android/issues/17). La ent
 
 Representación, evidencia y límites: [VIEWER_3D](VIEWER_3D.md). Los muebles se conservan en el proyecto y plano; su representación 3D corresponde a la etapa 11.
 
+Etapa 10 integrada en [PR #18](https://github.com/carlossan1993/cuartos-android/pull/18), commit `36dfa9404b9b919d989e562741aa7d3df16096f3`. [CI final 39903969315](https://github.com/carlossan1993/cuartos-android/actions/runs/39903969315) web/Android correcto: 193 unitarias, 30 E2E y APK debug.
+
+## Etapa 11 · Muebles procedurales 3D
+
+Issue: [#19](https://github.com/carlossan1993/cuartos-android/issues/19). Se considera cerrada tras revisión técnica, CI verde e integración; los checks finales y el APK se registran en GitHub antes del merge.
+
+- Las 16 piezas del catálogo se representan mediante geometría local: camas, asientos, mesas, almacenamiento, electrodomésticos y sanitarios. Sin activos remotos ni dependencias nuevas.
+- Medidas guardadas, centro de base y giro horario del mismo FurnitureItem, sin estado paralelo ni migración. Mover/girar/duplicar/borrar en 2D se refleja al volver a 3D.
+- Colores por rol y datos desconocidos conservados; IDs de catálogo desconocidos usan una pieza genérica con dimensiones reales. El encuadre incluye muebles anteriores fuera de la habitación o más altos.
+- Una geometría/material por pieza con colores de vértice; liberación al salir, presupuesto de 600 000 vértices antes de asignar geometrías y recuperación WebGL compartida.
+- Lista desplegable por habitación con nombres ES/EN, cantidad, dimensiones, centro y giro. Edición en el plano; cámara y orientación conservan su comportamiento.
+- 222 pruebas unitarias y 34 E2E locales correctos, incluidas regresiones. Lint/typecheck/build correctos. Capturas de habitación, vista superior y colección revisadas en teléfono ES/tablet EN. Los checks finales web/Android y APK se registran en el PR. Verificación física y perfilado Android pendientes.
+
+Detalles y evidencia: [FURNITURE_3D](FURNITURE_3D.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 10: muebles procedurales 3D a partir del catálogo local, con medidas, centro y giro del mismo modelo (etapa 11).
+Después de integrar la etapa 11: formas en L y dos espacios conectados, con geometría coherente en 2D y 3D (etapa 12).
