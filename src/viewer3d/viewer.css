@@ -28,3 +28,9 @@
 .viewer-unavailable p { font-size: 13px; line-height: 1.7; color: var(--muted); margin: 0; }
 @media (max-width: 800px) { .viewer-workspace { grid-template-columns: minmax(0, 1fr); } }
 @media (max-width: 700px) { .viewer-toolbar .button { padding: 10px 12px; font-size: 12px; } .viewer-canvas { height: 440px; max-height: 70svh; min-height: 360px; } }
+
+.viewer-inventory { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 15px; font-size: 12px; }
+.viewer-inventory summary { color: var(--primary); cursor: pointer; padding-block: 8px; font-weight: 600; }
+.viewer-inventory ul { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 14px; }
+.viewer-inventory li { display: grid; gap: 4px; overflow-wrap: anywhere; }
+.viewer-inventory li span, .viewer-inventory p { font-size: 11px; line-height: 1.7; color: var(--muted); margin: 0; }

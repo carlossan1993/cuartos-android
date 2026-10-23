@@ -37,4 +37,4 @@ Estas reglas se aplican en la frontera de edición de muebles. El codec de esque
 - Catálogo: [teléfono ES](screenshots/furniture-catalog-phone.png) · [tablet EN](screenshots/furniture-catalog-tablet.png).
 - Posición: [teléfono ES](screenshots/furniture-position-phone.png) · [tablet EN](screenshots/furniture-position-tablet.png).
 
-La instalación y los gestos manuales en Android físico siguen pendientes. Los eventos táctiles de Chromium y el APK compilado no los sustituyen. La vista 3D de habitación y las piezas procedurales 3D corresponden a las etapas 10 y 11; no se presentan como implementadas aquí.
+La instalación y los gestos manuales en Android físico siguen pendientes. Los eventos táctiles de Chromium y el APK compilado no los sustituyen. La [habitación 3D](VIEWER_3D.md) se incorpora en etapa 10 y las [piezas procedurales 3D](FURNITURE_3D.md) en etapa 11, leyendo las mismas instancias guardadas.

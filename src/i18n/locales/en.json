@@ -268,7 +268,7 @@
     "details": "Project dimensions",
     "thickness": "Wall thickness",
     "openings": "Doors and windows",
-    "scope": "Room and finishes view. Furniture is kept in the project; its 3D representation will be added in the next stage.",
+    "scope": "Room, finishes and furniture from the same project. To move, rotate, duplicate or delete a piece, return to the 2D plan; this view reflects your saved changes when reopened.",
     "unavailable": "We could not display 3D on this device.",
     "lost": "The 3D view was interrupted.",
     "recovery": "Your project is still intact. Retry or return to the 2D plan."

@@ -1,5 +1,6 @@
 import type { Opening, Point, Project, Room, SurfaceMaterial } from '../domain/types'
 import { EPSILON, getWalls } from '../geometry/rooms'
+import { furnitureCorners } from '../furniture/geometry'
 
 export interface Solid3D { center: readonly [number, number, number]; size: readonly [number, number, number]; rotationY: number }
 export interface Wall3D {
@@ -58,10 +59,10 @@ export function buildRoom3D(room: Room, openings: readonly Opening[]): Room3D {
 }
 export function sceneBounds(project: Project): SceneBounds {
   if (!project.rooms.length) return { center: [0, 1.3, 0], size: [4, 2.68, 3], radius: 3 }
-  const points = project.rooms.flatMap(room => room.polygon.map(p => ({ x: p.x, z: p.y, t: room.wallThickness })))
+  const points = [...project.rooms.flatMap(room => room.polygon.map(p => ({ x: p.x, z: p.y, t: room.wallThickness }))), ...project.furniture.flatMap(item => furnitureCorners(item).map(p => ({ x: p.x, z: p.y, t: 0 })))]
   const minX = Math.min(...points.map(p => p.x - p.t)), maxX = Math.max(...points.map(p => p.x + p.t))
   const minZ = Math.min(...points.map(p => p.z - p.t)), maxZ = Math.max(...points.map(p => p.z + p.t))
-  const height = Math.max(...project.rooms.map(room => room.height))
+  const height = Math.max(...project.rooms.map(room => room.height), ...project.furniture.map(item => item.dimensions.height))
   const size: [number, number, number] = [maxX - minX, height + FLOOR_DEPTH, maxZ - minZ]
   return { center: [(minX + maxX) / 2, (height - FLOOR_DEPTH) / 2, (minZ + maxZ) / 2], size, radius: Math.hypot(...size) / 2 }
 }

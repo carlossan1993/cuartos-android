@@ -268,7 +268,7 @@
     "details": "Medidas del proyecto",
     "thickness": "Espesor de pared",
     "openings": "Puertas y ventanas",
-    "scope": "Vista de la habitación y sus acabados. Los muebles se conservan en el proyecto; su representación 3D se incorporará en la próxima etapa.",
+    "scope": "Habitación, acabados y muebles del mismo proyecto. Para mover, girar, duplicar o eliminar una pieza, vuelve al plano 2D; al abrir esta vista verás los cambios guardados.",
     "unavailable": "No pudimos mostrar la vista 3D en este dispositivo.",
     "lost": "La vista 3D se interrumpió.",
     "recovery": "Tu proyecto sigue intacto. Puedes reintentar o volver al plano 2D."

@@ -30,6 +30,6 @@ Three.js 0.186.1, React Three Fiber 9.8.2 y tipos Three.js 0.186.0, licencias MI
 - Capturas de vista abierta: [teléfono ES](screenshots/viewer3d-phone.png), [tablet EN](screenshots/viewer3d-tablet.png). Envolvente completa: [teléfono](screenshots/viewer3d-complete-phone.png), [tablet](screenshots/viewer3d-complete-tablet.png).
 - CI web/Android y APK se registran en el PR antes de integrar. Instalación física, gestos manuales, compatibilidad de GPU/WebView y perfilado de rendimiento siguen pendientes. La emulación no acredita QA físico.
 
-Los muebles permanecen en el proyecto y el plano; las piezas procedurales 3D se incorporan en la etapa 11. No hay edición 3D, fotorealismo, exportación, autosave de cámara ni cambios del esquema.
+La etapa 11 incorpora las [16 piezas procedurales 3D](FURNITURE_3D.md) y su lista accesible, derivadas del mismo FurnitureItem. El encuadre también incluye muebles anteriores fuera de los límites actuales de la habitación. No hay edición 3D, fotorealismo, exportación, autosave de cámara ni cambios del esquema.
 
 Referencias oficiales: [Canvas](https://r3f.docs.pmnd.rs/api/canvas), [render bajo demanda](https://r3f.docs.pmnd.rs/advanced/scaling-performance), [OrbitControls](https://threejs.org/docs/pages/OrbitControls.html), [WebGLRenderer](https://threejs.org/docs/pages/WebGLRenderer.html).

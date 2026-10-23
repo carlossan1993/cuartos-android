@@ -7,6 +7,8 @@ import { buildRoom3D, sceneBounds, wallFacesCamera, type Room3D, type SceneBound
 import { floorGeometry, solidGeometry } from './geometry'
 import { floorTexture } from './texture'
 import { cameraLimits, fitDistance } from './camera'
+import { FurnitureScene } from './FurnitureScene'
+import { buildFurnitureSet3D } from '../furniture/model3d'
 
 export type CameraCommandKind = 'fit' | 'top' | 'zoomIn' | 'zoomOut' | 'left' | 'right' | 'up' | 'down' | 'panLeft' | 'panRight' | 'panForward' | 'panBack'
 export interface CameraCommand { sequence: number; kind: CameraCommandKind }
@@ -105,12 +107,13 @@ function Health({ onReady, onLost }: { onReady: () => void; onLost: () => void }
 }
 export function Scene3D({ project, cutaway, command, onReady, onLost }: { project: Project; cutaway: boolean; command: CameraCommand; onReady: () => void; onLost: () => void }) {
   const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings)), [project])
+  const furniture = useMemo(() => buildFurnitureSet3D(project.furniture), [project.furniture])
   const bounds = useMemo(() => sceneBounds(project), [project]), extent = Math.max(...bounds.size)
   return <>
     <color attach="background" args={['#f1f2f7']} />
     <hemisphereLight args={['#ffffff', '#7c7a86', 1.7]} />
     <directionalLight position={[-extent, extent * 1.8, extent]} intensity={2.3} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} shadow-camera-left={-extent} shadow-camera-right={extent} shadow-camera-top={extent} shadow-camera-bottom={-extent} shadow-camera-near={.05} shadow-camera-far={extent * 6 + 10} shadow-normalBias={.015} />
-    <group position={[-bounds.center[0], 0, -bounds.center[2]]}>{models.map(model => <RoomScene key={model.room.id} model={model} origin={bounds.center} cutaway={cutaway} />)}</group>
+    <group position={[-bounds.center[0], 0, -bounds.center[2]]}>{models.map(model => <RoomScene key={model.room.id} model={model} origin={bounds.center} cutaway={cutaway} />)}{furniture.map(model => <FurnitureScene key={model.id} model={model} />)}</group>
     <gridHelper args={[Math.max(8, extent * 2), 20, '#c9ccda', '#e0e2ec']} position={[0, -.085, 0]} />
     <CameraRig bounds={bounds} command={command} /><Health onReady={onReady} onLost={onLost} />
   </>
