@@ -6,7 +6,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: 'list',
-  use: { baseURL: 'http://127.0.0.1:4173', trace: 'retain-on-failure' },
+  use: { baseURL: 'http://127.0.0.1:4173', trace: 'retain-on-failure', launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } },
   projects: [
     { name: 'phone', use: { ...devices['Pixel 7'], locale: 'es-EC' } },
     { name: 'tablet', use: { ...devices['Desktop Chrome'], viewport: { width: 1024, height: 768 }, locale: 'en-US' } },

@@ -248,5 +248,29 @@
       "sink": "Sink",
       "toilet": "Toilet"
     }
+  },
+  "viewer": {
+    "open": "View room in 3D",
+    "back": "Back to 2D plan",
+    "eyebrow": "YOUR ROOM IN THREE DIMENSIONS",
+    "tools": "3D camera controls",
+    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in",
+    "left": "Rotate left",
+    "right": "Rotate right",
+    "top": "Top view",
+    "fit": "Fit room",
+    "cutaway": "Cutaway view",
+    "help": "Drag to rotate. Use two fingers to zoom or pan; with a mouse, use the wheel to zoom and right-drag to pan. Cutaway view hides the front walls to reveal the interior.",
+    "keyboard": "Arrows: rotate and tilt. W, A, S and D: pan. Plus or minus: zoom. Zero or Home: fit room. T: top view.",
+    "canvas": "Interactive 3D room view",
+    "loading": "Preparing the 3D view…",
+    "details": "Project dimensions",
+    "thickness": "Wall thickness",
+    "openings": "Doors and windows",
+    "scope": "Room and finishes view. Furniture is kept in the project; its 3D representation will be added in the next stage.",
+    "unavailable": "We could not display 3D on this device.",
+    "lost": "The 3D view was interrupted.",
+    "recovery": "Your project is still intact. Retry or return to the 2D plan."
   }
 }

@@ -143,3 +143,6 @@
   .furniture-panel { padding: 20px; }
   .furniture-selects, .furniture-position-fields { grid-template-columns: minmax(0, 1fr); }
 }
+
+.open-3d { margin-left: auto; }
+@media (max-width: 700px) { .open-3d { margin-left: 0; } }
