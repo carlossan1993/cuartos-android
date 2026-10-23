@@ -104,6 +104,21 @@ Issue: [#13](https://github.com/carlossan1993/cuartos-android/issues/13). La ent
 - 161 unitarias y 20 E2E locales correctos, incluidas regresiones. Verificación de píxeles reales del canvas, cancelación/reintento, idioma y reapertura sin activos remotos. Lint, typecheck y build web correctos.
 - Capturas de plano y formulario ES/EN en teléfono/tablet revisadas. Detalles, representación y límites: [FINISHES](FINISHES.md). Comprobación manual en Android físico pendiente.
 
+Etapa 8 integrada en [PR #14](https://github.com/carlossan1993/cuartos-android/pull/14), commit `64e34bd71c2ae31cd5872dad13333cdc717ed54c`. [CI final 39896986799](https://github.com/carlossan1993/cuartos-android/actions/runs/39896986799) web/Android correcto: 161 unitarias, 20 E2E y APK debug.
+
+## Etapa 9 · Muebles 2D
+
+Issue: [#15](https://github.com/carlossan1993/cuartos-android/issues/15). La entrega se considera cerrada tras revisión técnica, CI verde y merge de su PR. Los checks finales y el APK se registran en GitHub antes de integrar.
+
+- Catálogo local de 16 piezas genéricas con medidas fijas, categorías y textos ES/EN. Miniaturas y plano comparten símbolos procedurales 2D.
+- Añadir/seleccionar, mover con ratón o un dedo, giro de 90° o ángulo libre, centro X/Y en m/cm, duplicar y borrar. Ajuste de centro a la retícula con control del intervalo explícito.
+- Base girada y altura dentro de la habitación; selección por geometría y orden de dibujo. Compatibilidad con instancias antiguas/IDs de catálogo desconocidos, sin cambio de esquema.
+- Arrastre provisional sin escrituras por evento; soltar confirma una transacción. Cancelar, Escape, blur, dos dedos y orientación conservan el diseño anterior. Fallos ofrecen reintento y conservan entradas/cambio propuesto.
+- Formularios excluyentes y selección bloqueada durante su edición; navegación de cámara disponible. Acabados, aberturas y otras habitaciones se conservan.
+- 180 unitarias y 24 E2E comprobados localmente, incluidas regresiones y los nuevos flujos repetidos tras ajustes finales. Lint/typecheck/build correctos. Capturas de plano, catálogo y posición revisadas en teléfono ES/tablet EN.
+
+Reglas y límites de superposición, compatibilidad y QA físico pendiente: [FURNITURE](FURNITURE.md).
+
 ## Siguiente implementación
 
-Después de integrar la etapa 8: catálogo de al menos 15 muebles genéricos y edición 2D, con arrastre, rotación, duplicado, borrado y snapping (etapa 9).
+Después de integrar la etapa 9: motor 3D de la habitación con piso, paredes, aberturas, cámara e iluminación coherentes con el mismo modelo 2D (etapa 10).

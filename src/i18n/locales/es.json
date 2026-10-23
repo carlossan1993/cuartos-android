@@ -188,5 +188,65 @@
       "porcelain": "Porcelanato",
       "concrete": "Cemento"
     }
+  },
+  "furniture": {
+    "title": "Muebles",
+    "catalog": "Catálogo de muebles",
+    "openCatalog": "Abrir catálogo",
+    "catalogHelp": "Piezas genéricas con medidas fijas. Ancho × fondo × alto. Se añadirán en una posición interior disponible.",
+    "category": "Categoría",
+    "allCategories": "Todas las categorías",
+    "chosen": "Pieza elegida: {{name}}.",
+    "add": "Añadir mueble",
+    "help": "Selecciona una pieza en el plano o la lista. Puedes moverla, girarla, duplicarla o eliminarla.",
+    "empty": "Todavía no hay muebles en este proyecto.",
+    "canvasHelp": "Arrastra un mueble para moverlo; dos dedos navegan sin mover piezas.",
+    "snap": "Ajuste: {{value}} m",
+    "edit": "Editar posición",
+    "rotate": "Girar 90°",
+    "duplicate": "Duplicar",
+    "remove": "Eliminar mueble",
+    "positionTitle": "Posición y giro del mueble",
+    "positionHelp": "X e Y indican el centro de la base desde el origen del plano. Elige metros o centímetros. El giro es horario. El ajuste a cuadrícula se aplica al guardar si está activado.",
+    "x": "Centro X",
+    "y": "Centro Y",
+    "rotation": "Giro",
+    "save": "Guardar posición",
+    "selectedInfo": "Centro: X {{x}} m · Y {{y}} m · Giro: {{rotation}}°.",
+    "unknown": "Mueble sin catálogo",
+    "retry": "Reintentar cambio",
+    "retryHelp": "Se conserva el cambio propuesto para reintentar; el diseño guardado sigue intacto.",
+    "errors": {
+      "numbers": "Ingresa coordenadas y ángulo válidos, con coma o punto decimal.",
+      "outside": "La base completa del mueble debe caber en la habitación. Cambia su posición o giro, o elige una pieza más pequeña.",
+      "height": "El mueble supera la altura de la habitación. Elige otra pieza.",
+      "invalid": "No se pudo validar el cambio. Revisa la pieza y la habitación o vuelve a abrir el proyecto."
+    },
+    "categories": {
+      "sleep": "Descanso",
+      "seating": "Asientos",
+      "tables": "Mesas",
+      "storage": "Almacenamiento",
+      "appliances": "Electrodomésticos",
+      "bath": "Baño"
+    },
+    "items": {
+      "bed-single": "Cama individual",
+      "bed-double": "Cama doble",
+      "sofa": "Sofá",
+      "armchair": "Sillón",
+      "chair": "Silla",
+      "dining-table": "Mesa de comedor",
+      "desk": "Escritorio",
+      "coffee-table": "Mesa de centro",
+      "nightstand": "Velador",
+      "wardrobe": "Armario",
+      "bookshelf": "Estantería",
+      "tv-unit": "Mueble de TV",
+      "fridge": "Refrigerador",
+      "stove": "Cocina",
+      "sink": "Lavabo",
+      "toilet": "Inodoro"
+    }
   }
 }
