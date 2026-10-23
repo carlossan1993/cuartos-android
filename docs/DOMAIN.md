@@ -32,7 +32,7 @@ El codec acepta exclusivamente el esquema 1; versiones desconocidas se rechazan 
 
 Las aberturas deben caber en su pared y altura, las puertas comienzan en el piso y los rectángulos de aberturas no pueden superponerse en una misma pared. Ventanas sobre puertas y aberturas contiguas son válidas si no se solapan. Los controles visuales de estas reglas corresponden a la etapa 7.
 
-Los muebles conservan sus dimensiones y materiales aunque su `catalogId` no tenga un renderizador instalado. Los límites de huella, colisiones y reglas específicas de catálogo/redimensionado se incorporarán con los muebles del editor; no se afirman como implementados aquí.
+Los muebles conservan sus dimensiones y materiales aunque su `catalogId` no tenga un renderizador instalado. La etapa 9 incorpora límites de huella girada y altura en la frontera de edición de muebles, conservando la lectura de registros anteriores de esquema 1. El catálogo usa medidas fijas; las instancias recuperadas mantienen sus propias medidas. No hay bloqueo de superposición entre piezas ni con el giro de puertas, ni controles de redimensionado. Detalles: [FURNITURE](FURNITURE.md).
 
 Límites de validación V1: dos habitaciones, 4–64 vértices por contorno, 256 aberturas, 2.000 muebles, 256 partes de material por objeto y JSON de hasta 2 MiB en UTF-8. Coordenadas entre −10.000 y 10.000 m y medidas positivas acotadas a 10.000 m. Son límites defensivos, no dimensiones recomendadas. No se incorporan casas completas ni varias plantas.
 

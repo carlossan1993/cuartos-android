@@ -188,5 +188,65 @@
       "porcelain": "Porcelain tile",
       "concrete": "Concrete"
     }
+  },
+  "furniture": {
+    "title": "Furniture",
+    "catalog": "Furniture catalog",
+    "openCatalog": "Open catalog",
+    "catalogHelp": "Generic pieces with fixed dimensions. Width × depth × height. Added at a fitting position inside the room.",
+    "category": "Category",
+    "allCategories": "All categories",
+    "chosen": "Chosen piece: {{name}}.",
+    "add": "Add furniture",
+    "help": "Select a piece in the plan or list. Move, rotate, duplicate or delete it.",
+    "empty": "This project has no furniture yet.",
+    "canvasHelp": "Drag furniture to move it; use two fingers to navigate without moving pieces.",
+    "snap": "Snap: {{value}} m",
+    "edit": "Edit position",
+    "rotate": "Rotate 90°",
+    "duplicate": "Duplicate",
+    "remove": "Delete furniture",
+    "positionTitle": "Furniture position and rotation",
+    "positionHelp": "X and Y locate the center of the base from the plan origin. Choose metres or centimetres. Rotation is clockwise. Grid snapping applies when saving if enabled.",
+    "x": "Center X",
+    "y": "Center Y",
+    "rotation": "Rotation",
+    "save": "Save position",
+    "selectedInfo": "Center: X {{x}} m · Y {{y}} m · Rotation: {{rotation}}°.",
+    "unknown": "Unlisted furniture",
+    "retry": "Retry change",
+    "retryHelp": "The proposed change is kept for retry; the saved design is still intact.",
+    "errors": {
+      "numbers": "Enter valid coordinates and angle, using a decimal comma or point.",
+      "outside": "The entire furniture footprint must fit inside the room. Change its position or rotation, or choose a smaller piece.",
+      "height": "The furniture exceeds the room height. Choose another piece.",
+      "invalid": "Could not validate the change. Check the piece and room, or reopen the project."
+    },
+    "categories": {
+      "sleep": "Sleeping",
+      "seating": "Seating",
+      "tables": "Tables",
+      "storage": "Storage",
+      "appliances": "Appliances",
+      "bath": "Bathroom"
+    },
+    "items": {
+      "bed-single": "Single bed",
+      "bed-double": "Double bed",
+      "sofa": "Sofa",
+      "armchair": "Armchair",
+      "chair": "Chair",
+      "dining-table": "Dining table",
+      "desk": "Desk",
+      "coffee-table": "Coffee table",
+      "nightstand": "Nightstand",
+      "wardrobe": "Wardrobe",
+      "bookshelf": "Bookshelf",
+      "tv-unit": "TV unit",
+      "fridge": "Refrigerator",
+      "stove": "Stove",
+      "sink": "Sink",
+      "toilet": "Toilet"
+    }
   }
 }
