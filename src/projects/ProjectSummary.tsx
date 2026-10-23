@@ -1,15 +1,16 @@
 import { ConnectionSummary } from '../components/ConnectionSummary'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Project } from '../domain/types'
 import { layoutConnections } from '../geometry/layout'
 import { polygonArea } from '../geometry/rooms'
 import { LayoutPreview } from '../components/LayoutPreview'
 import { RoomPreview } from '../components/RoomPreview'
+import { ExportProject } from '../files/ExportProject'
 
 export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Project; onBack: () => void; onOpenEditor: () => void }) {
   const { t, i18n } = useTranslation()
-  const heading = useRef<HTMLHeadingElement>(null)
+  const heading = useRef<HTMLHeadingElement>(null), [busy, setBusy] = useState(false)
   useEffect(() => { heading.current?.focus() }, [project.id])
   const room = project.rooms[0]
   const format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(n)
@@ -17,7 +18,7 @@ export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Pro
   const depth = room ? Math.max(...room.polygon.map(p => p.y)) - Math.min(...room.polygon.map(p => p.y)) : 0
   return (
     <section className="project-summary" aria-labelledby="project-name">
-      <button type="button" className="button button-quiet back-link" onClick={onBack}>← {t('room.backToProjects')}</button>
+      <button type="button" className="button button-quiet back-link" disabled={busy} onClick={onBack}>← {t('room.backToProjects')}</button>
       <div className="summary-heading"><div><p className="eyebrow">{t('room.yourSpace')}</p><h1 className="page-title" id="project-name" ref={heading} tabIndex={-1}>{project.name}</h1></div></div>
       {room ? <div className="summary-grid">
         <figure className="summary-preview">{project.rooms.length === 1 && room.polygon.length === 4 ? <RoomPreview width={width} depth={depth} /> : <LayoutPreview rooms={project.rooms} />}<figcaption>{t('room.planCaption')}</figcaption></figure>
@@ -32,9 +33,10 @@ export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Pro
             </dl></div>
           })}
           <ConnectionSummary rooms={project.rooms} /><p className="form-help">{t('room.summaryNote')}</p>
-          <button className="button button-primary open-editor" type="button" onClick={onOpenEditor}>{t('editor.open')}</button>
+          <button className="button button-primary open-editor" type="button" disabled={busy} onClick={onOpenEditor}>{t('editor.open')}</button>
         </div>
       </div> : <p>{t('room.noRoom')}</p>}
+      <ExportProject project={project} onBusy={setBusy} />
     </section>
   )
 }

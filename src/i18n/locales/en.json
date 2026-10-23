@@ -332,5 +332,48 @@
       "missing": "The project is no longer available. It has not been recreated and no other project was changed.",
       "unreadable": "The saved copy cannot be read. It was kept without overwriting or deleting it."
     }
+  },
+  "files": {
+    "eyebrow": "YOUR DESIGN, WITH YOU",
+    "openImport": "Import a project",
+    "importTitle": "Bring back a project",
+    "importHelp": "Open a Cuartos JSON file. It will be imported as an independent project; your current projects are kept.",
+    "choose": "Project file",
+    "limit": "Cuartos JSON · Up to 2 MiB.",
+    "reading": "Reading and checking the file…",
+    "preview": "PROJECT IN THE FILE",
+    "contents": "Spaces: {{rooms}} · Openings: {{openings}} · Furniture: {{furniture}}",
+    "importName": "{{name}} (imported)",
+    "confirmImport": "Import as a copy",
+    "exportTitle": "Take your project with you",
+    "exportHelp": "JSON keeps your complete design so you can reopen it in Cuartos. PNG is an image of the plan to view or share.",
+    "format": "File format",
+    "json": "Complete project · JSON",
+    "png": "2D plan · PNG",
+    "resolution": "Image resolution",
+    "pngHelp": "Exports the whole plan with dimensions, finishes and furniture, without selection or drafts. The image does not depend on screen zoom.",
+    "preparing": "Preparing file…",
+    "save": "Save file",
+    "download": "Download file",
+    "share": "Share file",
+    "shareTitle": "Cuartos · {{name}}",
+    "delivery": {
+      "saved": "File saved in the location you chose.",
+      "download": "File prepared; a download was requested from the browser.",
+      "shared": "Check the file in the app you chose for sharing.",
+      "cancelled": "Operation cancelled. Your project is kept."
+    },
+    "errors": {
+      "read": "We could not read the file as UTF-8 text. Select it again.",
+      "size": "The file exceeds the 2 MiB limit. Choose a smaller project.",
+      "invalid": "This is not a valid Cuartos project. Check that it is the complete JSON; your projects are kept.",
+      "version": "This file uses a project version that this app cannot open yet. It was kept unchanged.",
+      "empty": "The project needs at least one space to export a plan.",
+      "image": "We could not prepare the image. Retry or choose a lower resolution.",
+      "write": "The file could not be saved or shared. Your design is kept; retry with the same button.",
+      "import": "The imported copy could not be saved. The file and your projects are kept; you can retry."
+    },
+    "selectFile": "Select a JSON file",
+    "noFile": "No file selected."
   }
 }

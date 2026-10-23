@@ -174,3 +174,16 @@ h1:focus, .page-title:focus { outline: none; }
 .save-indicator { font-size: 11px; color: #4c6852; text-align: right; margin: 10px 0 0; line-height: 1.6; }
 .save-indicator.save-saving { color: var(--primary); }
 .save-indicator.save-error { color: #a43430; }
+
+.import-button { margin: 12px 0 0 12px; }
+.file-panel { margin-block: 28px; padding: clamp(18px, 3vw, 30px); border: 1px solid var(--line); border-radius: 18px; background: #fcfbf7; }
+.file-panel h2 { margin: 0 0 12px; color: var(--primary); font-size: 23px; }
+.file-options { display: flex; gap: 18px; flex-wrap: wrap; margin-block: 20px; }
+.file-options .form-field { margin: 0; flex: 1 1 230px; max-width: 420px; }
+.file-panel select, .file-panel input[type=file] { width: 100%; min-height: 46px; padding: 11px; color: var(--ink); background: white; border: 1px solid #b9bad9; border-radius: 10px; font: inherit; }
+.import-page { max-width: 800px; margin: auto; padding-block: 26px; }
+.import-page .form-field { max-width: 560px; }
+.import-preview { margin-block: 25px; padding-block: 18px; border-block: 1px solid var(--line); overflow-wrap: anywhere; }
+.import-preview h2 { margin-top: 12px; }
+.file-name { font-size: 13px; color: #626a80; overflow-wrap: anywhere; }
+@media (max-width: 500px) { .import-button { margin: 12px 0 0; } }

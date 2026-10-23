@@ -1,0 +1,39 @@
+# Importar y exportar · Etapa 14
+
+## Uso
+
+Desde Inicio, «Importar proyecto» permite elegir un JSON local. Se comprueba su tamaño antes de leerlo, se decodifica UTF-8 de forma estricta (admite BOM) y se valida íntegramente con el codec del dominio. La vista previa presenta nombre y cantidades de espacios, aberturas y muebles. Confirmar añade una copia independiente con nombre editable, fechas nuevas y nuevos IDs/referencias mediante `copyProject`. El archivo y los proyectos existentes no se modifican. Cancelar no escribe; ante fallo de IndexedDB se conservan los datos/candidato para reintentar con los mismos IDs. Zustand solo recibe el proyecto después del commit.
+
+Desde el resumen, «Lleva tu proyecto contigo» ofrece dos formatos. JSON conserva exactamente el proyecto confirmado, incluidos esquema, identidad, fechas, idioma, geometría, referencias, materiales, muebles y preferencias. No contiene estado del renderer. PNG es una imagen del plano y no se puede importar como proyecto. Los nombres de archivos se normalizan a un prefijo `cuartos-`, caracteres ASCII seguros, un nombre acotado y extensión fija; el nombre original dentro del JSON no se altera.
+
+En el navegador se solicita una descarga mediante Blob/object URL. El aviso no afirma que el sistema operativo ya haya guardado el archivo. No se realiza una petición a un servidor. En Android se muestran «Guardar archivo» y «Compartir archivo» como acciones distintas, iniciadas por la persona.
+
+## PNG completo y nítido
+
+El mismo `PlanDrawing` del editor se renderiza en una raíz React temporal fuera de pantalla, con tamaño lógico fijo 1024 × 768 y sin selección, paredes provisionales ni arrastres. Se encuadran todos los polígonos y las esquinas giradas de los muebles, incluidos registros anteriores fuera de una habitación. Cotas por habitación, puertas/ventanas, acabados y símbolos conservan sus proporciones y geometría. Título y resumen de nombres/áreas usan textos acotados para no desbordar; las cifras no sustituyen las medidas guardadas. El PNG tiene fondo opaco y usa la cuadrícula recordada en el proyecto.
+
+Solo se admiten 1024 × 768 o 2048 × 1536. La opción se valida antes de montar/asignar el canvas; `pixelRatio` 1 o 2 es explícito e independiente del DPR del equipo. Máximo 3 145 728 píxeles de salida (12 MiB RGBA), más los buffers transitorios de Konva/codificación. Se reutiliza un tamaño lógico fijo para mantener trazos y texto comparables entre resoluciones. No se agranda una captura de baja resolución: Konva vuelve a dibujar la escena en el bitmap solicitado.
+
+Al terminar o fallar se desmonta la raíz y se liberan los buffers del canvas. El módulo de PNG y Konva permanecen diferidos hasta abrir el editor o pedir una imagen. Se mantiene el presupuesto de patrones de acabados existente; no hay imágenes ni fuentes remotas. Un borde blanco bajo las líneas de aberturas conserva contraste sobre pisos oscuros.
+
+## Guardar y compartir en Android
+
+`@capacitor/filesystem` 8.1.5 y `@capacitor/share` 8.0.3 son plugins oficiales MIT, compatibles con Capacitor 8. El lockfile fija también su dependencia transitiva Synapse 1.0.4 (ISC). Filesystem escribe el contenido binario exacto como base64 en `Directory.Cache` con la ruta dedicada `cuartos-exports/<UUID>/<nombre>`. No se usa la carpeta Documents/ExternalStorage ni se añaden permisos de lectura/escritura general.
+
+El puente local `CuartosDocument` abre `ACTION_CREATE_DOCUMENT` con tipo y nombre del archivo. La persona elige ubicación y proveedor. El puente valida el origen canónico, tipo/extensión, nombre, pertenencia al directorio dedicado, existencia y límite de 16 MiB antes del selector y de nuevo antes de copiar. Rechaza traversal, symlinks que escapen de la carpeta, rutas ajenas y documentos de salida sin URI `content`. La copia se realiza con streams/buffer de 8 KiB, sin transferir otra vez el base64 por el puente. Solo devuelve «guardado» después de cerrar correctamente el stream. Cancelar devuelve un resultado propio. Ante fallo intenta retirar el documento nuevo incompleto; algunos proveedores pueden dejarlo vacío si no admiten esa limpieza. El selector crea un archivo nuevo y no reemplaza otro de igual nombre.
+
+Compartir pasa a Share únicamente la URI local obtenida después de escribir. FileProvider se limita a `cache/cuartos-exports/` y conserva los permisos temporales por URI del plugin. No se envía contenido automáticamente a destinatarios. El resultado confirma el retorno de la hoja, no la entrega a otra persona; el aviso pide comprobar el archivo en la aplicación elegida. La cancelación informada por el plugin se muestra sin anunciar éxito.
+
+La caché no es un respaldo durable. Las carpetas propias con más de 24 horas se limpian al preparar otra exportación, de forma acotada al directorio dedicado; se conservan las recientes para permitir que la aplicación receptora lea el archivo tras volver a Cuartos. Un fallo de limpieza no bloquea una exportación nueva. Android puede limpiar la caché por espacio. El documento que la persona guarda mediante el selector pertenece a la ubicación/proveedor elegido y queda fuera de los datos privados de Cuartos.
+
+## Límites, fallos y evidencia
+
+El JSON conserva el esquema 1 y su límite existente de 2 MiB UTF-8. Un esquema futuro, referencia inválida, contenido adicional inesperado o geometría inválida se rechaza antes de escribir. No hay migración ni sobrescritura de proyectos. Los IDs de catálogo/textura desconocidos pero compatibles se conservan; el modelo contiene como máximo dos espacios, 256 aberturas y 2000 muebles según DOMAIN.
+
+Quince pruebas unitarias nuevas cubren ida/vuelta de las tres formas, Unicode/BOM, límite exacto/lectura previa, JSON inválido/futuro/referencias, copia sin colisión, nombres seguros, encuadre de muebles girados, resolución, bytes base64, orden escribir/guardar/compartir, cancelación, fallo/reintento, limpieza y URI local. Total web: 267. Cinco pruebas JVM verifican origen permitido, rutas, nombres/MIME, archivo ausente, symlinks y tamaño en la política del puente.
+
+Doce E2E nuevos en teléfono ES/tablet EN cubren descarga real de JSON/PNG, dimensiones de cabecera PNG, píxeles de materiales/muebles y contraste de puertas, archivo opaco, importación de las tres formas, copia independiente/reapertura, errores, idiomas y cancelación. La comparación binaria de imágenes prueba que pan/zoom/selección no cambian la exportación. El adaptador Capacitor se comprueba con un puente simulado: orden de llamadas, bytes, guardar/compartir, cancelación y fallo. Total con regresiones: 58 E2E.
+
+Capturas: [importación teléfono ES](screenshots/files-import-phone.png), [importación tablet EN](screenshots/files-import-tablet.png), [exportación teléfono ES](screenshots/files-export-phone.png) y [exportación tablet EN](screenshots/files-export-tablet.png). PNG reales: [L en ES](screenshots/export-l-phone.png) y [dos espacios en EN](screenshots/export-connected-tablet.png). QA local con Chromium 153 temporal fuera de las dependencias; CI usa el Chromium fijado por Playwright. Las pruebas JVM y de puente simulado no acreditan instalación física, selector del WebView, escritura en cada proveedor ni envío entre apps. Esas comprobaciones Android siguen pendientes. Una muerte del proceso durante el selector/copia tampoco se presenta como una recuperación probada; los proyectos de IndexedDB permanecen independientes de esa operación.
+
+Referencias oficiales: [Filesystem](https://capacitorjs.com/docs/apis/filesystem), [Share](https://capacitorjs.com/docs/apis/share), [documentos y Storage Access Framework](https://developer.android.com/training/data-storage/shared/documents-files), [exportar Konva con pixelRatio](https://konvajs.org/docs/data_and_serialization/High-Quality-Export.html).

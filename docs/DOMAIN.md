@@ -36,7 +36,7 @@ Los muebles conservan sus dimensiones y materiales aunque su `catalogId` no teng
 
 Límites de validación V1: dos habitaciones, 4–64 vértices por contorno, 256 aberturas, 2.000 muebles, 256 partes de material por objeto y JSON de hasta 2 MiB en UTF-8. Coordenadas entre −10.000 y 10.000 m y medidas positivas acotadas a 10.000 m. Son límites defensivos, no dimensiones recomendadas. No se incorporan casas completas ni varias plantas.
 
-`serializeProject`/`deserializeProject` operan en memoria. La etapa 5 los conecta a [Dexie para el guardado mínimo](STORAGE.md). La etapa 13 amplía el guardado semántico, las copias independientes y la gestión offline. Las copias de archivos nativos y los controles de importar/exportar corresponden a la etapa 14.
+`serializeProject`/`deserializeProject` operan en memoria. La etapa 5 los conecta a [Dexie para el guardado mínimo](STORAGE.md). La etapa 13 amplía el guardado semántico, las copias independientes y la gestión offline. La etapa 14 conecta [importación/exportación de archivos](FILES.md): JSON UTF-8 del esquema actual, validación antes de escribir e importación como copia con nuevas identidades. El PNG es una imagen derivada, no un segundo modelo ni un archivo importable.
 
 ## Dirección de color
 

@@ -11,6 +11,8 @@ import { CreateProjectWizard } from '../projects/CreateProjectWizard'
 import { ProjectSummary } from '../projects/ProjectSummary'
 import { projectStore } from '../state/project-store'
 import { projectRepository } from '../storage/project-repository'
+import type { Project } from '../domain/types'
+import { ImportProject } from '../files/ImportProject'
 
 interface ProjectCard { id: string; name: string; roomName: string; area: number }
 const Viewer3D = lazy(() => import('../viewer3d/Viewer3D'))
@@ -19,7 +21,7 @@ const Editor2D = lazy(() => import('../editor2d/Editor2D'))
 export function App() {
   const { t, i18n } = useTranslation()
   const project = useStore(projectStore, state => state.project)
-  const [screen, setScreen] = useState<'home' | 'create' | 'project' | 'editor' | '3d'>('home')
+  const [screen, setScreen] = useState<'home' | 'create' | 'import' | 'project' | 'editor' | '3d'>('home')
   const [cards, setCards] = useState<ProjectCard[]>([])
   const [loading, setLoading] = useState(true)
   const [listError, setListError] = useState(false)
@@ -54,6 +56,7 @@ export function App() {
     setLoading(true); setListError(false); setOpenError(false); setScreen('home')
   }
   function retryList() { setLoading(true); setListError(false); setReload(n => n + 1) }
+  function importedProject(saved: Project) { projectStore.getState().loadProject(saved); saveStatus.loaded(saved.id); setScreen('project') }
   async function openProject(id: string) {
     if (openingLock.current || management || loading) return
     openingLock.current = true
@@ -89,13 +92,14 @@ export function App() {
       </header>
       <main id="main" tabIndex={-1}>
         {project && <SaveIndicator projectId={project.id} />}
-        {screen === 'create' ? <CreateProjectWizard onCancel={goHome} onCreated={() => setScreen('project')} /> : screen === 'editor' && project ? <Suspense fallback={<p role="status">{t('editor.loading')}</p>}><Editor2D key={project.id} project={project} onBack={() => setScreen('project')} onOpen3D={() => setScreen('3d')} /></Suspense> : screen === '3d' && project ? <Suspense fallback={<p role="status">{t('viewer.loading')}</p>}><Viewer3D key={project.id} project={project} onBack={() => setScreen('editor')} /></Suspense> : screen === 'project' && project ? <ProjectSummary project={project} onBack={goHome} onOpenEditor={() => setScreen('editor')} /> : <>
+        {screen === 'import' ? <ImportProject onCancel={goHome} onImported={importedProject} /> : screen === 'create' ? <CreateProjectWizard onCancel={goHome} onCreated={() => setScreen('project')} /> : screen === 'editor' && project ? <Suspense fallback={<p role="status">{t('editor.loading')}</p>}><Editor2D key={project.id} project={project} onBack={() => setScreen('project')} onOpen3D={() => setScreen('3d')} /></Suspense> : screen === '3d' && project ? <Suspense fallback={<p role="status">{t('viewer.loading')}</p>}><Viewer3D key={project.id} project={project} onBack={() => setScreen('editor')} /></Suspense> : screen === 'project' && project ? <ProjectSummary project={project} onBack={goHome} onOpenEditor={() => setScreen('editor')} /> : <>
         <section className="hero" aria-labelledby="welcome-title">
           <div className="hero-copy">
             <p className="eyebrow">{t('home.eyebrow')}</p>
             <h1 id="welcome-title" ref={homeHeading} tabIndex={-1}>{t('home.title')}</h1>
             <p className="intro">{t('home.description')}</p>
             <button type="button" className="button button-primary create-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('create') }}><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 3v14M3 10h14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>{t('home.create')}</button>
+            <button type="button" className="button button-secondary import-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('import') }}>{t('files.openImport')}</button>
             <p className="local-note"><span aria-hidden="true">◌</span>{t('home.localNote')}</p>
           </div>
           <figure className="plan-card">
