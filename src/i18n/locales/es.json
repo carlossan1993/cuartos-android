@@ -98,5 +98,52 @@
     "noSelection": "Selecciona una habitación para consultar sus medidas.",
     "clearSelection": "Quitar selección",
     "loading": "Abriendo el plano…"
+  },
+  "openings": {
+    "title": "Puertas y ventanas",
+    "addDoor": "Añadir puerta",
+    "addWindow": "Añadir ventana",
+    "door": "Puerta",
+    "window": "Ventana",
+    "item": "{{type}} {{number}}",
+    "empty": "Todavía no hay puertas ni ventanas en este proyecto.",
+    "type": "Tipo de abertura",
+    "roomId": "Habitación",
+    "wallId": "Pared",
+    "wallMarker": "P{{number}}",
+    "wallOption": "Pared {{number}} · {{length}} {{unit}}",
+    "wallMap": "Pared seleccionada en naranja, con su inicio marcado en cero y el sentido de medida indicado por la flecha",
+    "offset": "Distancia desde el inicio",
+    "width": "Ancho",
+    "height": "Alto de la abertura",
+    "sillHeight": "Altura al piso",
+    "addTitle": "Nueva puerta o ventana",
+    "editTitle": "Editar abertura",
+    "properties": "Propiedades de la abertura",
+    "formHelp": "Elige la pared y define las medidas. El cambio se guardará al confirmar.",
+    "positionHelp": "La distancia se mide desde el cero marcado en la pared. Se acepta coma o punto decimal.",
+    "available": "Pared: {{length}} {{unit}}. Altura de habitación: {{height}} {{unit}}.",
+    "save": "Guardar abertura",
+    "saved": "Cambio guardado en este dispositivo.",
+    "edit": "Editar abertura",
+    "remove": "Eliminar abertura",
+    "selectedInfo": "Inicio: {{offset}} m · Altura al piso: {{sill}} m.",
+    "errors": {
+      "choose": "Elige una habitación y pared válidas.",
+      "positive": "Ingresa una medida mayor que cero, hasta 10.000 m.",
+      "nonNegative": "Ingresa una medida de cero o más, hasta 10.000 m.",
+      "wallFit": "El ancho y la distancia inicial deben caber en la pared.",
+      "heightFit": "La altura al piso y el alto de la abertura deben caber en la habitación.",
+      "overlap": "Esta abertura se superpone con otra en la misma pared. Cambia su posición o medidas.",
+      "limit": "Se alcanzó el límite de 256 aberturas por proyecto.",
+      "notFound": "Esta abertura ya no existe. Cancela y vuelve a abrir el proyecto.",
+      "invalid": "No se pudo validar la abertura. Revisa sus medidas y la pared elegida."
+    },
+    "saveErrors": {
+      "failed": "No se pudo guardar el cambio. El proyecto anterior sigue intacto. Reintenta.",
+      "conflict": "El proyecto cambió en otra pantalla. Vuelve a abrirlo desde tus proyectos antes de guardar.",
+      "missing": "Este proyecto ya no está guardado en el dispositivo. Vuelve a tus proyectos.",
+      "unreadable": "No pudimos leer la copia guardada. Se conservó sin reemplazarla."
+    }
   }
 }

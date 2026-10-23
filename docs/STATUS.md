@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Actualizado: 22 de octubre de 2026, America/Guayaquil.
+Actualizado: 23 de octubre de 2026, UTC.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
@@ -77,6 +77,20 @@ Issue: [#9](https://github.com/carlossan1993/cuartos-android/issues/9). La entre
 
 Los checks finales web/Android y el APK se registran en el PR antes de integrar. Detalles, evidencia y verificaciones manuales pendientes: [EDITOR_2D](EDITOR_2D.md).
 
+Etapa 6 integrada en [PR #10](https://github.com/carlossan1993/cuartos-android/pull/10), commit `b43b011478f09fe315318f9fe6ad5a532cf3e524`. [CI final 39865317821](https://github.com/carlossan1993/cuartos-android/actions/runs/39865317821) web/Android correcto, con 118 pruebas unitarias, 12 E2E y APK debug.
+
+## Etapa 7 · Puertas y ventanas
+
+Issue: [#11](https://github.com/carlossan1993/cuartos-android/issues/11). La entrega se considera cerrada tras revisión técnica, checks verdes y merge de su PR; estos resultados se registran en GitHub antes de integrar.
+
+- Añadir, seleccionar, editar y eliminar puertas/ventanas mediante controles ES/EN y selección directa en el plano.
+- Habitación, pared dirigida estable, posición, ancho, alto y altura al piso; metros/centímetros con conversión exacta del texto.
+- Mapa de pared con cero y sentido de medida. Puerta con hoja/arco interior de 90° y ventana con doble trazo, desde las dimensiones reales del modelo.
+- Validación compartida: límites de pared/altura, puertas al piso y superposición por posición y elevación. Correcciones conservan las entradas.
+- Guardado explícito de cada cambio mediante transacción IndexedDB: comprobar copia anterior, confirmar escritura y después publicar en Zustand. Conflictos, copias ilegibles o proyectos eliminados se conservan sin sobrescribir ni recrear.
+- 144 pruebas unitarias y 16 E2E correctos en local; typecheck, lint y build web correctos. Capturas de plano y formulario ES/EN revisadas en teléfono/tablet.
+- Evidencia y límites: [OPENINGS](OPENINGS.md). La instalación manual en Android físico sigue pendiente. Los checks finales web/Android y el APK quedan registrados en el PR antes del merge.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 6: puertas y ventanas vinculadas a paredes (etapa 7), con validaciones de medidas y posición.
+Después de integrar la etapa 7: biblioteca inicial de acabados y colores para paredes y piso, con guardado y representación 2D (etapa 8).

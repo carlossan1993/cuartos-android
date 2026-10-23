@@ -3,9 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { Circle, Group, Layer, Line, Rect, Stage, Text } from 'react-konva'
 import type Konva from 'konva'
 import type { Point, Project } from '../domain/types'
-import { polygonArea } from '../geometry/rooms'
+import { getWalls, polygonArea } from '../geometry/rooms'
+import { openingGeometry } from '../geometry/openings'
+import { OpeningTools } from './OpeningTools'
 import { beginGesture, emptyGesture, endGesture, moveGesture } from './gestures'
-import { fitCamera, gridLines, panCamera, resizeCamera, roomAtPoint, roomBounds, scaleLimits, worldToScreen, zoomCamera, MAX_ZOOM, MIN_ZOOM, type Camera, type Size } from './viewport'
+import { fitCamera, gridLines, openingAtPoint, panCamera, resizeCamera, roomAtPoint, roomBounds, scaleLimits, worldToScreen, zoomCamera, MAX_ZOOM, MIN_ZOOM, type Camera, type Size } from './viewport'
 import './editor.css'
 
 interface Scene { size: Size; camera: Camera }
@@ -32,8 +34,8 @@ function usePixelRatio() {
   return ratio
 }
 
-function PlanDrawing({ project, scene, grid, selected, dpr }: { project: Project; scene: Scene; grid: boolean; selected: string | null; dpr: number }) {
-  const { i18n } = useTranslation()
+function PlanDrawing({ project, scene, grid, selected, selectedOpening, previewWall, dpr }: { project: Project; scene: Scene; grid: boolean; selected: string | null; selectedOpening: string | null; previewWall: string | null; dpr: number }) {
+  const { t, i18n } = useTranslation()
   const layer = useRef<Konva.Layer>(null)
   const { camera, size } = scene
   const format = (n: number, digits = 4) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: digits }).format(n)
@@ -59,6 +61,11 @@ function PlanDrawing({ project, scene, grid, selected, dpr }: { project: Project
         const width = b.x - a.x, height = b.y - a.y, center = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
         return <Group key={room.id} listening={false}>
           <Line points={points.flatMap(p => [p.x, p.y])} closed fill={active ? '#e7e7fb' : room.floorMaterial.color} stroke="#03038c" strokeWidth={active ? 4 : 2.5} lineJoin="round" perfectDrawEnabled={false} />
+          {getWalls(room).map((wall, i) => {
+            const a = worldToScreen(wall.start, camera), b = worldToScreen(wall.end, camera), mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
+            const dx = center.x - mid.x, dy = center.y - mid.y, distance = Math.max(1, Math.hypot(dx, dy))
+            return <Group key={wall.id}>{wall.id === previewWall && <Line points={[a.x, a.y, b.x, b.y]} stroke="#ad5728" strokeWidth={3} dash={[6, 4]} />}<Text x={mid.x + dx / distance * 16 - 15} y={mid.y + dy / distance * 16 - 5} width={30} align="center" text={t('openings.wallMarker', { number: i + 1 })} fontSize={10} fill={wall.id === previewWall ? '#ad5728' : '#626a80'} fontFamily="sans-serif" /></Group>
+          })}
           {active && points.map((point, i) => <Circle key={room.polygon[i].id} x={point.x} y={point.y} radius={4} fill="white" stroke="#03038c" strokeWidth={1.5} />)}
           {width > 80 && height > 55 && <>
             <Text x={a.x + 10} y={center.y - 17} width={Math.max(1, width - 20)} text={room.name} align="center" fontSize={13} fontFamily="sans-serif" fontStyle="bold" fill="#03038c" wrap="none" ellipsis />
@@ -75,6 +82,15 @@ function PlanDrawing({ project, scene, grid, selected, dpr }: { project: Project
           </Group>}
         </Group>
       })}
+      {project.openings.map(opening => {
+        const room = project.rooms.find(room => room.id === opening.roomId)!, geometry = openingGeometry(opening, room)
+        const a = worldToScreen(geometry.start, camera), b = worldToScreen(geometry.end, camera), leaf = worldToScreen(geometry.leaf, camera)
+        const active = opening.id === selectedOpening, color = active ? '#ad5728' : opening.type === 'door' ? '#03038c' : '#287d87'
+        return <Group key={opening.id} listening={false}><Line points={[a.x, a.y, b.x, b.y]} stroke={room.id === selected ? '#e7e7fb' : room.floorMaterial.color} strokeWidth={7} />
+          {opening.type === 'door' ? <><Line points={[a.x, a.y, leaf.x, leaf.y]} stroke={color} strokeWidth={active ? 3 : 2} /><Line points={geometry.arc.flatMap(point => { const p = worldToScreen(point, camera); return [p.x, p.y] })} stroke={color} strokeWidth={1.2} dash={[4, 3]} /></> : <>{[-3, 3].map(offset => <Line key={offset} points={[a.x + geometry.inward.x * offset, a.y + geometry.inward.y * offset, b.x + geometry.inward.x * offset, b.y + geometry.inward.y * offset]} stroke={color} strokeWidth={active ? 3 : 1.8} />)}</>}
+          {active && <Circle x={(a.x + b.x) / 2} y={(a.y + b.y) / 2} radius={4} fill="white" stroke={color} strokeWidth={2} />}
+        </Group>
+      })}
     </Layer>
   </Stage></div>
 }
@@ -88,6 +104,9 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
   const gesture = useRef(emptyGesture)
   const [scene, setScene] = useState<Scene | null>(null)
   const [selectedId, select] = useState<string | null>(null)
+  const [selectedOpening, selectOpening] = useState<string | null>(null)
+  const [previewWall, setPreviewWall] = useState<string | null>(null)
+  const [busy, setBusy] = useState(false)
   const [grid, setGrid] = useState(project.viewSettings.grid)
   const dpr = usePixelRatio()
   const selected = project.rooms.find(room => room.id === selectedId)
@@ -95,8 +114,8 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
   const format = (n: number, digits = 4) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: digits }).format(n)
   const publish = useCallback((next: Scene) => { sceneRef.current = next; setScene(next) }, [])
 
+  useEffect(() => { heading.current?.focus() }, [project.id])
   useEffect(() => {
-    heading.current?.focus()
     const element = surface.current!
     let frame = 0
     const observer = new ResizeObserver(() => {
@@ -156,7 +175,11 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
     if (!cancelled) move(event)
     const next = endGesture(gesture.current, event.pointerId, cancelled)
     gesture.current = next.gesture
-    if (next.tap && sceneRef.current) select(roomAtPoint(next.tap, sceneRef.current.camera, project.rooms))
+    if (next.tap && sceneRef.current) {
+      const id = openingAtPoint(next.tap, sceneRef.current.camera, project)
+      selectOpening(id)
+      select(id ? project.openings.find(opening => opening.id === id)!.roomId : roomAtPoint(next.tap, sceneRef.current.camera, project.rooms))
+    }
   }
   function key(event: KeyboardEvent<HTMLDivElement>) {
     const current = sceneRef.current
@@ -166,7 +189,7 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
     else if (event.key === '+' || event.key === '=') zoom(1.25)
     else if (event.key === '-') zoom(0.8)
     else if (event.key === '0' || event.key === 'Home') fit()
-    else if (event.key === 'Escape') select(null)
+    else if (event.key === 'Escape') { select(null); selectOpening(null) }
     else if (event.key === 'Enter') select(project.rooms[0]?.id ?? null)
     else return
     event.preventDefault()
@@ -174,7 +197,7 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
   const relativeZoom = scene ? scene.camera.scale / fitCamera(bounds, scene.size).scale : 1
   const step = scene ? gridLines(scene.camera, scene.size, project.viewSettings.gridSize).step : project.viewSettings.gridSize
   return <section className="editor-page" aria-labelledby="editor-title">
-    <button type="button" className="button button-quiet back-link" onClick={onBack}>← {t('editor.back')}</button>
+    <button type="button" className="button button-quiet back-link" disabled={busy} onClick={onBack}>← {t('editor.back')}</button>
     <div className="editor-heading"><div><p className="eyebrow">{t('editor.eyebrow')}</p><h1 id="editor-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="editor-mode">2D</span></div>
     <div className="editor-toolbar" role="group" aria-label={t('editor.tools')}>
       <div className="zoom-controls"><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomOut')} disabled={!scene || relativeZoom <= MIN_ZOOM + 1e-8} onClick={() => zoom(0.8)}>−</button><output aria-label={t('editor.zoomLevel')}>{Math.round(relativeZoom * 100)}%</output><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomIn')} disabled={!scene || relativeZoom >= MAX_ZOOM - 1e-8} onClick={() => zoom(1.25)}>+</button></div>
@@ -185,14 +208,15 @@ export default function Editor2D({ project, onBack }: { project: Project; onBack
     <div className="editor-workspace">
       <div className="plan-workspace"><div className="canvas-frame"><div ref={surface} className="canvas-surface" role="region" tabIndex={0} aria-label={t('editor.canvas')} aria-describedby="canvas-help canvas-keyboard"
         onPointerDown={down} onPointerMove={move} onPointerUp={event => up(event)} onPointerCancel={event => up(event, true)} onLostPointerCapture={event => up(event, true)} onKeyDown={key}>
-        {scene && <PlanDrawing project={project} scene={scene} grid={grid} selected={selectedId} dpr={dpr} />}
+        {scene && <PlanDrawing project={project} scene={scene} grid={grid} selected={selectedId} selectedOpening={selectedOpening} previewWall={previewWall} dpr={dpr} />}
       </div></div><p className="canvas-caption"><span>{grid ? t('editor.gridStep', { value: format(step) }) : t('editor.gridOff')}</span><span>{t('editor.metres')}</span></p></div>
       <aside className="editor-sidebar" aria-labelledby="editor-rooms"><h2 id="editor-rooms">{t('editor.rooms')}</h2>
-        <ul className="editor-room-list">{project.rooms.map(room => <li key={room.id}><button type="button" aria-pressed={room.id === selectedId} onClick={() => select(room.id)}><span className="room-list-mark" aria-hidden="true" />{room.name}</button></li>)}</ul>
+        <ul className="editor-room-list">{project.rooms.map(room => <li key={room.id}><button type="button" aria-pressed={room.id === selectedId} onClick={() => { select(room.id); selectOpening(null) }}><span className="room-list-mark" aria-hidden="true" />{room.name}</button></li>)}</ul>
         <p className="editor-selection" role="status">{selected ? t('editor.selected') : t('editor.noSelection')}</p>
         {selected && selectedBounds && <dl className="room-measures selected-measures"><div><dt>{t('wizard.width')}</dt><dd>{format(selectedBounds.right - selectedBounds.left)} m</dd></div><div><dt>{t('wizard.depth')}</dt><dd>{format(selectedBounds.bottom - selectedBounds.top)} m</dd></div><div><dt>{t('wizard.height')}</dt><dd>{format(selected.height)} m</dd></div><div><dt>{t('room.area')}</dt><dd>{format(polygonArea(selected.polygon), 2)} m²</dd></div></dl>}
-        {selected && <button className="button button-quiet clear-selection" type="button" onClick={() => select(null)}>{t('editor.clearSelection')}</button>}
+        {selected && <button className="button button-quiet clear-selection" type="button" onClick={() => { select(null); selectOpening(null) }}>{t('editor.clearSelection')}</button>}
       </aside>
     </div>
+    <OpeningTools project={project} roomId={selectedId} selectedId={selectedOpening} onBusy={setBusy} onPreviewWall={setPreviewWall} onSelect={(id, roomId) => { selectOpening(id); const owner = roomId ?? project.openings.find(o => o.id === id)?.roomId; if (owner) select(owner) }} />
   </section>
 }

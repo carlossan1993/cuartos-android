@@ -4,6 +4,10 @@ import type { Project } from '../domain/types'
 
 export const PROJECT_DATABASE = 'cuartos-local'
 interface StoredProject { id: string; json: string }
+export class ProjectSaveError extends Error {
+  readonly code: 'conflict' | 'missing' | 'unreadable'
+  constructor(code: 'conflict' | 'missing' | 'unreadable') { super(code); this.name = 'ProjectSaveError'; this.code = code }
+}
 
 export function createProjectRepository(name = PROJECT_DATABASE) {
   const db = new Dexie(name)
@@ -27,6 +31,17 @@ export function createProjectRepository(name = PROJECT_DATABASE) {
       const record = await projects.get(id)
       if (!record) throw new Error('Stored project not found')
       return decode(record)
+    },
+    async replace(project: Project, previous: Project): Promise<void> {
+      const json = serializeProject(project), expected = serializeProject(previous)
+      if (project.id !== previous.id || project.createdAt !== previous.createdAt || Date.parse(project.updatedAt) < Date.parse(previous.updatedAt)) throw new Error('Project identity/date mismatch')
+      await db.transaction('rw', projects, async () => {
+        const record = await projects.get(project.id)
+        if (!record) throw new ProjectSaveError('missing')
+        try { decode(record) } catch { throw new ProjectSaveError('unreadable') }
+        if (record.json !== expected) throw new ProjectSaveError('conflict')
+        await projects.update(project.id, { json })
+      })
     },
     async list(): Promise<{ projects: Project[]; unreadable: number }> {
       const records = await projects.toArray()
