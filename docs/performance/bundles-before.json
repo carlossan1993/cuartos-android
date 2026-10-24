@@ -1,0 +1,36 @@
+{
+  "home": {
+    "files": [
+      "assets/index-CqPiDsf_.js",
+      "assets/index-OFqAZ4xI.css",
+      "assets/rolldown-runtime-XKyaHtl9.js",
+      "assets/jsx-runtime-DlgPkzJN.js",
+      "assets/project-RTmU3HIq.js",
+      "assets/react-dom-DC-UkEHF.js"
+    ],
+    "jsBytes": 463363,
+    "gzipJsBytes": 148690,
+    "cssBytes": 16191
+  },
+  "editorAdded": {
+    "files": [
+      "assets/Editor2D-DkVvzUZ1.js",
+      "assets/Editor2D-DENF2p_7.css",
+      "assets/view-preferences-zvcXguNd.js",
+      "assets/PlanDrawing-CUNb5Mum.js",
+      "assets/catalog-DC0BTDH9.js"
+    ],
+    "jsBytes": 397899,
+    "gzipJsBytes": 120740,
+    "cssBytes": 10703
+  },
+  "viewerAdded": {
+    "files": [
+      "assets/Viewer3D-BZztvrMI.js",
+      "assets/Viewer3D-BmuKPAnH.css"
+    ],
+    "jsBytes": 953258,
+    "gzipJsBytes": 251214,
+    "cssBytes": 3047
+  }
+}

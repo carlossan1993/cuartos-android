@@ -4,6 +4,7 @@ import { DomainError } from '../domain/errors'
 import { cloneProject, createProject, deserializeProject, serializeProject } from '../domain/project'
 import type { FurnitureItem, Opening, Project, Room, ViewSettings } from '../domain/types'
 import { emptyHistory, ProjectChangeError, type ProjectHistory } from './project-history'
+import { shareProjectData } from './share-project-data'
 import { normalizeRotation } from '../geometry/units'
 
 export interface ProjectTransaction { readonly project: Project; readonly session: number; readonly token: number; readonly history: ProjectHistory }
@@ -40,7 +41,7 @@ function freezeDeep<T>(value: T): T {
   }
   return value
 }
-function snapshot(project: Project): Project { return freezeDeep(cloneProject(project)) }
+function snapshot(project: Project, previous?: Project): Project { const copy = cloneProject(project); return freezeDeep(previous ? shareProjectData(previous, copy) : copy) }
 function required(project: Project | null): Project {
   if (!project) throw new DomainError('missing_project', 'project', 'no active project')
   return project
@@ -65,7 +66,7 @@ export function createProjectStore(dependencies: { now?: () => Date; id?: () => 
       const updated = update(current)
       // A clock adjustment must not make updatedAt precede an imported project.
       const updatedAt = new Date(Math.max(now().getTime(), Date.parse(current.updatedAt))).toISOString()
-      const next = snapshot({ ...updated, updatedAt })
+      const next = snapshot({ ...updated, updatedAt }, current)
       // Validation/copy finish before publication; a failed edit is atomic.
       set({ project: next, history: emptyHistory() })
     }
@@ -82,7 +83,7 @@ export function createProjectStore(dependencies: { now?: () => Date; id?: () => 
       commitSavedProject: (project, history, transaction) => {
         const state = get()
         if (state.session !== transaction.session || state.project !== transaction.project || state.pending !== transaction.token) return false
-        const next = snapshot(project)
+        const next = snapshot(project, state.project)
         set({ project: next, history: freezeDeep(history), pending: null })
         return true
       },

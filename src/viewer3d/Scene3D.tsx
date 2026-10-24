@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Group, PerspectiveCamera, Spherical, Vector3 } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
@@ -16,9 +16,11 @@ export type CameraReader = () => ViewSettings['camera3d']
 export interface CameraCommand { sequence: number; kind: CameraCommandKind }
 
 function Floor({ room }: { room: Room }) {
-  const geometry = useMemo(() => floorGeometry(room), [room])
-  const texture = useMemo(() => floorTexture(room.floorMaterial), [room.floorMaterial])
-  useEffect(() => () => { geometry.dispose(); texture?.dispose() }, [geometry, texture])
+  const gl = useThree(state => state.gl), { polygon, floorMaterial } = room
+  const geometry = useMemo(() => floorGeometry({ polygon }), [polygon])
+  const texture = useMemo(() => { const texture = floorTexture(floorMaterial); if (texture) texture.anisotropy = Math.min(4, gl.capabilities.getMaxAnisotropy()); return texture }, [floorMaterial, gl])
+  useEffect(() => () => geometry.dispose(), [geometry])
+  useEffect(() => () => texture?.dispose(), [texture])
   return <mesh geometry={geometry} receiveShadow><meshStandardMaterial attach="material-0" color={texture ? '#ffffff' : room.floorMaterial.color} map={texture} roughness={1} /><meshStandardMaterial attach="material-1" color="#b9b4aa" roughness={1} /></mesh>
 }
 function Solids({ solids, color }: { solids: readonly Solid3D[]; color: string }) {
@@ -26,18 +28,28 @@ function Solids({ solids, color }: { solids: readonly Solid3D[]; color: string }
   useEffect(() => () => geometry.dispose(), [geometry])
   return solids.length ? <mesh geometry={geometry} castShadow receiveShadow><meshStandardMaterial color={color} roughness={.9} /></mesh> : null
 }
-function RoomScene({ model, origin, cutaway }: { model: Room3D; origin: readonly [number, number, number]; cutaway: boolean }) {
+const RoomScene = memo(function RoomScene({ model, origin, cutaway }: { model: Room3D; origin: readonly [number, number, number]; cutaway: boolean }) {
   const wallGroups = useRef(new Map<string, Group>()), cornerGroups = useRef(new Map<string, Group>())
-  useFrame(({ camera }) => {
-    const visible = new Map(model.walls.map(wall => [wall.id, !cutaway || !wallFacesCamera(wall, camera.position.x + origin[0], camera.position.z + origin[2])]))
-    wallGroups.current.forEach((group, id) => { group.visible = visible.get(id) ?? true })
-    model.corners.forEach(corner => { const group = cornerGroups.current.get(corner.walls.join('|')); if (group) group.visible = corner.walls.every(id => visible.get(id)) })
+  const invalidate = useThree(state => state.invalidate)
+  const cornerSolids = useMemo(() => model.corners.map(corner => [corner.solid]), [model])
+  useLayoutEffect(() => { invalidate() }, [cutaway, invalidate])
+  useFrame(({ camera, gl }) => {
+    let changed = false
+    for (const wall of model.walls) {
+      const group = wallGroups.current.get(wall.id), visible = !cutaway || !wallFacesCamera(wall, camera.position.x + origin[0], camera.position.z + origin[2])
+      if (group && group.visible !== visible) { group.visible = visible; changed = true }
+    }
+    model.corners.forEach(corner => {
+      const group = cornerGroups.current.get(corner.walls.join('|')), visible = corner.walls.every(id => wallGroups.current.get(id)?.visible ?? true)
+      if (group && group.visible !== visible) { group.visible = visible; changed = true }
+    })
+    if (changed) gl.shadowMap.needsUpdate = true
   })
   return <group><Floor room={model.room} />{model.walls.map(wall => <group key={wall.id} ref={node => { if (node) wallGroups.current.set(wall.id, node); else wallGroups.current.delete(wall.id) }}>
     <Solids solids={wall.solids} color={wall.material.color} />
     {wall.openings.map(opening => <mesh key={opening.id} position={[...opening.solid.center]} rotation={[0, opening.solid.rotationY, 0]} castShadow={opening.type === 'door'}><boxGeometry args={[...opening.solid.size]} /><meshStandardMaterial color={opening.type === 'door' ? '#c39a68' : '#96c4d3'} transparent={opening.type === 'window'} opacity={opening.type === 'window' ? .3 : 1} depthWrite={opening.type !== 'window'} roughness={opening.type === 'window' ? .3 : .85} /></mesh>)}
-  </group>)}{model.corners.map(corner => <group key={corner.walls.join('|')} ref={node => { const id = corner.walls.join('|'); if (node) cornerGroups.current.set(id, node); else cornerGroups.current.delete(id) }}><Solids solids={[corner.solid]} color={corner.material.color} /></group>)}</group>
-}
+  </group>)}{model.corners.map((corner, index) => <group key={corner.walls.join('|')} ref={node => { const id = corner.walls.join('|'); if (node) cornerGroups.current.set(id, node); else cornerGroups.current.delete(id) }}><Solids solids={cornerSolids[index]} color={corner.material.color} /></group>)}</group>
+})
 function CameraRig({ bounds, command, initialCamera, onCapture }: { bounds: SceneBounds; command: CameraCommand; initialCamera: ViewSettings['camera3d']; onCapture: (reader: CameraReader | null) => void }) {
   const get = useThree(state => state.get), invalidate = useThree(state => state.invalidate), size = useThree(state => state.size)
   const [savedCamera] = useState(initialCamera)
@@ -118,10 +130,19 @@ function Health({ onReady, onLost }: { onReady: () => void; onLost: () => void }
   return null
 }
 export function Scene3D({ project, cutaway, command, onReady, onLost, onCapture }: { onCapture: (reader: CameraReader | null) => void; project: Project; cutaway: boolean; command: CameraCommand; onReady: () => void; onLost: () => void }) {
-  const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings, project.rooms)), [project])
+  const models = useMemo(() => project.rooms.map(room => buildRoom3D(room, project.openings, project.rooms)), [project.rooms, project.openings])
   const furniture = useMemo(() => buildFurnitureSet3D(project.furniture), [project.furniture])
-  const metrics = useMemo(() => sceneBounds(project), [project]), [cx, cy, cz] = metrics.center, [sx, sy, sz] = metrics.size, radius = metrics.radius
+  const { rooms, furniture: items } = project
+  const metrics = useMemo(() => sceneBounds({ rooms, furniture: items }), [rooms, items]), [cx, cy, cz] = metrics.center, [sx, sy, sz] = metrics.size, radius = metrics.radius
   const bounds = useMemo<SceneBounds>(() => ({ center: [cx, cy, cz], size: [sx, sy, sz], radius }), [cx, cy, cz, sx, sy, sz, radius]), extent = Math.max(...bounds.size)
+  const get = useThree(state => state.get), invalidate = useThree(state => state.invalidate)
+  useLayoutEffect(() => {
+    const { gl } = get()
+    const previous = gl.shadowMap.autoUpdate
+    gl.shadowMap.autoUpdate = false
+    return () => { gl.shadowMap.autoUpdate = previous }
+  }, [get])
+  useLayoutEffect(() => { get().gl.shadowMap.needsUpdate = true; invalidate() }, [get, invalidate, models, furniture])
   return <>
     <color attach="background" args={['#f1f2f7']} />
     <hemisphereLight args={['#ffffff', '#7c7a86', 1.7]} />

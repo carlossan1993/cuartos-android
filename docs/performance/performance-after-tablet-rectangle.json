@@ -1,0 +1,299 @@
+{
+  "phase": "after",
+  "shape": "rectangle",
+  "device": "tablet",
+  "browserName": "chromium",
+  "browserVersion": "153.0.8010.0",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.6 Safari/537.36",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "dpr": 1,
+  "ready2dMs": 417,
+  "ready3dMs": 1084,
+  "home": [
+    {
+      "file": "index-BcIsXe1w.js",
+      "decodedBytes": 387076,
+      "encodedBytes": 122439,
+      "durationMs": 30.90000000037253
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 38
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 37.5
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 37.299999999813735
+    }
+  ],
+  "editor": [
+    {
+      "file": "index-BcIsXe1w.js",
+      "decodedBytes": 387076,
+      "encodedBytes": 122439,
+      "durationMs": 30.90000000037253
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 38
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 37.5
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 37.299999999813735
+    },
+    {
+      "file": "Editor2D-CKVZmWaR.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12256,
+      "durationMs": 9.5
+    },
+    {
+      "file": "view-preferences-MZS7TAK8.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1848,
+      "durationMs": 21.90000000037253
+    },
+    {
+      "file": "PlanDrawing-BqW976ln.js",
+      "decodedBytes": 274836,
+      "encodedBytes": 84510,
+      "durationMs": 26.90000000037253
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 22
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 20.200000000186265
+    }
+  ],
+  "viewer": [
+    {
+      "file": "index-BcIsXe1w.js",
+      "decodedBytes": 387076,
+      "encodedBytes": 122439,
+      "durationMs": 30.90000000037253
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 18.09999999962747
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 38
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 37.5
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 37.299999999813735
+    },
+    {
+      "file": "Editor2D-CKVZmWaR.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12256,
+      "durationMs": 9.5
+    },
+    {
+      "file": "view-preferences-MZS7TAK8.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1848,
+      "durationMs": 21.90000000037253
+    },
+    {
+      "file": "PlanDrawing-BqW976ln.js",
+      "decodedBytes": 274836,
+      "encodedBytes": 84510,
+      "durationMs": 26.90000000037253
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 22
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 20.200000000186265
+    },
+    {
+      "file": "Viewer3D-PwqFuVmZ.js",
+      "decodedBytes": 953977,
+      "encodedBytes": 251497,
+      "durationMs": 43.39999999944121
+    },
+    {
+      "file": "Viewer3D-BmuKPAnH.css",
+      "decodedBytes": 3047,
+      "encodedBytes": 996,
+      "durationMs": 11.5
+    }
+  ],
+  "initial": {
+    "buffersCreated": 85,
+    "buffersDeleted": 0,
+    "uploads": 85,
+    "uploadedBytes": 565248,
+    "draws": 43,
+    "offscreenDraws": 20,
+    "texturesCreated": 8,
+    "texturesDeleted": 0,
+    "liveBuffers": 85,
+    "contextsLost": 0
+  },
+  "idle": {
+    "buffersCreated": 0,
+    "buffersDeleted": 0,
+    "uploads": 0,
+    "uploadedBytes": 0,
+    "draws": 0,
+    "offscreenDraws": 0,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "camera": {
+    "buffersCreated": 0,
+    "buffersDeleted": 0,
+    "uploads": 0,
+    "uploadedBytes": 0,
+    "draws": 23,
+    "offscreenDraws": 0,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "preferences": {
+    "buffersCreated": 0,
+    "buffersDeleted": 0,
+    "uploads": 0,
+    "uploadedBytes": 0,
+    "draws": 0,
+    "offscreenDraws": 0,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "cutawayChanges": {
+    "buffersCreated": 20,
+    "buffersDeleted": 0,
+    "uploads": 20,
+    "uploadedBytes": 4200,
+    "draws": 96,
+    "offscreenDraws": 45,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 20,
+    "contextsLost": 0
+  },
+  "cycles": [
+    {
+      "buffersCreated": 105,
+      "buffersDeleted": 105,
+      "uploads": 105,
+      "uploadedBytes": 569448,
+      "draws": 185,
+      "offscreenDraws": 65,
+      "texturesCreated": 8,
+      "texturesDeleted": 1,
+      "liveBuffers": 0,
+      "contextsLost": 1
+    },
+    {
+      "buffersCreated": 190,
+      "buffersDeleted": 190,
+      "uploads": 190,
+      "uploadedBytes": 1134696,
+      "draws": 228,
+      "offscreenDraws": 85,
+      "texturesCreated": 16,
+      "texturesDeleted": 2,
+      "liveBuffers": 0,
+      "contextsLost": 2
+    },
+    {
+      "buffersCreated": 275,
+      "buffersDeleted": 269,
+      "uploads": 275,
+      "uploadedBytes": 1699944,
+      "draws": 271,
+      "offscreenDraws": 105,
+      "texturesCreated": 24,
+      "texturesDeleted": 3,
+      "liveBuffers": 0,
+      "contextsLost": 3
+    }
+  ]
+}

@@ -219,6 +219,19 @@ Issue: [#29](https://github.com/carlossan1993/cuartos-android/issues/29). La ent
 
 Contrato, fuentes, evidencia y checklist físico pendiente: [ANDROID_UX](ANDROID_UX.md). No se atribuye QA físico a Playwright.
 
+Etapa 16 integrada en [PR #30](https://github.com/carlossan1993/cuartos-android/pull/30), commit `eb82e605c65518b228f8931d92431cf51a1c168b`. [CI final 40047421219](https://github.com/carlossan1993/cuartos-android/actions/runs/40047421219) web/Android correcto: 294 unitarias, 72 E2E, cinco JVM y APK debug. El propietario confirmó aspecto y funcionamiento sin acreditar pruebas físicas específicas.
+
+## Etapa 17 · Rendimiento y calidad visual
+
+Issue: [#31](https://github.com/carlossan1993/cuartos-android/issues/31). La entrega requiere revisión técnica, CI web/Android verdes e integración; el PR registra evidencia final y APK.
+
+- Bundle mínimo de Konva compartido por plano/PNG: carga 2D adicional de 397 899 a 332 402 bytes minificados (−16.5 %), gzip de 120 740 a 101 643 (−15.8 %). Cierres transitivos, límites de tamaño en CI y motores diferidos; aviso 3D mayor de 500 kB visible.
+- Ramas Project inmutables reutilizadas después de validación, con orden de serialización exacto para CAS; sin migración ni cambios de historial/conflictos. Geometrías por polígono/partes, limpieza separada de texturas y anisotropía limitada.
+- Sombras PCF bajo demanda: actualizar contenido/visibilidad, evitar pases redundantes al acercar. Zoom/guardar cámara sin buffers ni subidas nuevos en seis escenas; reposo sin dibujos y tres ciclos de salida con liberación comprobada. Sin telemetría ni nuevas dependencias.
+- 297 unitarias Vitest, dos Node y 78 E2E locales correctos; regresiones ES/EN de recursos, DPI, PNG, contexto, navegación, historial y guardado. Capturas de teléfono/tablet y protocolo reproducible en [PERFORMANCE](PERFORMANCE.md). Los resultados finales E2E/web/Android y cinco JVM se registran en el PR.
+
+Perfilado CPU/GPU/memoria/temperatura, densidades físicas, Atrás/IME/TalkBack y archivos/Share reales pendientes. Las mediciones de navegador software no acreditan FPS ni QA Android físico.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 16: rendimiento y calidad visual, DPR, carga diferida, geometrías/sombras y bundles (etapa 17).
+Después de integrar la etapa 17: QA bilingüe y regresión global, smoke Android y checklist físico con registro de evidencias (etapa 18).

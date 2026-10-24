@@ -1,6 +1,6 @@
 import { useEffect, useRef, type Ref } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Circle, Group, Layer, Line, Rect, Stage, Text } from 'react-konva'
+import { Circle, Group, Layer, Line, Rect, Stage, Text } from './konva'
 import type Konva from 'konva'
 import type { FurnitureItem, Project } from '../domain/types'
 import { roomLabelCell, sharedWallSpans, visibleWallSpans, wallInward, wallPoint } from '../geometry/layout'

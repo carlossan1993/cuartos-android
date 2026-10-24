@@ -3,7 +3,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js'
 import type { Room } from '../domain/types'
 import { FLOOR_DEPTH, type Solid3D } from './model'
 
-export function floorGeometry(room: Room) {
+export function floorGeometry(room: Pick<Room, 'polygon'>) {
   const shape = new Shape()
   room.polygon.forEach((p, i) => { if (i === 0) shape.moveTo(p.x, -p.y); else shape.lineTo(p.x, -p.y) })
   shape.closePath()
