@@ -1,0 +1,58 @@
+name: Signed upload AAB (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_preflight:
+        description: Owner confirms identity, public support details and active privacy URL
+        type: boolean
+        required: true
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: cuartos-upload-signing
+  cancel-in-progress: false
+jobs:
+  signed-aab:
+    if: github.ref == 'refs/heads/main' && inputs.confirm_preflight
+    environment: play-upload
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+      - run: npm ci
+      - run: npm run android:sync
+      - run: node scripts/check-play.mjs --require-signing
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: ''
+      - run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Sign and verify using the owner's existing upload key
+        shell: bash
+        env:
+          ANDROID_UPLOAD_KEYSTORE_BASE64: ${{ secrets.ANDROID_UPLOAD_KEYSTORE_BASE64 }}
+          CUARTOS_STORE_PASSWORD: ${{ secrets.ANDROID_UPLOAD_STORE_PASSWORD }}
+          CUARTOS_KEY_ALIAS: ${{ secrets.ANDROID_UPLOAD_KEY_ALIAS }}
+          CUARTOS_KEY_PASSWORD: ${{ secrets.ANDROID_UPLOAD_KEY_PASSWORD }}
+          ANDROID_UPLOAD_CERT_SHA256: ${{ vars.ANDROID_UPLOAD_CERT_SHA256 }}
+        run: bash scripts/sign-release.sh
+      - uses: actions/upload-artifact@v6
+        with:
+          name: cuartos-upload-signed
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            play-output/release/
+            play-output/preflight.json
+          if-no-files-found: error
+          retention-days: 14

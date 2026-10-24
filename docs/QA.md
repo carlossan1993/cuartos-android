@@ -1,6 +1,6 @@
 # QA bilingüe y regresión · Etapa 18
 
-Issue [#33](https://github.com/carlossan1993/cuartos-android/issues/33). La implementación automatizada puede integrarse con revisión técnica y CI verdes; **la etapa no se cierra ni se habilita la preparación de Play mientras falte la evidencia física indicada abajo**. La confirmación del propietario sobre el aspecto/funcionamiento de la APK anterior no acredita cada uno de estos casos.
+Issue [#33](https://github.com/carlossan1993/cuartos-android/issues/33). La implementación automatizada puede integrarse con revisión técnica y CI verdes; **la etapa no se cierra ni se habilita distribución en Play mientras falte la evidencia física indicada abajo**. La confirmación del propietario sobre el aspecto/funcionamiento de la APK anterior no acredita cada uno de estos casos.
 
 ## Matriz reproducible de navegador
 
@@ -86,4 +86,7 @@ No hay dispositivos Android físicos conectados en este entorno. Completar cada 
 | P06 | CPU/GPU/memoria, arranque frío/caliente, frames lentos, consumo/temperatura con las tres escenas de etapa 17 | Pendiente |
 | P07 | Nitidez/contraste/sombras, orientación y gestos en diferentes densidades de teléfono/tablet | Pendiente |
 
-Resultado por fila: aprobado con evidencia, fallo con Issue, pendiente o no aplicable justificado. Defectos que pierdan/sobrescriban datos, impidan uso básico, tengan riesgo de privacidad o bloqueen accesibilidad quedan abiertos como bloqueantes. Los demás se priorizan con evidencia. No avanzar a preparación de Play (etapa 19) ni cerrar #33 mientras la puerta física permanezca pendiente.
+Resultado por fila: aprobado con evidencia, fallo con Issue, pendiente o no aplicable justificado. Defectos que pierdan/sobrescriban datos, impidan uso básico, tengan riesgo de privacidad o bloqueen accesibilidad quedan abiertos como bloqueantes. Los demás se priorizan con evidencia. Por instrucción expresa del propietario del 24 de octubre de 2026 se permite preparar materiales/compilación de la etapa 19 con estos pendientes. No cerrar #33 ni distribuir en Play mientras la puerta física permanezca pendiente.
+
+## Automatización integrada
+[PR #34](https://github.com/carlossan1993/cuartos-android/pull/34), merge eff2d20e58ea2ff553fe69c6cc22d16f9ea5461c; [CI 40104110524](https://github.com/carlossan1993/cuartos-android/actions/runs/40104110524), head c475a168eba50b931aef0da2b5dd2bb2b43510d0: 302 Vitest + dos Node, 78 regresión + 24 matriz = 102 E2E, Android/JVM y seis flujos AVD correctos. En los seis casos imeDismissed=false y contextRecovered=false: no acreditar esas ramas como ejercidas nativamente. Esta evidencia no cierra P01–P07.

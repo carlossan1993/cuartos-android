@@ -1,5 +1,6 @@
 {
-  "app": {
+  "privacy": {"link":"Política de privacidad","loading":"Cargando política de privacidad…"},
+"app": {
     "name": "Cuartos",
     "title": "Cuartos · Diseña tu espacio"
   },

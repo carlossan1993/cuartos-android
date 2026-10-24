@@ -27,3 +27,7 @@ local.properties
 Thumbs.db
 __pycache__/
 *.pyc
+
+# Reproducible publication outputs
+public/privacy/
+play-output/

@@ -1,0 +1,82 @@
+{
+  "version": "2026-10-24.1",
+  "app": "Cuartos",
+  "developer": "Carlos Sandoval",
+  "contactUrl": "https://github.com/carlossan1993/cuartos-android/issues",
+  "es": {
+    "title": "Política de privacidad",
+    "updated": "Versión 2026-10-24.1 · 24 de octubre de 2026",
+    "introduction": "Cuartos permite diseñar habitaciones en 2D y 3D. Esta política describe la versión sin cuentas, anuncios ni servicios remotos.",
+    "sections": [
+      {
+        "title": "Datos que permanecen en tu dispositivo",
+        "text": "Los nombres y medidas de proyectos y habitaciones, puertas, ventanas, colores, muebles, idioma y preferencias se procesan y guardan localmente para ofrecer las funciones de diseño. Cuartos no envía estos datos al desarrollador ni incorpora analítica, publicidad o identificadores de seguimiento."
+      },
+      {
+        "title": "Archivos que eliges importar, guardar o compartir",
+        "text": "Solo se lee el archivo JSON que eliges importar. Puedes exportar proyectos JSON y planos PNG. Android permite elegir una ubicación o una aplicación destinataria. Si eliges un proveedor en la nube o compartes un archivo, ese servicio tratará el contenido según su propia política. Cuartos no selecciona destinatarios ni envía proyectos automáticamente."
+      },
+      {
+        "title": "Conservación y eliminación",
+        "text": "Los proyectos permanecen hasta que los elimines desde la lista de proyectos, borres los datos de la aplicación en Android o la desinstales. No existe una copia en nuestros servidores ni una cuenta que debas eliminar. Los archivos exportados y las copias compartidas deben eliminarse por separado del dispositivo, proveedor o aplicación que elegiste."
+      },
+      {
+        "title": "Caché y seguridad",
+        "text": "Las exportaciones pueden dejar una copia temporal en la caché privada de la app. Al exportar de nuevo se intenta limpiar carpetas de exportación de más de 24 horas; no es una eliminación garantizada a una hora exacta. Android puede limpiar la caché y puedes borrarla en sus ajustes. La app usa almacenamiento privado y permisos temporales limitados a los archivos exportados; no solicita acceso general al almacenamiento. No ofrece cifrado propio de los proyectos: protege el dispositivo y comparte solo lo necesario."
+      },
+      {
+        "title": "Permisos y conexión",
+        "text": "La app funciona sin conexión con recursos incluidos en el paquete. Conserva el permiso estándar de Internet de Capacitor, pero no lo utiliza para transmitir proyectos o telemetría. No solicita ubicación, contactos, cámara, micrófono ni identificadores publicitarios."
+      },
+      {
+        "title": "Servicios externos y consultas",
+        "text": "Si abres el enlace de contacto, tu navegador accederá a GitHub, que aplica su propia política de privacidad y puede requerir una cuenta. Las consultas que envíes serán públicas: no incluyas proyectos ni información personal o sensible. El desarrollador solo recibirá lo que decidas escribir allí y podrá responder para atender tu consulta."
+      },
+      {
+        "title": "Cambios",
+        "text": "Si cambia el tratamiento de datos, se actualizarán esta política y su fecha. La versión incluida en la app describe el comportamiento de esa entrega."
+      }
+    ],
+    "contact": "Responsable: Carlos Sandoval. Aplicación: Cuartos. Consultas de privacidad y soporte:",
+    "contactLabel": "Abrir consultas en GitHub",
+    "contactWarning": "El enlace abre un servicio externo. No publiques datos personales."
+  },
+  "en": {
+    "title": "Privacy policy",
+    "updated": "Version 2026-10-24.1 · October 24, 2026",
+    "introduction": "Cuartos lets you design rooms in 2D and 3D. This policy describes the version without accounts, advertising or remote services.",
+    "sections": [
+      {
+        "title": "Data that stays on your device",
+        "text": "Project and room names and dimensions, doors, windows, colours, furniture, language and preferences are processed and stored locally to provide the design features. Cuartos does not send this data to the developer and includes no analytics, advertising or tracking identifiers."
+      },
+      {
+        "title": "Files you choose to import, save or share",
+        "text": "Only the JSON file you select for import is read. You can export JSON projects and PNG plans. Android lets you select a location or a recipient application. If you select a cloud provider or share a file, that service handles its contents under its own policy. Cuartos does not choose recipients or send projects automatically."
+      },
+      {
+        "title": "Retention and deletion",
+        "text": "Projects remain until you delete them from the project list, clear the application data in Android or uninstall the app. There is no copy on our servers and no account to delete. Exported files and shared copies must be deleted separately from the device, provider or application you selected."
+      },
+      {
+        "title": "Cache and security",
+        "text": "Exports may leave a temporary copy in the app's private cache. A later export attempts to remove export folders older than 24 hours; this is not guaranteed deletion at an exact time. Android may clear the cache, and you can clear it in Android settings. The app uses private storage and temporary grants limited to exported files; it does not request general storage access. It does not provide its own project encryption: protect your device and share only what is necessary."
+      },
+      {
+        "title": "Permissions and connectivity",
+        "text": "The app works offline using bundled resources. It retains Capacitor's standard Internet permission but does not use it to transmit projects or telemetry. It does not request location, contacts, camera, microphone or advertising identifiers."
+      },
+      {
+        "title": "External services and inquiries",
+        "text": "Opening the contact link takes your browser to GitHub, which applies its own privacy policy and may require an account. Inquiries you submit there are public: do not include projects or personal or sensitive information. The developer receives only what you choose to write there and may reply to address your inquiry."
+      },
+      {
+        "title": "Changes",
+        "text": "If data handling changes, this policy and its date will be updated. The version bundled in the app describes the behaviour of that release."
+      }
+    ],
+    "contact": "Responsible developer: Carlos Sandoval. App: Cuartos. Privacy and support inquiries:",
+    "contactLabel": "Open inquiries on GitHub",
+    "contactWarning": "This link opens an external service. Do not post personal data."
+  }
+}

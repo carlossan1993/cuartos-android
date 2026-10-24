@@ -17,6 +17,7 @@ import type { Project } from '../domain/types'
 import { ImportProject } from '../files/ImportProject'
 
 interface ProjectCard { id: string; name: string; roomName: string; area: number }
+const PrivacyPanel = lazy(() => import('../privacy/PrivacyPanel'))
 const Viewer3D = lazy(() => import('../viewer3d/Viewer3D'))
 const Editor2D = lazy(() => import('../editor2d/Editor2D'))
 
@@ -26,6 +27,7 @@ export function App() {
   const nativeBack = useAndroidBack()
   const project = useStore(projectStore, state => state.project)
   const [screen, setScreen] = useState<'home' | 'create' | 'import' | 'project' | 'editor' | '3d'>('home')
+  const [privacyOpen, setPrivacyOpen] = useState(false)
   const [cards, setCards] = useState<ProjectCard[]>([])
   const [loading, setLoading] = useState(true)
   const [listError, setListError] = useState(false)
@@ -134,7 +136,8 @@ export function App() {
         </section>
         </>}
       </main>
-      <footer>{t('home.footer')}</footer>
+      <footer><span>{t('home.footer')}</span>{screen === 'home' && <button id="privacy-open" type="button" className="button button-quiet" disabled={opening !== null || !!management || loading} onClick={() => setPrivacyOpen(true)}>{t('privacy.link')}</button>}</footer>
+      {privacyOpen && <Suspense fallback={<p role="status">{t('privacy.loading')}</p>}><PrivacyPanel onClose={() => setPrivacyOpen(false)} /></Suspense>}
     </div>
   )
 }

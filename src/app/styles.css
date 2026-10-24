@@ -230,3 +230,11 @@ input[type=text], input:not([type]), select { font-size: 16px; }
 }
 
 .brand, .unit-options label, .layout-options label { min-height: 48px; }
+
+footer .button { margin-inline-start: 12px; color: var(--primary); }
+.privacy-copy { max-width: 76ch; margin: auto; line-height: 1.75; overflow-wrap: anywhere; }
+.privacy-copy h2, .privacy-copy h3 { color: var(--primary); }
+.privacy-copy h2 { font-size: 26px; }
+.privacy-copy h3 { margin-top: 26px; font-size: 19px; }
+.privacy-copy a { color: var(--primary); text-decoration: underline; }
+.privacy-version { color: var(--muted); font-size: 13px; }

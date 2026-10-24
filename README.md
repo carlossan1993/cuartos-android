@@ -43,7 +43,7 @@ cd android
 ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug
 ```
 
-GitHub Actions ejecuta esos controles en Ubuntu estándar y guarda `cuartos-debug` (APK de prueba) y `web-evidence` durante tres días. El APK debug sirve para pruebas; todavía no hay AAB release firmado. `testDebugUnitTest` verifica la política local de archivos exportables; no acredita pruebas de dispositivo, selector del sistema ni otras aplicaciones.
+GitHub Actions ejecuta esos controles en Ubuntu estándar y guarda `cuartos-debug` (APK de prueba) y `web-evidence` durante tres días. El APK debug sirve para pruebas. CI también compila/inspecciona un AAB release **sin firma** y genera materiales de Play, retenidos 90 días; no es un AAB listo para subir. La ruta manual de firma requiere clave de carga del propietario y preflight completo. `testDebugUnitTest` verifica la política local de archivos exportables; no acredita pruebas de dispositivo, selector del sistema ni otras aplicaciones.
 
 Los recursos de inicio, estilos, traducciones e iconos se incluyen en el paquete. No hay fuentes externas, analítica, cuentas ni servidor remoto. El Android de Capacitor conserva su permiso de Internet estándar; esta versión no hace solicitudes a servicios externos.
 
@@ -80,6 +80,9 @@ Archivos portables: [importar en teléfono ES](docs/screenshots/files-import-pho
 - [Deshacer/rehacer, límites y recuperación del historial](docs/HISTORY.md).
 - [Navegación Android, paneles, orientación y accesibilidad](docs/ANDROID_UX.md).
 - [Rendimiento, presupuestos y evidencia antes/después](docs/PERFORMANCE.md).
+- [Preparación para Play Store, gráficos, privacidad y firma](docs/PLAY_STORE.md).
+- [Continuidad para el siguiente chat](docs/HANDOFF.md).
+- [Política de privacidad ES/EN para hosting](docs/privacy/index.html).
 - [Matriz de QA bilingüe, smoke de APK y pendientes físicos](docs/QA.md).
 - [Editor 2D y gestos](docs/EDITOR_2D.md).
 - [Puertas, ventanas y guardado de cambios](docs/OPENINGS.md).

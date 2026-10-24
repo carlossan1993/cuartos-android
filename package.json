@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/privacy-pages.mjs && tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty false",
@@ -14,7 +14,9 @@
     "test:e2e": "playwright test",
     "test:qa": "playwright test --config=playwright.qa.config.ts",
     "test:android:smoke": "node e2e/android-smoke.ts",
-    "android:sync": "npm run build && cap sync android"
+    "android:sync": "npm run build && cap sync android",
+    "play:assets": "playwright test --config=playwright.play.config.ts",
+    "play:check": "node scripts/check-play.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",

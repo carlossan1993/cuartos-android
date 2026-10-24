@@ -16,7 +16,7 @@ async function imeShown() {
   return match[1] === 'true'
 }
 if (await shell('getprop ro.kernel.qemu') !== '1') { await device.close(); throw new Error('A disposable AVD is required.') }
-const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string; contextRecovered?: boolean; imeDismissed?: boolean }[]; error?: string } = {
+const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string; contextRecovered?: boolean; imeDismissed?: boolean; privacyOffline?: boolean }[]; error?: string } = {
   status: 'running', metadata: { model: device.model(), serial: device.serial(), api: await shell('getprop ro.build.version.sdk'), fingerprint: await shell('getprop ro.build.fingerprint'), webview: await shell('dumpsys webviewupdate') }, cases: [],
 }
 let page: Page | undefined
@@ -52,6 +52,18 @@ try {
   for (const es of [true, false]) for (const shape of ['rectangle', 'l', 'connected'] as const) {
     const name = `Native ${es ? 'ES' : 'EN'} ${shape}`, entry: typeof report.cases[number] = { name, status: 'running' }
     report.cases.push(entry)
+    if (shape === 'rectangle') {
+      await page.locator('#language').selectOption(es ? 'es' : 'en')
+      const beforePrivacy = await records(page)
+      await button(page, es, 'Política de privacidad', 'Privacy policy').click()
+      await check(page.locator('#privacy-title')).toHaveText(es ? 'Política de privacidad' : 'Privacy policy')
+      await check(page.getByRole('dialog')).toContainText('2026-10-24.1')
+      await writeFile(`${out}/Native-${es ? 'ES' : 'EN'}-privacy-offline.png`, await device.screenshot())
+      await shell('input keyevent 4')
+      await check(page.getByRole('dialog')).toHaveCount(0)
+      check(await records(page)).toEqual(beforePrivacy)
+      entry.privacyOffline = true
+    }
     const original = await createDesign(page, es, shape, name)
     await button(page, es, 'Abrir catálogo', 'Open catalog').click()
     await check(page.getByRole('dialog')).toBeVisible()
