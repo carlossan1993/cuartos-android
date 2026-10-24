@@ -82,7 +82,7 @@ try {
     await shell('input keyevent 4')
     await check(page.locator('.project-summary')).toBeVisible()
     await button(page, es, 'Guardar archivo', 'Save file').click()
-    await check.poll(() => shell('dumpsys window windows')).toMatch(/mCurrentFocus=.*documentsui/)
+    await device.wait({ pkg: /^(com\.google\.android\.documentsui|com\.android\.documentsui)$/ })
     await writeFile(`${out}/${name.replaceAll(' ', '-')}-chooser.png`, await device.screenshot())
     await shell('input keyevent 4')
     await check(page.locator('.file-panel [role="status"]')).toContainText(es ? 'cancelada' : 'cancelled')

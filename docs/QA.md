@@ -38,7 +38,7 @@ La matriz amplia no sustituye las pruebas detalladas; tampoco se afirma que cada
 
 ## Smoke de APK en Android real emulado
 
-Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligatorios antes de integrar. Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. Playwright 1.58.2 se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
+Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligatorios antes de integrar. Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. El driver Android de Playwright 1.58.2 se instala solo en el AVD para detectar el selector visible mediante UIAutomator. Playwright se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
 
 Se exige un único serial `emulator-*` y `ro.kernel.qemu=1`, sin proyectos previos; no se borran datos ni se permite ejecutar este script en dispositivos físicos. Por cada forma en ES/EN (seis casos):
 

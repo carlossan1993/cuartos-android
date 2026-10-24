@@ -4,6 +4,7 @@ set -euo pipefail
 mkdir -p test-results/android-smoke
 export PATH="$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH"
 test -r /dev/kvm && test -w /dev/kvm
+npx playwright install android
 sdkmanager 'emulator' 'system-images;android-35;google_apis;x86_64'
 adb start-server
 if adb devices | awk 'NR>1 && NF { found=1 } END { exit !found }'; then
