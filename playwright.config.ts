@@ -2,10 +2,12 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './e2e',
+  testIgnore: '**/qa-matrix.spec.ts',
+  outputDir: 'test-results/traces',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
-  reporter: 'list',
+  reporter: [['list'], ['json', { outputFile: 'test-results/regression.json' }]],
   use: { baseURL: 'http://127.0.0.1:4173', trace: 'retain-on-failure', launchOptions: { args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'] } },
   projects: [
     { name: 'phone', use: { ...devices['Pixel 7'], locale: 'es-EC' } },

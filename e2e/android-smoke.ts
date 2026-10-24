@@ -1,0 +1,95 @@
+import { _android as android, expect, type Page } from '@playwright/test'
+import { mkdir, writeFile } from 'node:fs/promises'
+import { button, createDesign, design, records, saved } from './support/qa-flow.ts'
+
+const out = 'test-results/android-smoke', pkg = 'com.carlossan1993.cuartos'
+await mkdir(out, { recursive: true })
+const devices = await android.devices()
+if (devices.length !== 1 || !devices[0].serial().startsWith('emulator-')) throw new Error('Use exactly one disposable AVD; physical devices are not supported by this smoke script.')
+const device = devices[0], check = expect.configure({ timeout: 30000 })
+device.setDefaultTimeout(30000)
+const shell = async (command: string) => (await device.shell(command)).toString().trim()
+if (await shell('getprop ro.kernel.qemu') !== '1') { await device.close(); throw new Error('A disposable AVD is required.') }
+const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string }[]; error?: string } = {
+  status: 'running', metadata: { model: device.model(), serial: device.serial(), api: await shell('getprop ro.build.version.sdk'), fingerprint: await shell('getprop ro.build.fingerprint'), webview: await shell('dumpsys webviewupdate') }, cases: [],
+}
+let page: Page | undefined
+const pageErrors: string[] = []
+async function launch() {
+  await shell(`am start -W -n ${pkg}/.MainActivity`)
+  const view = await device.webView({ pkg })
+  const current = await view.page()
+  current.setDefaultTimeout(30000)
+  current.on('pageerror', error => pageErrors.push(error.message))
+  await check(current.locator('#language')).toBeVisible()
+  check(await current.evaluate(() => (window as unknown as { Capacitor: { getPlatform(): string } }).Capacitor.getPlatform())).toBe('android')
+  return current
+}
+try {
+  await shell('svc wifi disable'); await shell('svc data disable')
+  report.metadata.wifi = await shell('settings get global wifi_on')
+  report.metadata.mobileData = await shell('settings get global mobile_data')
+  check(report.metadata.wifi).toBe('0'); check(report.metadata.mobileData).toBe('0')
+  await shell('settings put system accelerometer_rotation 0'); await shell('settings put system user_rotation 0')
+  page = await launch()
+  // Do not clear or overwrite any existing data, even on an emulator.
+  check(await records(page)).toHaveLength(0)
+  for (const es of [true, false]) for (const shape of ['rectangle', 'l', 'connected'] as const) {
+    const name = `Native ${es ? 'ES' : 'EN'} ${shape}`, entry: typeof report.cases[number] = { name, status: 'running' }
+    report.cases.push(entry)
+    const original = await createDesign(page, es, shape, name)
+    await button(page, es, 'Abrir catálogo', 'Open catalog').click()
+    await check(page.getByRole('dialog')).toBeVisible()
+    await shell('input keyevent 4')
+    await check(page.getByRole('dialog')).toHaveCount(0)
+    check(design(await saved(page, name))).toEqual(design(original))
+    await button(page, es, 'Ver habitación 3D', 'View room in 3D').click()
+    await check(page.locator('.viewer-canvas')).toHaveAttribute('data-ready', 'true', { timeout: 60000 })
+    await shell('settings put system user_rotation 1')
+    await check.poll(() => page!.evaluate(() => innerWidth > innerHeight)).toBe(true)
+    await writeFile(`${out}/${name.replaceAll(' ', '-')}-landscape.png`, await device.screenshot())
+    await shell('settings put system user_rotation 0')
+    await check.poll(() => page!.evaluate(() => innerHeight > innerWidth)).toBe(true)
+    await shell('input keyevent 3') // Home backgrounds the real Android activity.
+    await shell(`am start -W -n ${pkg}/.MainActivity`)
+    await check(page.locator('.viewer-canvas')).toHaveAttribute('data-ready', 'true')
+    await shell('input keyevent 4')
+    await check(page.locator('.canvas-surface canvas')).toBeVisible()
+    await shell('input keyevent 4')
+    await check(page.locator('.project-summary')).toBeVisible()
+    await button(page, es, 'Guardar archivo', 'Save file').click()
+    await check.poll(() => shell('dumpsys window windows')).toMatch(/mCurrentFocus=.*documentsui/)
+    await writeFile(`${out}/${name.replaceAll(' ', '-')}-chooser.png`, await device.screenshot())
+    await shell('input keyevent 4')
+    await check(page.locator('.file-panel [role="status"]')).toContainText(es ? 'cancelada' : 'cancelled')
+    check(await saved(page, name)).toEqual(original)
+    entry.pidBefore = await shell(`pidof ${pkg}`)
+    check(entry.pidBefore).not.toBe('')
+    await shell(`am force-stop ${pkg}`)
+    await check.poll(() => shell(`pidof ${pkg}`)).toBe('')
+    page = await launch()
+    entry.pidAfter = await shell(`pidof ${pkg}`)
+    check(entry.pidAfter).not.toBe(entry.pidBefore)
+    await check(page.locator('#language')).toHaveValue(es ? 'es' : 'en')
+    await page.getByRole('button', { name: `${es ? 'Abrir proyecto' : 'Open project'}: ${name}`, exact: true }).click()
+    check(await saved(page, name)).toEqual(original)
+    await button(page, es, 'Abrir plano 2D', 'Open 2D plan').click()
+    await check(page.locator('.canvas-surface canvas')).toBeVisible()
+    await check(button(page, es, 'Deshacer', 'Undo')).toBeDisabled()
+    await writeFile(`${out}/${name.replaceAll(' ', '-')}-reopened.png`, await device.screenshot())
+    await shell('input keyevent 4'); await check(page.locator('.project-summary')).toBeVisible()
+    await shell('input keyevent 4'); await check(page.locator('.project-list')).toBeVisible()
+    entry.status = 'passed'
+  }
+  check(pageErrors).toEqual([])
+  report.status = 'passed'
+} catch (error) {
+  report.status = 'failed'; report.error = error instanceof Error ? error.stack : String(error)
+  await writeFile(`${out}/failure.png`, await device.screenshot()).catch(() => {})
+  throw error
+} finally {
+  await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2))
+  await writeFile(`${out}/logcat.txt`, await shell('logcat -d -v threadtime')).catch(() => {})
+  await device.close()
+}
+console.log(`Android WebView smoke: ${report.cases.length} cases passed, API ${report.metadata.api}.`)
