@@ -400,5 +400,10 @@
       "stale": "El historial ya no coincide con el diseño activo. Recarga la copia guardada.",
       "reload": "No se pudo recargar el diseño guardado."
     }
+  },
+  "navigation": {
+    "closePanel": "Cerrar panel",
+    "close": "Cerrar",
+    "backError": "No se pudo activar Atrás de Android. Puedes usar los botones de la pantalla o reintentar."
   }
 }

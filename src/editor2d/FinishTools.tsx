@@ -1,3 +1,4 @@
+import { ToolPanel } from '../components/ToolPanel'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Project, Room, SurfaceMaterial } from '../domain/types'
@@ -43,7 +44,7 @@ function FinishForm({ project, initialRoomId, onClose, onBusy, onTarget, onSaved
     catch (error) { setIssue(error instanceof ProjectSaveError ? `openings.saveErrors.${error.code}` : 'openings.saveErrors.failed') }
     finally { pending.current = false; setSaving(false); onBusy(false) }
   }
-  return <section className="finish-form" aria-labelledby="finish-form-title">
+  return <ToolPanel labelId="finish-form-title" onClose={onClose} busy={saving} blocked={() => pending.current} returnFocus=".finish-tools .opening-tools-heading button"><section className="finish-form" aria-labelledby="finish-form-title">
     <h3 id="finish-form-title" tabIndex={-1} ref={heading}>{t('finishes.editTitle')}</h3>
     <p className="form-help">{t('finishes.help')}</p>
     <form noValidate onSubmit={event => { void submit(event) }} aria-busy={saving}>
@@ -67,7 +68,7 @@ function FinishForm({ project, initialRoomId, onClose, onBusy, onTarget, onSaved
       {issue && <p className="error-notice" role="alert">{t(issue)}</p>}
       <div className="form-actions"><button className="button button-quiet" type="button" disabled={saving} onClick={onClose}>{t('common.cancel')}</button><button className="button button-primary" type="submit" disabled={saving}>{t(saving ? 'wizard.saving' : 'finishes.save')}</button></div>
     </form>
-  </section>
+  </section></ToolPanel>
 }
 export function FinishTools({ project, roomId, active, disabled, onOpen, onClose, onBusy, onTarget }: {
   project: Project; roomId: string | null; active: boolean; disabled: boolean

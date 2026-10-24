@@ -89,7 +89,7 @@ test('text editing, invalid forms, no-op confirmation and a provisional drag do 
   await start(page, es); await addDoor(page, es)
   const saved = await json(page)
   await button(page, es, 'Añadir ventana', 'Add window').click()
-  await expect(undo(page, es)).toBeDisabled()
+  await expect(page.locator('.history-actions button').first()).toBeDisabled()
   const field = page.locator('#opening-width'); await field.fill('0'); await field.press('Control+z')
   expect(await json(page)).toBe(saved)
   await field.fill('0'); await button(page, es, 'Guardar abertura', 'Save opening').click()

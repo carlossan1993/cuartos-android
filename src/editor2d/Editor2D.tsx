@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useStore } from 'zustand'
 import { projectStore } from '../state/project-store'
 import { HistoryControls } from '../history/HistoryControls'
@@ -81,6 +82,13 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const publish = useCallback((next: Scene) => { sceneRef.current = next; setScene(next) }, [])
 
   function cancelDrag() { drag.current = null; setFurniturePreview(null) }
+  function back() {
+    if (furniturePending.current || busy) return true
+    if (drag.current || Object.keys(gesture.current.pointers).length) { cancelDrag(); gesture.current = emptyGesture; return true }
+    if (retryFurniture) { setRetryFurniture(null); setNotice(null); return true }
+    onBack(); return true
+  }
+  useBackAction(back)
   function chooseFurniture(id: string | null) {
     selectFurniture(id); selectOpening(null)
     const item = project.furniture.find(item => item.id === id)
@@ -208,14 +216,15 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     if (event.ctrlKey || event.metaKey) return
     const current = sceneRef.current
     if (!current) return
-    if (drag.current) { cancelDrag(); gesture.current = emptyGesture; if (event.key === 'Escape') { event.preventDefault(); return } }
+    if (drag.current) { cancelDrag(); gesture.current = emptyGesture; if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); return } }
     if ((tool || busy) && (event.key === 'Enter' || event.key === 'Escape')) return
     const deltas: Record<string, Point> = { ArrowLeft: { x: 30, y: 0 }, ArrowRight: { x: -30, y: 0 }, ArrowUp: { x: 0, y: 30 }, ArrowDown: { x: 0, y: -30 } }
     if (deltas[event.key]) publish({ ...current, camera: panCamera(current.camera, deltas[event.key]) })
     else if (event.key === '+' || event.key === '=') zoom(1.25)
     else if (event.key === '-') zoom(0.8)
     else if (event.key === '0' || event.key === 'Home') fit()
-    else if (event.key === 'Escape') { select(null); selectOpening(null); selectFurniture(null) }
+    else if (event.key === 'Escape' && (selectedId || selectedOpening || selectedFurniture)) { select(null); selectOpening(null); selectFurniture(null); event.stopPropagation() }
+    else if (event.key === 'Escape') return
     else if (event.key === 'Enter') { select(project.rooms[0]?.id ?? null); selectFurniture(null); selectOpening(null) }
     else return
     event.preventDefault()
@@ -223,7 +232,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const relativeZoom = scene ? scene.camera.scale / fitCamera(bounds, scene.size).scale : 1
   const step = scene ? gridLines(scene.camera, scene.size, project.viewSettings.gridSize).step : project.viewSettings.gridSize
   return <section className="editor-page" aria-labelledby="editor-title">
-    <button type="button" className="button button-quiet back-link" disabled={busy || !!furniturePreview} onClick={onBack}>← {t('editor.back')}</button>
+    <button type="button" className="button button-quiet back-link" disabled={busy} onClick={back}>← {t('editor.back')}</button>
     <div className="editor-heading"><div><p className="eyebrow">{t('editor.eyebrow')}</p><h1 id="editor-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="editor-mode">2D</span></div>
     <HistoryControls disabled={!!tool || !!furniturePreview || localBusy || !!retryFurniture} onReload={() => { cancelDrag(); select(null); selectOpening(null); selectFurniture(null); setNotice(null); setRetryFurniture(null); setViewMessage(null) }} />
     <div className="editor-toolbar" role="group" aria-label={t('editor.tools')}>

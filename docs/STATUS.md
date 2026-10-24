@@ -206,6 +206,19 @@ Issue: [#27](https://github.com/carlossan1993/cuartos-android/issues/27). La ent
 
 Contrato, límites y pendientes: [HISTORY](HISTORY.md). QA físico Android pendiente.
 
+Etapa 15 integrada en [PR #28](https://github.com/carlossan1993/cuartos-android/pull/28), commit `cdfef248ede0400717fc87332175b72f8cce8079`. [CI final 40038891457](https://github.com/carlossan1993/cuartos-android/actions/runs/40038891457) web/Android correcto: 285 unitarias web, 66 E2E, cinco JVM y APK debug. El propietario confirmó aspecto y funcionamiento; no se acreditan pruebas físicas específicas sin registro.
+
+## Etapa 16 · Navegación y paneles Android
+
+Issue: [#29](https://github.com/carlossan1993/cuartos-android/issues/29). La entrega se cierra tras revisión técnica, checks web/Android verdes e integración; el PR registra resultados finales y APK antes del merge.
+
+- Atrás nativo mediante Capacitor App 8.1.2, MIT y versión fijada: prioridad de panel/gesto, asistente y pantallas, con salida solo desde inicio. Bloqueo durante transacciones, creación/importación, exportación y gestión; limpieza asíncrona de listeners y recuperación ES/EN.
+- Paneles modales de aberturas, acabados, catálogo y posición, con fondo inerte, título/idioma/cierre accesibles, Tab/Shift+Tab y retorno de foco. Formularios conservados al cambiar orientación, tamaño o idioma.
+- Cabecera/acciones visibles y campo enfocado revelado, visualViewport/áreas seguras y adjustResize. Controles táctiles de 48 px CSS, alturas útiles en horizontal y casos compactos sin desbordamiento.
+- 294 unitarias web y 72 E2E locales correctos; lint/typecheck/build y sincronización Android correctos. Enrutamiento/listeners y puente simulado, commits retenidos, exportación, orientación, foco y teclado. Capturas revisadas en teléfono ES/tablet EN. CI web/Android, cinco JVM y APK se registran en el PR.
+
+Contrato, fuentes, evidencia y checklist físico pendiente: [ANDROID_UX](ANDROID_UX.md). No se atribuye QA físico a Playwright.
+
 ## Siguiente implementación
 
-Después de integrar la etapa 15: UX Android, orientación, touch, botón Atrás y accesibilidad responsive (etapa 16).
+Después de integrar la etapa 16: rendimiento y calidad visual, DPR, carga diferida, geometrías/sombras y bundles (etapa 17).

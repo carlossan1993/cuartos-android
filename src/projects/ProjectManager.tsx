@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Project } from '../domain/types'
@@ -10,6 +11,7 @@ export function ProjectManager({ projectId, action, onCancel, onDone }: { projec
   const [loading, setLoading] = useState(true), [busy, setBusy] = useState(false), [invalid, setInvalid] = useState(false)
   const [issue, setIssue] = useState<string | null>(null), [revision, setRevision] = useState(0)
   const pending = useRef(false), heading = useRef<HTMLHeadingElement>(null), input = useRef<HTMLInputElement>(null), copy = useRef<Project | null>(null)
+  useBackAction(() => { if (!pending.current) onCancel(); return true }, 20)
   const load = useCallback(() => { setLoading(true); setIssue(null); copy.current = null; setRevision(n => n + 1) }, [])
   useEffect(() => {
     let active = true

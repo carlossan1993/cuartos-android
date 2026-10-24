@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Project } from '../domain/types'
@@ -8,6 +9,7 @@ export function ExportProject({ project, onBusy }: { project: Project; onBusy: (
   const { t, i18n } = useTranslation(), [format, setFormat] = useState<'json' | 'png'>('json'), [width, setWidth] = useState(2048)
   const [busy, setBusy] = useState(false), [message, setMessage] = useState<string | null>(null), [error, setError] = useState(false)
   const pending = useRef(false), cached = useRef<{ project: Project; key: string; file: ExportFile } | null>(null)
+  useBackAction(() => pending.current, 20)
   async function send(mode: 'save' | 'share') {
     if (pending.current) return
     pending.current = true; setBusy(true); onBusy(true); setMessage(null); setError(false)

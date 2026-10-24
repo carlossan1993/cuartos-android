@@ -400,5 +400,10 @@
       "stale": "History no longer matches the active design. Reload the saved copy.",
       "reload": "Could not reload the saved design."
     }
+  },
+  "navigation": {
+    "closePanel": "Close panel",
+    "close": "Close",
+    "backError": "Could not activate Android Back. Use the on-screen buttons or retry."
   }
 }

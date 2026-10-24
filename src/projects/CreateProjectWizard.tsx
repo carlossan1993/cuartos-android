@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RoomPreview } from '../components/RoomPreview'
@@ -18,6 +19,8 @@ export function CreateProjectWizard({ onCancel, onCreated }: { onCancel: () => v
   const heading = useRef<HTMLHeadingElement>(null)
   const form = useRef<HTMLFormElement>(null)
   useEffect(() => { heading.current?.focus() }, [step])
+
+  useBackAction(() => { if (!pending.current) { if (step === 2) { setStep(1); setErrors({}) } else onCancel() } return true })
 
   const format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(n)
   const range = { min: format(fromMeters(MIN_ROOM_SIZE, draft.unit)), max: format(fromMeters(MAX_ROOM_SIZE, draft.unit)), unit: draft.unit }

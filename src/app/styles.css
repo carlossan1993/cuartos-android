@@ -196,3 +196,37 @@ h1:focus, .page-title:focus { outline: none; }
 .history-help p { max-width: 75ch; margin: .6rem 0 0; }
 .history-feedback { margin-top: .75rem; font-size: .9rem; }
 .history-feedback p { margin: .4rem 0; }
+
+/* A single modal surface keeps drafts mounted across viewport/orientation changes. */
+.tool-dialog { position: fixed; inset: var(--viewport-top, 0px) 0 auto; margin: max(8px, env(safe-area-inset-top)) auto; width: min(960px, calc(100% - 16px)); max-width: none; max-height: calc(var(--viewport-height, 100dvh) - max(8px, env(safe-area-inset-top)) - max(8px, env(safe-area-inset-bottom))); padding: 0; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 18px; overflow: auto; overscroll-behavior: contain; box-shadow: 0 16px 70px #20243840; }
+.tool-dialog::backdrop { background: #20243890; }
+.tool-dialog-header { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.tool-dialog-header .language-control { flex-direction: row; align-items: center; gap: 8px; }
+.tool-dialog-header .language-control label { font-size: 12px; }
+.tool-dialog-content { padding: 20px; }
+.tool-dialog .opening-form-panel, .tool-dialog .finish-form, .tool-dialog .furniture-panel { margin: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
+.tool-dialog .form-actions { position: sticky; bottom: 0; z-index: 2; margin-inline: -20px; margin-bottom: -20px; padding: 12px 20px; background: var(--paper); border-top: 1px solid var(--line); }
+.tool-dialog .furniture-catalog-grid { max-height: none; overflow: visible; }
+.tool-dialog input, .tool-dialog select { scroll-margin-block: 110px 150px; }
+.button, select, .icon-button, .file-panel select { min-height: 48px; }
+.editor-toolbar .icon-button { min-height: 48px; width: 48px; height: 48px; }
+input[type=text], input:not([type]), select { font-size: 16px; }
+.editor-toolbar .editor-grid-toggle, .viewer-toolbar .viewer-toggle { min-height: 48px; }
+.history-help summary, .viewer-inventory summary { min-height: 48px; padding-block: 14px; }
+.action-group, .form-actions { flex-wrap: wrap; }
+.form-field, .form-panel, .room-details, .project-card-copy { min-width: 0; }
+.tool-dialog .form-actions .button { flex: 1 1 110px; }
+@media (max-width: 380px) {
+  .app-shell { padding-inline: max(14px, env(safe-area-inset-left)) max(14px, env(safe-area-inset-right)); }
+  .tool-dialog-header, .tool-dialog-content { padding-inline: 14px; }
+  .tool-dialog .form-actions { margin-inline: -14px; padding-inline: 14px; }
+  .tool-dialog-header .language-control { gap: 5px; }
+  .tool-dialog-header .language-control label { display: none; }
+}
+@media (max-height: 550px) {
+  .tool-dialog-header { padding-block: 6px; }
+  .editor-page .canvas-surface { height: max(220px, 60svh); }
+  .viewer-page .viewer-canvas { height: max(240px, 65svh); min-height: 240px; }
+}
+
+.brand, .unit-options label, .layout-options label { min-height: 48px; }

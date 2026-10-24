@@ -1,3 +1,4 @@
+import { ToolPanel } from '../components/ToolPanel'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Opening, Project } from '../domain/types'
@@ -47,7 +48,7 @@ function OpeningForm({ project, id, roomId, type, existing, onBusy, onPreviewWal
   function unit(unit: LengthUnit) {
     setDraft(current => ({ ...current, unit, offset: convertMeasurementText(current.offset, current.unit, unit), width: convertMeasurementText(current.width, current.unit, unit), height: convertMeasurementText(current.height, current.unit, unit), sillHeight: convertMeasurementText(current.sillHeight, current.unit, unit) }))
   }
-  return <section className="opening-form-panel" aria-labelledby="opening-form-title">
+  return <ToolPanel labelId="opening-form-title" onClose={onCancel} busy={saving} blocked={() => pending.current} returnFocus=".opening-selected button, .opening-tools-heading button"><section className="opening-form-panel" aria-labelledby="opening-form-title">
     <h2 ref={heading} tabIndex={-1} id="opening-form-title">{t(existing ? 'openings.editTitle' : 'openings.addTitle')}</h2>
     <p className="form-help">{t('openings.formHelp')}</p>
     <form ref={form} noValidate onSubmit={e => { void submit(e) }} aria-busy={saving}>
@@ -66,7 +67,7 @@ function OpeningForm({ project, id, roomId, type, existing, onBusy, onPreviewWal
       {issue && <p className="error-notice" role="alert">{t(issue)}</p>}
       <div className="form-actions"><button type="button" className="button button-quiet" disabled={saving} onClick={onCancel}>{t('common.cancel')}</button><button type="submit" className="button button-primary" disabled={saving}>{t(saving ? 'wizard.saving' : 'openings.save')}</button></div>
     </form>
-  </section>
+  </section></ToolPanel>
 }
 
 export function OpeningTools({ project, roomId, selectedId, onSelect, onBusy, onPreviewWall, disabled = false, onEditingChange }: {
