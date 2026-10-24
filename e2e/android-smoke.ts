@@ -32,6 +32,7 @@ try {
   check(report.metadata.wifi).toBe('0'); check(report.metadata.mobileData).toBe('0')
   await shell('settings put system accelerometer_rotation 0'); await shell('settings put system user_rotation 0')
   page = await launch()
+  await check(page.locator('.empty-state')).toBeVisible()
   // Do not clear or overwrite any existing data, even on an emulator.
   check(await records(page)).toHaveLength(0)
   for (const es of [true, false]) for (const shape of ['rectangle', 'l', 'connected'] as const) {

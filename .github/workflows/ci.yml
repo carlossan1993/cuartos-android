@@ -109,7 +109,10 @@ jobs:
       - name: Allow runner access to KVM
         run: sudo chmod a+rw /dev/kvm
       - name: Native WebView smoke on disposable API 35 AVD
-        run: bash scripts/run-android-smoke.sh
+        shell: bash
+        run: |
+          mkdir -p test-results/android-smoke
+          bash scripts/run-android-smoke.sh 2>&1 | tee test-results/android-smoke/setup.log
       - uses: actions/upload-artifact@v6
         if: always()
         with:

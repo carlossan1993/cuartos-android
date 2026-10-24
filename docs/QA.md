@@ -64,9 +64,9 @@ npm run test:e2e
 npm run test:qa
 ```
 
-Para smoke se requiere Linux con Android SDK, KVM y un entorno de AVD desechable; colocar el APK comprobado en `test-results/apk/app-debug.apk`, definir `ANDROID_HOME` del SDK y ejecutar `bash scripts/run-android-smoke.sh`. El script instala la imagen API 35, arranca y apaga su AVD con tiempo de arranque acotado; no ejecutar sobre un AVD con datos que se quieran conservar.
+Para smoke se requiere Linux con Android SDK, KVM y un entorno de AVD desechable; colocar el APK comprobado en `test-results/apk/app-debug.apk`, definir `ANDROID_HOME` del SDK y ejecutar `bash scripts/run-android-smoke.sh`. El script instala la imagen API 35, fija las ubicaciones Android de usuario/emulador/AVD a un directorio temporal propio, comprueba el registro del AVD antes de arrancarlo y lo apaga con tiempo de arranque acotado y fallo inmediato si el proceso termina; no ejecutar sobre un AVD con datos que se quieran conservar.
 
-Validación local: lint/typecheck/build, presupuestos, enlaces y sintaxis shell correctos; 297 Vitest + dos Node y 24/24 casos nuevos (Chromium 153/SwiftShader, sin omisiones ni reintentos en la ejecución final). Las capturas teléfono EN horizontal/tablet ES vertical se revisaron. El primer intento local empezó antes de terminar la preparación del ejecutable de navegador; sus ocho fallos de lanzamiento se corrigieron antes de repetir la matriz completa. No se atribuye al navegador el smoke Android: su ejecución pertenece al job de CI.
+Validación local: lint/typecheck/build, presupuestos, enlaces y sintaxis shell correctos; 297 Vitest + dos Node y 24/24 casos nuevos (Chromium 153/SwiftShader, sin omisiones ni reintentos en la ejecución final). Las capturas teléfono EN horizontal/tablet ES vertical se revisaron. No se atribuye al navegador el smoke Android: su ejecución pertenece al job de CI.
 
 Los resultados finales se registran en el PR antes de integrar: head/CI, conteos reales, captura revisada y APK. `web-evidence` conserva `regression.json`, `qa-matrix.json`, presupuestos, capturas y trazas fallidas; `android-reports` contiene lint/cinco JVM; `android-smoke-evidence`, resultados/capturas/logcat del emulador. Retención tres días. Las trazas Playwright se limpian en subdirectorios propios para no eliminar el informe de bundles generado antes de las pruebas.
 
