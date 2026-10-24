@@ -1,0 +1,279 @@
+{
+  "phase": "before",
+  "shape": "connected",
+  "device": "tablet",
+  "browserName": "chromium",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.6 Safari/537.36",
+  "viewport": {
+    "width": 1024,
+    "height": 768
+  },
+  "dpr": 1,
+  "ready2dMs": 427,
+  "ready3dMs": 1049,
+  "home": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 20.5
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 9.200000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 13.400000000372529
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 15.5
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 17.09999999962747
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.100000000558794
+    }
+  ],
+  "editor": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 20.5
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 9.200000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 13.400000000372529
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 15.5
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 17.09999999962747
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.100000000558794
+    },
+    {
+      "file": "Editor2D-DkVvzUZ1.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12255,
+      "durationMs": 23.59999999962747
+    },
+    {
+      "file": "view-preferences-zvcXguNd.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1849,
+      "durationMs": 22
+    },
+    {
+      "file": "PlanDrawing-CUNb5Mum.js",
+      "decodedBytes": 340333,
+      "encodedBytes": 103607,
+      "durationMs": 29.299999999813735
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 22.40000000037253
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 19.200000000186265
+    }
+  ],
+  "viewer": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 20.5
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 9.200000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 13.400000000372529
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 15.5
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 17.09999999962747
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.100000000558794
+    },
+    {
+      "file": "Editor2D-DkVvzUZ1.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12255,
+      "durationMs": 23.59999999962747
+    },
+    {
+      "file": "view-preferences-zvcXguNd.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1849,
+      "durationMs": 22
+    },
+    {
+      "file": "PlanDrawing-CUNb5Mum.js",
+      "decodedBytes": 340333,
+      "encodedBytes": 103607,
+      "durationMs": 29.299999999813735
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 22.40000000037253
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 19.200000000186265
+    },
+    {
+      "file": "Viewer3D-BZztvrMI.js",
+      "decodedBytes": 953258,
+      "encodedBytes": 251214,
+      "durationMs": 40.5
+    },
+    {
+      "file": "Viewer3D-BmuKPAnH.css",
+      "decodedBytes": 3047,
+      "encodedBytes": 996,
+      "durationMs": 11.799999999813735
+    }
+  ],
+  "initial": {
+    "buffersCreated": 100,
+    "buffersDeleted": 4,
+    "uploads": 100,
+    "uploadedBytes": 570600,
+    "draws": 98,
+    "texturesCreated": 9,
+    "texturesDeleted": 0,
+    "liveBuffers": 96,
+    "contextsLost": 0
+  },
+  "idle": {
+    "buffersCreated": 0,
+    "buffersDeleted": 0,
+    "uploads": 0,
+    "uploadedBytes": 0,
+    "draws": 0,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "camera": {
+    "buffersCreated": 4,
+    "buffersDeleted": 4,
+    "uploads": 4,
+    "uploadedBytes": 840,
+    "draws": 49,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "preferences": {
+    "buffersCreated": 90,
+    "buffersDeleted": 90,
+    "uploads": 90,
+    "uploadedBytes": 566904,
+    "draws": 98,
+    "texturesCreated": 2,
+    "texturesDeleted": 2,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "cycles": [
+    {
+      "buffersCreated": 194,
+      "buffersDeleted": 194,
+      "uploads": 194,
+      "uploadedBytes": 1138344,
+      "draws": 294,
+      "texturesCreated": 11,
+      "texturesDeleted": 4,
+      "liveBuffers": 0,
+      "contextsLost": 1
+    },
+    {
+      "buffersCreated": 294,
+      "buffersDeleted": 294,
+      "uploads": 294,
+      "uploadedBytes": 1708944,
+      "draws": 392,
+      "texturesCreated": 20,
+      "texturesDeleted": 6,
+      "liveBuffers": 0,
+      "contextsLost": 2
+    },
+    {
+      "buffersCreated": 394,
+      "buffersDeleted": 394,
+      "uploads": 394,
+      "uploadedBytes": 2279544,
+      "draws": 490,
+      "texturesCreated": 29,
+      "texturesDeleted": 8,
+      "liveBuffers": 0,
+      "contextsLost": 3
+    }
+  ]
+}

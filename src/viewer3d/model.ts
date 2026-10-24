@@ -61,7 +61,7 @@ export function buildRoom3D(room: Room, openings: readonly Opening[], rooms: rea
   })
   return { room, walls: result, corners }
 }
-export function sceneBounds(project: Project): SceneBounds {
+export function sceneBounds(project: Pick<Project, 'rooms' | 'furniture'>): SceneBounds {
   if (!project.rooms.length) return { center: [0, 1.3, 0], size: [4, 2.68, 3], radius: 3 }
   const points = [...project.rooms.flatMap(room => room.polygon.map(p => ({ x: p.x, z: p.y, t: room.wallThickness }))), ...project.furniture.flatMap(item => furnitureCorners(item).map(p => ({ x: p.x, z: p.y, t: 0 })))]
   const minX = Math.min(...points.map(p => p.x - p.t)), maxX = Math.max(...points.map(p => p.x + p.t))

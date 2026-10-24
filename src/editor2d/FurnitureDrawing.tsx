@@ -1,4 +1,4 @@
-import { Ellipse, Group, Rect, Text } from 'react-konva'
+import { Ellipse, Group, Rect, Text } from './konva'
 import type { FurnitureItem } from '../domain/types'
 import { catalogItem } from '../furniture/catalog'
 import { furnitureSymbol } from '../furniture/symbol'

@@ -1,0 +1,279 @@
+{
+  "phase": "before",
+  "shape": "connected",
+  "device": "phone",
+  "browserName": "chromium",
+  "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.7632.6 Mobile Safari/537.36",
+  "viewport": {
+    "width": 412,
+    "height": 839
+  },
+  "dpr": 2.625,
+  "ready2dMs": 427,
+  "ready3dMs": 926,
+  "home": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 23.700000000186265
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 8.700000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 12.599999999627471
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 17.699999999254942
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 14.699999999254942
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.900000000372529
+    }
+  ],
+  "editor": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 23.700000000186265
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 8.700000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 12.599999999627471
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 17.699999999254942
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 14.699999999254942
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.900000000372529
+    },
+    {
+      "file": "Editor2D-DkVvzUZ1.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12255,
+      "durationMs": 20.40000000037253
+    },
+    {
+      "file": "view-preferences-zvcXguNd.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1849,
+      "durationMs": 17.59999999962747
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 20
+    },
+    {
+      "file": "PlanDrawing-CUNb5Mum.js",
+      "decodedBytes": 340333,
+      "encodedBytes": 103607,
+      "durationMs": 26.799999999813735
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 19.299999999813735
+    }
+  ],
+  "viewer": [
+    {
+      "file": "index-CqPiDsf_.js",
+      "decodedBytes": 386430,
+      "encodedBytes": 122233,
+      "durationMs": 23.700000000186265
+    },
+    {
+      "file": "rolldown-runtime-XKyaHtl9.js",
+      "decodedBytes": 726,
+      "encodedBytes": 726,
+      "durationMs": 8.700000000186265
+    },
+    {
+      "file": "project-RTmU3HIq.js",
+      "decodedBytes": 9204,
+      "encodedBytes": 3569,
+      "durationMs": 12.599999999627471
+    },
+    {
+      "file": "react-dom-DC-UkEHF.js",
+      "decodedBytes": 3908,
+      "encodedBytes": 1414,
+      "durationMs": 17.699999999254942
+    },
+    {
+      "file": "jsx-runtime-DlgPkzJN.js",
+      "decodedBytes": 63095,
+      "encodedBytes": 21045,
+      "durationMs": 14.699999999254942
+    },
+    {
+      "file": "index-OFqAZ4xI.css",
+      "decodedBytes": 16191,
+      "encodedBytes": 4188,
+      "durationMs": 15.900000000372529
+    },
+    {
+      "file": "Editor2D-DkVvzUZ1.js",
+      "decodedBytes": 45657,
+      "encodedBytes": 12255,
+      "durationMs": 20.40000000037253
+    },
+    {
+      "file": "view-preferences-zvcXguNd.js",
+      "decodedBytes": 4794,
+      "encodedBytes": 1849,
+      "durationMs": 17.59999999962747
+    },
+    {
+      "file": "catalog-DC0BTDH9.js",
+      "decodedBytes": 7115,
+      "encodedBytes": 3029,
+      "durationMs": 20
+    },
+    {
+      "file": "PlanDrawing-CUNb5Mum.js",
+      "decodedBytes": 340333,
+      "encodedBytes": 103607,
+      "durationMs": 26.799999999813735
+    },
+    {
+      "file": "Editor2D-DENF2p_7.css",
+      "decodedBytes": 10703,
+      "encodedBytes": 2381,
+      "durationMs": 19.299999999813735
+    },
+    {
+      "file": "Viewer3D-BZztvrMI.js",
+      "decodedBytes": 953258,
+      "encodedBytes": 251214,
+      "durationMs": 49.69999999925494
+    },
+    {
+      "file": "Viewer3D-BmuKPAnH.css",
+      "decodedBytes": 3047,
+      "encodedBytes": 996,
+      "durationMs": 20.5
+    }
+  ],
+  "initial": {
+    "buffersCreated": 100,
+    "buffersDeleted": 4,
+    "uploads": 100,
+    "uploadedBytes": 570600,
+    "draws": 98,
+    "texturesCreated": 9,
+    "texturesDeleted": 0,
+    "liveBuffers": 96,
+    "contextsLost": 0
+  },
+  "idle": {
+    "buffersCreated": 0,
+    "buffersDeleted": 0,
+    "uploads": 0,
+    "uploadedBytes": 0,
+    "draws": 0,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "camera": {
+    "buffersCreated": 4,
+    "buffersDeleted": 4,
+    "uploads": 4,
+    "uploadedBytes": 840,
+    "draws": 49,
+    "texturesCreated": 0,
+    "texturesDeleted": 0,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "preferences": {
+    "buffersCreated": 94,
+    "buffersDeleted": 94,
+    "uploads": 94,
+    "uploadedBytes": 567744,
+    "draws": 147,
+    "texturesCreated": 2,
+    "texturesDeleted": 2,
+    "liveBuffers": 0,
+    "contextsLost": 0
+  },
+  "cycles": [
+    {
+      "buffersCreated": 198,
+      "buffersDeleted": 198,
+      "uploads": 198,
+      "uploadedBytes": 1139184,
+      "draws": 343,
+      "texturesCreated": 11,
+      "texturesDeleted": 4,
+      "liveBuffers": 0,
+      "contextsLost": 1
+    },
+    {
+      "buffersCreated": 298,
+      "buffersDeleted": 298,
+      "uploads": 298,
+      "uploadedBytes": 1709784,
+      "draws": 441,
+      "texturesCreated": 20,
+      "texturesDeleted": 6,
+      "liveBuffers": 0,
+      "contextsLost": 2
+    },
+    {
+      "buffersCreated": 398,
+      "buffersDeleted": 398,
+      "uploads": 398,
+      "uploadedBytes": 2280384,
+      "draws": 539,
+      "texturesCreated": 29,
+      "texturesDeleted": 8,
+      "liveBuffers": 0,
+      "contextsLost": 3
+    }
+  ]
+}

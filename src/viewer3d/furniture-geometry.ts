@@ -18,7 +18,7 @@ function primitive(shape: FurnitureShape): BufferGeometry {
 }
 
 /** One mesh/material per item, with local linear-space vertex colors for each part. */
-export function furnitureGeometry(model: Furniture3D): BufferGeometry {
+export function furnitureGeometry(model: Pick<Furniture3D, 'parts'>): BufferGeometry {
   const pieces: BufferGeometry[] = []
   try {
     for (const part of model.parts) {

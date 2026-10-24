@@ -31,6 +31,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - run: npm run check:bundles
       # ubuntu-latest already supplies Chromium's shared libraries. Install
       # only the headless browser used by these tests, without an apt upgrade.
       - run: npx playwright install --only-shell chromium
