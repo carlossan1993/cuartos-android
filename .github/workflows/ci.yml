@@ -27,6 +27,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: python3 scripts/check_docs.py
+      - run: bash -n scripts/sign-release.sh
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
@@ -81,7 +82,7 @@ jobs:
           packages: ''
       - name: Ensure Android SDK
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
-      - name: Lint, unit task and debug APK
+      - name: Android debug and release checks
         working-directory: android
         run: ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug lintRelease testReleaseUnitTest bundleRelease
       - name: Inspect unsigned release bundle and merged manifest

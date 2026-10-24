@@ -24,10 +24,12 @@ Revisión del código V1 y fuentes oficiales: 24 de octubre de 2026. Son respues
 - La política explica la caché de exportación: limpieza oportunista de carpetas mayores de 24 horas, no una promesa de eliminación exacta.
 - La política no promete cifrado propio del almacenamiento local. Android controla el sandbox y sus protecciones del dispositivo.
 - La consulta a GitHub solo sucede si el usuario abre el enlace externo; las consultas son públicas y no deben incluir proyectos ni datos personales.
-- CI inspecciona permisos del manifiesto release fusionado, debuggable, backup y bibliotecas nativas del AAB. Cualquier permiso diferente de INTERNET o biblioteca .so nueva bloquea la verificación hasta revisarla.
+- CI inspecciona permisos del manifiesto release fusionado, debuggable, backup y bibliotecas nativas del AAB. Se esperan INTERNET y el permiso privado de AndroidX com.carlossan1993.cuartos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, cuya declaración debe tener protectionLevel=signature; no da acceso a datos personales ni requiere consentimiento runtime. Cualquier otro permiso o biblioteca .so nueva bloquea la verificación hasta revisarla.
 - Este análisis respalda un borrador, no una certificación legal ni una aprobación de Google. Si cambian SDK, comunicaciones o funciones, revisar política y declaraciones.
 
 ## Fuentes primarias
 - [Definiciones de recopilación, tratamiento local y excepciones de compartir](https://support.google.com/googleplay/android-developer/answer/10787469?hl=en).
 - [Política de datos de usuario y privacidad](https://support.google.com/googleplay/android-developer/answer/10144311?hl=en).
 - [Ficha, límites y correo público de soporte](https://support.google.com/googleplay/android-developer/answer/9859152?hl=en).
+
+Fuente del permiso interno: [manifiesto AndroidX Core](https://android.googlesource.com/platform/prebuilts/sdk/+/dbc89592d1bcb88ed9718f2b8d4f117ebb74547f/current/androidx/manifests/androidx.core_core/AndroidManifest.xml). La inspección no retira esta protección para obtener un check verde.

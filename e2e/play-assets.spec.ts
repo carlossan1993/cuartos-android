@@ -30,6 +30,8 @@ test('capture actual product UI and store graphics', async ({ page, context }, i
     await button(page, es, 'Guardar posición', 'Save position').click()
     await expect(page.getByRole('dialog')).toHaveCount(0)
   }
+  // Finishes clear the active furniture selection; select the existing chair again.
+  await page.locator('.furniture-list button').first().click()
   await position('3.6', '1.2')
   for (const item of [{ index: 0, x: '.8', y: '2.7' }, { index: 2, x: '3.6', y: '3' }, { index: 6, x: '3.6', y: '.55' }]) {
     await button(page, es, 'Abrir catálogo', 'Open catalog').click()

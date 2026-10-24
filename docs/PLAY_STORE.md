@@ -4,7 +4,7 @@ Issue [#35](https://github.com/carlossan1993/cuartos-android/issues/35). Se prep
 ## Material preparado
 - Ficha y notas ES/EN: [es-419](../play/listing/es-419.json), [en-US](../play/listing/en-US.json). Límites 30/80/4000 caracteres y notas 500 comprobados por `npm run play:check`.
 - Identidad de trabajo conservada: Cuartos, com.carlossan1993.cuartos, versión 0.1.0 (1), minSdk 24, targetSdk 36. Ratificar antes de la primera subida; el identificador del paquete queda ligado a la app en Play.
-- Política ES/EN: [fuente única](../src/privacy/content.json), accesible desde el pie del inicio mediante panel modal sin red. `npm run build` genera public/privacy/es.html y en.html para el paquete y para hosting estático. Mecanismo de consultas público: GitHub Issues. Correo público de soporte pendiente.
+- Política ES/EN: [fuente única](../src/privacy/content.json), accesible desde el pie del inicio mediante panel modal sin red. `npm run build` genera public/privacy/es.html y en.html para el paquete y para hosting estático. El smoke del APK abre el panel en ES/EN sin red y lo cierra mediante Atrás nativo comprobando que los proyectos no cambien. Mecanismo de consultas público: GitHub Issues. Correo público de soporte pendiente.
 - Declaraciones propuestas y revisión de SDK/permisos: [DATA_SAFETY](../play/DATA_SAFETY.md).
 - Icono PNG de 32 bits (RGBA opaco), 512 × 512, a partir del símbolo existente, cuadrado sin premáscara ni mensajes promocionales; azul #03038c. Feature graphic 1024 × 500 ES/EN con una vista real del renderer, sin prometer funciones futuras.
 - Dieciséis capturas: cuatro pantallas (plano, 3D, catálogo, resumen) × teléfono/tablet × ES/EN. Teléfono 1080 × 1920; tablet 1200 × 1920. PNG RGB opaco, sin marco de dispositivo, overlay promocional ni contenido externo.
@@ -27,7 +27,7 @@ cd ..
 python3 scripts/check-aab.py
 ```
 
-`cuartos-release-unsigned` contiene el AAB **sin firma**, SHA-256 y diagnóstico: sirve para comprobar compilación/paquete y no es un archivo listo para subir a Play. Se comprueba WebView sin depuración, backup desactivado, API 36/24, HTML incluido y solo INTERNET. La inspección del ZIP inventaría .so y falla si aparece alguna hasta auditar ELF/alineación de 16 KB. Si no hay .so, no se afirma haber ejecutado un emulador de 16 KB; WebView lo suministra Android.
+`cuartos-release-unsigned` contiene el AAB **sin firma**, SHA-256 y diagnóstico: sirve para comprobar compilación/paquete y no es un archivo listo para subir a Play. Se comprueba WebView sin depuración, backup desactivado, API 36/24 y HTML incluido. Se esperan INTERNET y el permiso privado de receptores AndroidX, que se exige declarado con protectionLevel=signature; ningún otro permiso. La inspección del ZIP inventaría .so y falla si aparece alguna hasta auditar ELF/alineación de 16 KB. Si no hay .so, no se afirma haber ejecutado un emulador de 16 KB; WebView lo suministra Android.
 
 ## Publicar la política
 1. Generar HTML con `node scripts/privacy-pages.mjs`.

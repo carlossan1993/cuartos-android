@@ -34,7 +34,11 @@ assert app.attrib.get(ns+"debuggable", "false") == "false"
 assert app.attrib.get(ns+"allowBackup") == "false"
 assert sdk.attrib.get(ns+"targetSdkVersion") == "36" and sdk.attrib.get(ns+"minSdkVersion") == "24"
 permissions = sorted(p.attrib[ns+"name"] for p in manifest.findall("uses-permission"))
-assert permissions == ["android.permission.INTERNET"], permissions
+internal = "com.carlossan1993.cuartos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+assert permissions == ["android.permission.INTERNET", internal], permissions
+declarations = {p.attrib[ns+"name"]: p for p in manifest.findall("permission")}
+assert internal in declarations and declarations[internal].attrib.get(ns+"protectionLevel") == "signature", "AndroidX internal receiver permission must remain signature-protected"
+assert manifest.attrib.get(ns+"versionCode") == "1" and manifest.attrib.get(ns+"versionName") == "0.1.0"
 report = {"sha256": hashlib.sha256(bundle.read_bytes()).hexdigest(), "bytes": bundle.stat().st_size, "signed": signed,
           "applicationId": manifest.attrib["package"], "versionCode": manifest.attrib.get(ns+"versionCode"),
           "versionName": manifest.attrib.get(ns+"versionName"), "targetSdk": 36, "minSdk": 24,

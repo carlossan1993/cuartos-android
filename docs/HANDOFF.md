@@ -13,7 +13,7 @@ Repositorio público: [carlossan1993/cuartos-android](https://github.com/carloss
 ## Entregables de preparación
 Ficha ES/EN en play/listing, propuesta de declaraciones en play/DATA_SAFETY.md, política offline y HTML para hosting a partir de src/privacy/content.json, capturas/gráficos generados por CI y AAB release sin firma inspeccionado. Procedimientos y límites en [PLAY_STORE](PLAY_STORE.md). Scripts y fuentes están en git y los artifacts son regenerables.
 
-La interfaz solo añade acceso a privacidad en el pie de inicio. Se conserva el modelo esquema 1, editor, guardado transaccional e historial. Azul principal #03038c, neutros/salvia y textos completos ES/EN.
+El smoke de etapa 19 añade comprobaciones de privacidad offline ES/EN y Atrás nativo; consultar el resultado real en #35/PR. La interfaz solo añade acceso a privacidad en el pie de inicio. Se conserva el modelo esquema 1, editor, guardado transaccional e historial. Azul principal #03038c, neutros/salvia y textos completos ES/EN.
 
 ## Datos que deben completarse antes de cerrar etapa 19
 1. Correo público de soporte, nombre/paquete/identidad y público objetivo ratificados. No inventar el correo a partir del usuario GitHub.
