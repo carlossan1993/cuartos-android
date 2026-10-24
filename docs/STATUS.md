@@ -249,7 +249,7 @@ Automatización integrada en [PR #34](https://github.com/carlossan1993/cuartos-a
 Issue [#35](https://github.com/carlossan1993/cuartos-android/issues/35). El propietario autorizó expresamente preparar esta etapa con QA física pendiente y terminar aquí el trabajo de este chat.
 
 - Ficha ES/EN, política accesible offline desde inicio y HTML para hosting desde una fuente única, propuesta Data Safety y metadatos/ratificaciones explícitos.
-- Generación reproducible de icono 512 × 512, feature graphic 1024 × 500 ES/EN y 16 capturas actuales teléfono/tablet ES/EN. PNG RGB con dimensiones/hashes/procedencia, sin acreditarlos como capturas físicas.
+- Generación reproducible de icono 512 × 512, feature graphic 1024 × 500 ES/EN y 16 capturas actuales teléfono/tablet ES/EN. Capturas/feature graphic RGB e icono RGBA con dimensiones/hashes/procedencia, sin acreditarlos como capturas físicas.
 - CI amplía la compilación a lintRelease/testReleaseUnitTest/bundleRelease; AAB sin firma inspeccionado por permisos/manifiesto/activos/bibliotecas nativas. No se presenta como listo para subir.
 - Ruta manual main-only para firmar con la clave de carga del propietario, huella esperada y preflight. Sin clave disponible, no ejecutada; no genera claves ni publica en Play.
 - [Guía Play](PLAY_STORE.md) y [continuidad para otro chat](HANDOFF.md). El PR de #35 registra head, checks, resultados y artifacts reales antes de integrar.

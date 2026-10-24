@@ -55,11 +55,23 @@ def normalize(path):
     else:
         assert min(width, height) >= 320 and max(width, height) <= 3840 and max(width, height) <= min(width, height)*2
         assert height >= 1080
-    result = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 2, 0, 0, 0))
+    output_color = 2
+    if path.name == "icon-512.png":
+        rgba = bytearray()
+        for y in range(height):
+            rgba.append(0)
+            start = y * (width * 3 + 1) + 1
+            for x in range(width):
+                rgba.extend(rgb[start+x*3:start+x*3+3])
+                rgba.append(255)
+        rgb = rgba
+        output_color = 6
+    result = b"\x89PNG\r\n\x1a\n" + chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, output_color, 0, 0, 0))
     result += chunk(b"IDAT", zlib.compress(bytes(rgb), 9)) + chunk(b"IEND", b"")
+    if path.name == "icon-512.png": assert len(result) <= 1024*1024
     path.write_bytes(result)
-    return {"path": str(path.relative_to(ROOT)), "width": width, "height": height, "color": "RGB", "bytes": len(result), "sha256": hashlib.sha256(result).hexdigest()}
+    return {"path": str(path.relative_to(ROOT)), "width": width, "height": height, "color": "RGBA opaque" if output_color == 6 else "RGB", "bytes": len(result), "sha256": hashlib.sha256(result).hexdigest()}
 images = [normalize(path) for path in sorted(ROOT.rglob("*.png"))]
 assert len(images) == 19, f"Expected 16 UI captures and 3 graphics, got {len(images)}"
 (ROOT / "images.json").write_text(json.dumps(images, indent=2) + "\n")
-print(json.dumps({"images": len(images), "format": "opaque RGB PNG", "dimensions": "validated"}))
+print(json.dumps({"images": len(images), "format": "RGB captures/features; 32-bit RGBA opaque icon", "dimensions": "validated"}))

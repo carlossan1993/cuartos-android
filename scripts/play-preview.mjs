@@ -13,5 +13,5 @@ try {
     const bytes = await readFile('play-output/' + path)
     console.log('PLAY_PREVIEW:' + JSON.stringify({ path, base64: bytes.toString('base64') }))
   }
-  await writeFile('play-output/README.txt', 'Cuartos - Play preparation\nUI captures: actual bundled web app in Chromium emulation, not physical Android screenshots. Do not claim physical QA.\nGraphics and captures: dimensions and RGB PNG checked in images.json.\nListing text: listing/*.json. Privacy: privacy/es.html and en.html.\nAAB is a separate artifact. See docs/PLAY_STORE.md and docs/HANDOFF.md.\n')
+  await writeFile('play-output/README.txt', 'Cuartos - Play preparation\nUI captures: actual bundled web app in Chromium emulation, not physical Android screenshots. Do not claim physical QA.\nGraphics and captures: dimensions and PNG format (RGB captures/features, RGBA icon) checked in images.json.\nListing text: listing/*.json. Privacy: privacy/es.html and en.html.\nAAB is a separate artifact. See docs/PLAY_STORE.md and docs/HANDOFF.md.\n')
 } finally { await browser.close() }
