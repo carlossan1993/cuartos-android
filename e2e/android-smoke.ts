@@ -1,5 +1,6 @@
 import { _android as android, expect, type Page } from '@playwright/test'
 import { mkdir, writeFile } from 'node:fs/promises'
+import { documentPickerVisible } from './support/android-window.ts'
 import { button, createDesign, design, records, saved } from './support/qa-flow.ts'
 
 const out = 'test-results/android-smoke', pkg = 'com.carlossan1993.cuartos'
@@ -82,7 +83,7 @@ try {
     await shell('input keyevent 4')
     await check(page.locator('.project-summary')).toBeVisible()
     await button(page, es, 'Guardar archivo', 'Save file').click()
-    await device.wait({ pkg: /^(com\.google\.android\.documentsui|com\.android\.documentsui)$/ })
+    await check.poll(async () => documentPickerVisible(await shell('dumpsys window windows'))).toBe(true)
     await writeFile(`${out}/${name.replaceAll(' ', '-')}-chooser.png`, await device.screenshot())
     await shell('input keyevent 4')
     await check(page.locator('.file-panel [role="status"]')).toContainText(es ? 'cancelada' : 'cancelled')
@@ -109,6 +110,7 @@ try {
   report.status = 'passed'
 } catch (error) {
   report.metadata.imeAtFailure = (await shell('dumpsys input_method').catch(() => 'unavailable')).split('\n').filter(line => /mInputShown|mIsInputViewShown|mWindowVisible/.test(line)).join('\n')
+  console.log('Native failure windows: ' + (await shell('dumpsys window windows').catch(() => 'unavailable')).split('\n').filter(line => /Window #|isOnScreen=|isVisible=/.test(line)).join('\n'))
   console.log('Native failure IME: ' + report.metadata.imeAtFailure)
   if (page && !page.isClosed()) console.log('Native failure UI: ' + await page.locator('body').innerText().catch(() => 'unavailable'))
   report.status = 'failed'; report.error = error instanceof Error ? error.stack : String(error)

@@ -38,7 +38,7 @@ La matriz amplia no sustituye las pruebas detalladas; tampoco se afirma que cada
 
 ## Smoke de APK en Android real emulado
 
-Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligatorios antes de integrar. Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. El driver Android de Playwright 1.58.2 se instala solo en el AVD para detectar el selector visible mediante UIAutomator. Playwright se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
+Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligatorios antes de integrar. Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. Playwright 1.58.2 se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
 
 Se exige un único serial `emulator-*` y `ro.kernel.qemu=1`, sin proyectos previos; no se borran datos ni se permite ejecutar este script en dispositivos físicos. Por cada forma en ES/EN (seis casos):
 
@@ -64,7 +64,7 @@ npm run test:e2e
 npm run test:qa
 ```
 
-Para smoke se requiere Linux con Android SDK, KVM y un entorno de AVD desechable; colocar el APK comprobado en `test-results/apk/app-debug.apk`, definir `ANDROID_HOME` del SDK y ejecutar `bash scripts/run-android-smoke.sh`. El script instala la imagen API 35, fija las ubicaciones Android de usuario/emulador/AVD a un directorio temporal propio, comprueba el registro del AVD antes de arrancarlo y lo apaga con tiempo de arranque acotado y fallo inmediato si el proceso termina; no ejecutar sobre un AVD con datos que se quieran conservar.
+Para smoke se requiere Linux con Android SDK, KVM y un entorno de AVD desechable; colocar el APK comprobado en `test-results/apk/app-debug.apk`, definir `ANDROID_HOME` del SDK y ejecutar `bash scripts/run-android-smoke.sh`. El selector se reconoce por una ventana DocumentsUI simultáneamente visible y en pantalla en el diagnóstico de Android API 35; cinco pruebas de comportamiento rechazan ventanas ocultas, estados mezclados y referencias de otros procesos. El script instala la imagen API 35, fija las ubicaciones Android de usuario/emulador/AVD a un directorio temporal propio, comprueba el registro del AVD antes de arrancarlo y lo apaga con tiempo de arranque acotado y fallo inmediato si el proceso termina; no ejecutar sobre un AVD con datos que se quieran conservar.
 
 Validación local: lint/typecheck/build, presupuestos, enlaces y sintaxis shell correctos; 297 Vitest + dos Node y 24/24 casos nuevos (Chromium 153/SwiftShader, sin omisiones ni reintentos en la ejecución final). Las capturas teléfono EN horizontal/tablet ES vertical se revisaron. No se atribuye al navegador el smoke Android: su ejecución pertenece al job de CI.
 
