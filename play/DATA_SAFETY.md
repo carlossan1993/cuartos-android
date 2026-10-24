@@ -15,15 +15,15 @@ Revisión del código V1 y fuentes oficiales: 24 de octubre de 2026. Son respues
 | Público objetivo | Pendiente de ratificación del propietario. No inferir una audiencia infantil ni seleccionar todas las edades por defecto. |
 | Clasificación de contenido | Completar el cuestionario con funciones reales. No prometer una clasificación antes de que la consola la determine. |
 | Salud, finanzas y noticias | No son la función de esta app. Responder al formulario vigente según corresponda. |
-| Política | Texto ES/EN incluido offline; HTML generado con la misma fuente. La URL pública HTTPS activa sigue pendiente de hosting/verificación. |
-| Contacto | GitHub Issues es un mecanismo público de consultas en la política. La ficha de Play exige además un correo de soporte público; no está inventado en el repositorio. |
+| Política | Texto ES/EN incluido offline; HTML generado con la misma fuente. Firebase Hosting es el proveedor elegido; la URL pública HTTPS activa sigue pendiente de identificar proyecto/sitio, desplegar y verificar. |
+| Contacto | csdigital.apps@gmail.com, confirmado por el propietario para política y ficha de Play. Sin nombre personal ni enlace GitHub en la política. El enlace mailto abre el cliente de correo; la app no envía mensajes automáticamente. |
 
 ## Alcance de la revisión técnica
 - Dependencias directas fijadas en package.json: React, almacenamiento local Dexie/Zustand, render Konva/Three, i18next y Capacitor App/Filesystem/Share. Sin SDK de anuncios/analítica.
 - Fuentes: src/storage, src/files/native-files.ts, src/files/file-delivery.ts, src/privacy/content.json y AndroidManifest.xml. El permiso INTERNET estándar se conserva, sin llamadas automáticas a servicios externos desde la app.
 - La política explica la caché de exportación: limpieza oportunista de carpetas mayores de 24 horas, no una promesa de eliminación exacta.
 - La política no promete cifrado propio del almacenamiento local. Android controla el sandbox y sus protecciones del dispositivo.
-- La consulta a GitHub solo sucede si el usuario abre el enlace externo; las consultas son públicas y no deben incluir proyectos ni datos personales.
+- El contacto se realiza mediante el cliente de correo por decisión del usuario; el desarrollador recibe solo el mensaje que este envíe. La política describe ese uso para soporte y la posibilidad de solicitar eliminación. Firebase aloja exclusivamente la página pública de privacidad; no se añade un SDK, backend o analítica a la app.
 - CI inspecciona permisos del manifiesto release fusionado, debuggable, backup y bibliotecas nativas del AAB. Se esperan INTERNET y el permiso privado de AndroidX com.carlossan1993.cuartos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, cuya declaración debe tener protectionLevel=signature; no da acceso a datos personales ni requiere consentimiento runtime. Cualquier otro permiso o biblioteca .so nueva bloquea la verificación hasta revisarla.
 - Este análisis respalda un borrador, no una certificación legal ni una aprobación de Google. Si cambian SDK, comunicaciones o funciones, revisar política y declaraciones.
 

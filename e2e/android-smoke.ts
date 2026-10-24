@@ -1,10 +1,11 @@
 import { _android as android, expect, type Page } from '@playwright/test'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { documentPickerVisible } from './support/android-window.ts'
 import { button, createDesign, design, records, saved } from './support/qa-flow.ts'
 
 const out = 'test-results/android-smoke', pkg = 'com.carlossan1993.cuartos'
 await mkdir(out, { recursive: true })
+const policyVersion = (JSON.parse(await readFile(new URL('../src/privacy/content.json', import.meta.url), 'utf8')) as { version: string }).version
 const devices = await android.devices()
 if (devices.length !== 1 || !devices[0].serial().startsWith('emulator-')) throw new Error('Use exactly one disposable AVD; physical devices are not supported by this smoke script.')
 const device = devices[0], check = expect.configure({ timeout: 30000 })
@@ -57,7 +58,9 @@ try {
       const beforePrivacy = await records(page)
       await button(page, es, 'Política de privacidad', 'Privacy policy').click()
       await check(page.locator('#privacy-title')).toHaveText(es ? 'Política de privacidad' : 'Privacy policy')
-      await check(page.getByRole('dialog')).toContainText('2026-10-24.1')
+      await check(page.getByRole('dialog')).toContainText(policyVersion)
+      await check(page.getByRole('dialog')).toContainText('csdigital.apps@gmail.com')
+      await check(page.getByRole('dialog')).not.toContainText(/carlos|sandoval|github/i)
       await writeFile(`${out}/Native-${es ? 'ES' : 'EN'}-privacy-offline.png`, await device.screenshot())
       await shell('input keyevent 4')
       await check(page.getByRole('dialog')).toHaveCount(0)

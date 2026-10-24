@@ -1,6 +1,8 @@
 # Continuidad · Cuartos Android
 Última actualización: 24 de octubre de 2026 (America/Guayaquil).
 
+Decisión vigente: contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, alojada mediante Firebase Hosting del proyecto de Cuartos una vez identificado y autorizado. No declarar despliegue sin URL comprobada.
+
 ## Punto de partida
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android). Leer AGENTS.md, CONTRIBUTING.md, [STATUS](STATUS.md), [ROADMAP](ROADMAP.md), [PLAY_STORE](PLAY_STORE.md) y [QA](QA.md). No ejecutar etapa 20 en el chat que prepara este documento: el propietario continuará en otro.
 
@@ -16,8 +18,8 @@ Ficha ES/EN en play/listing, propuesta de declaraciones en play/DATA_SAFETY.md, 
 El smoke de etapa 19 añade comprobaciones de privacidad offline ES/EN y Atrás nativo; consultar el resultado real en #35/PR. La interfaz solo añade acceso a privacidad en el pie de inicio. Se conserva el modelo esquema 1, editor, guardado transaccional e historial. Azul principal #03038c, neutros/salvia y textos completos ES/EN.
 
 ## Datos que deben completarse antes de cerrar etapa 19
-1. Correo público de soporte, nombre/paquete/identidad y público objetivo ratificados. No inventar el correo a partir del usuario GitHub.
-2. Activar hosting estático de privacidad y verificar URL HTTPS pública sin login. HTML listo en docs/privacy para GitHub Pages main → /docs; no afirmar que Pages ya esté activo.
+1. Correo público confirmado por el propietario: csdigital.apps@gmail.com. No volver a pedirlo. Política sin nombre personal ni enlace GitHub. Quedan ratificaciones de nombre/paquete/identidad de publicación y público objetivo.
+2. Publicar la política en Firebase Hosting del proyecto propio de Cuartos y verificar URL HTTPS pública sin login. El ID de proyecto/sitio está pendiente; no reutilizar Colorimbo/Fourier Art ni adivinar IDs. Configuración firebase.json con target cuartos-privacy y public docs/privacy; pasos en PLAY_STORE.md. No usar GitHub Pages. Hace falta una sesión Firebase CLI autorizada, como Cloud Shell en el caso anterior.
 3. Clave de carga custodiada y respaldada por el propietario; configurar entorno/secrets fuera de git y ejecutar manualmente Signed upload AAB después de cumplir preflight. No crear ni pegar claves en el chat. Firmar/verificar y registrar AAB/hash/huella/commit/run reales.
 4. Completar QA física #33 antes de distribución.
 

@@ -10,7 +10,7 @@ export default function PrivacyPanel({ onClose }: { onClose: () => void }) {
       <h2 id="privacy-title" tabIndex={-1}>{copy.title}</h2>
       <p className="privacy-version">{copy.updated}</p><p>{copy.introduction}</p>
       {copy.sections.map(section => <section key={section.title}><h3>{section.title}</h3><p>{section.text}</p></section>)}
-      <p>{copy.contact} <a href={policy.contactUrl} target="_blank" rel="noopener noreferrer">{copy.contactLabel}</a></p>
+      <p>{copy.contact} <a href={policy.contactUrl} rel="noopener noreferrer">{copy.contactLabel}</a></p>
       <p>{copy.contactWarning}</p>
     </article>
   </ToolPanel>
