@@ -57,9 +57,9 @@ Después de cada cambio de política, verificar de nuevo título, versión, corr
 Fuentes: [Hosting y CLI](https://firebase.google.com/docs/hosting/quickstart), [targets por sitio](https://firebase.google.com/docs/hosting/multisites). No contratar servicios ni activar facturación para esta preparación estática. La creación de un proyecto ya no implica que exista un sitio Hosting: comprobarlo antes de desplegar.
 
 ## Clave de carga y AAB firmado
-La clave privada y sus contraseñas son del propietario. **No generarlas aquí ni incluirlas en el repositorio, logs, artifacts, Library o chat.** Este entorno no dispone de una clave de carga del propietario y no se inventa una. No usar la clave debug de Android para Play.
+La clave privada y sus contraseñas son del propietario. **No generarlas aquí ni incluirlas en el repositorio, logs, artifacts, Library o chat.** El agente no recibe ni conserva la clave privada del propietario. El propietario la creó en su Cloud Shell y confirmó el respaldo descargado; el workflow la utiliza mediante secrets del entorno play-upload. No usar la clave debug de Android para Play.
 
-Si aún no existe clave, el propietario puede crearla en su equipo con Android Studio (Generate Signed Bundle / APK → Android App Bundle → Create new), conservar una copia privada y respaldada y usar Play App Signing para que Google gestione la clave de firma de distribución. La clave de carga y la clave de firma de Play cumplen funciones diferentes.
+Clave de carga existente: alias cuartos-upload, PKCS12, RSA 3072, certificado SHA256withRSA, validez 10000 días y subject CN=Cuartos. No generar otra para continuar. Las contraseñas STORE_PASSWORD y KEY_PASSWORD corresponden a la contraseña del PKCS12 custodiado. Play App Signing para la distribución se configura en la primera subida, en el siguiente chat; la clave de carga y la clave de firma de Play cumplen funciones diferentes.
 
 Una vez completados datos del propietario y URL pública se puede preparar la firma; QA física sigue bloqueando distribución:
 1. [release.json](../play/release.json) conserva Cuartos/com.carlossan1993.cuartos, correo confirmado, URL comprobada y público 13+ indicado por el propietario. Verificar versión/code para la primera subida; la cuenta e identidad legal de Play se revisan en la consola antes de enviar.
@@ -69,16 +69,27 @@ Una vez completados datos del propietario y URL pública se puede preparar la fi
 5. La clave se decodifica solo en un temporal del runner, con permisos 600 y limpieza al salir; Gradle recibe contraseñas mediante entorno. Se verifica la huella esperada y la firma JAR con confianza explícita en el keystore. Solo se publica el AAB firmado, SHA-256 y reportes públicos, nunca el keystore.
 6. Descargar el artifact firmado, comprobar SHA-256, registrar commit/run/huella pública y conservarlo. Configurar Play App Signing durante la primera subida en el siguiente chat.
 
-La ruta manual está preparada, pero **no se afirma ejecutada** sin secretos y resultado real. La firma es condición de cierre pendiente; el AAB sin firma no la sustituye.
+## Entrega firmada verificada · 24 de octubre de 2026
+La etapa 19 queda cerrada con el AAB real de [Signed upload AAB #1](https://github.com/carlossan1993/cuartos-android/actions/runs/40131418704), aprobado por el propietario y completado con éxito. Fuente: main, commit 40fd03bc45bb493a7e9b4b997ef30f1dbfd710ad; job 120983741604. No se subió a Play.
 
-## Pendientes de cierre
+- Artifact: cuartos-upload-signed, ID 12574699065, disponible hasta el 7 de noviembre de 2026, 15:51 America/Guayaquil. Descargar y conservar el ZIP; su expiración no invalida la firma ni borra el código o la clave custodiada.
+- AAB dentro del ZIP: android/app/build/outputs/bundle/release/app-release.aab; 3487034 bytes; Cuartos 0.1.0, versionCode 1, com.carlossan1993.cuartos, minSdk 24, targetSdk 36.
+- SHA-256 del AAB: `8401634ea8f2c09d938853bed45aff5855bbbdf08d54ebd8a6f6e4c904ce6cbd`.
+- SHA-256 del certificado público de carga: `ddff97854355aece66cec911f0871bef1435b9d0a4a0b6c3ba4fc6346654c6be`.
+- SHA-256 del ZIP de artifact: `be8fafffda096bc460a561ea1a7523c60a22e63fb7585098fa76b5f4be8a7a5c`. Es distinto del hash del AAB.
+- Evidencia de CI: preflight HTTPS correcto, lintRelease/testReleaseUnitTest/bundleRelease correctos, certificado contrastado antes de firmar, jarsigner -verify -strict correcto con confianza explícita en el keystore y check-aab.py --signed correcto. No depurable, backup desactivado, permisos esperados y ninguna .so.
+- Verificación independiente del archivo descargado: hash/tamaño del ZIP y AAB contrastados con GitHub y aab-report.json; keytool -printcert -jarfile devuelve CN=Cuartos, RSA 3072 y la huella esperada. No se recibió ninguna clave privada.
+
+El preflight incluido conserva readyForSigning=true y readyForUpload=false porque physicalQaComplete=false. La preparación firmada no acredita QA física ni autorización de distribución. El cierre documental posterior no modifica el AAB firmado; la fuente exacta de ese binario es el commit registrado arriba.
+
+## Continuidad después del cierre de etapa 19
 - Datos de preparación resueltos: Cuartos, paquete existente, contacto csdigital.apps@gmail.com y público objetivo 13+ confirmado. La identidad legal/cuenta de Play no se ha configurado ni enviado desde este chat.
 - Hosting resuelto: HTML ES/EN en URL pública HTTPS, comprobado sin login.
-- Clave de carga bajo custodia del propietario y AAB firmado/verificado.
+- Firma resuelta: clave respaldada por el propietario y AAB real verificado en la ejecución registrada arriba. Conservar el artifact firmado; no se afirma que el propietario haya descargado ya este AAB.
 - P01–P07 de QA física, registrados en [QA](QA.md), antes de distribuir.
 - Cargar y verificar formularios/materiales en Play no se realiza en este chat; corresponde a la continuación.
 
-No marcar la etapa 19 completa mientras falte la firma comprobada del AAB. La aceptación de la apariencia por el propietario permite integrar esta preparación reversible y no reemplaza esos hechos.
+Antes de continuar en otro chat, verificar #33/#35 y conservar el AAB firmado. Al terminar de usar Cloud Shell, cerrar la sesión local con gh auth logout --hostname github.com --user carlossan1993; no elimina los secrets del repositorio ni el respaldo de la clave. No borrar el keystore privado ni regenerarlo para reanudar.
 
 ## Fuentes verificadas el 24 de octubre de 2026
 - [Recursos gráficos y capturas](https://support.google.com/googleplay/android-developer/answer/9866151?hl=en).
