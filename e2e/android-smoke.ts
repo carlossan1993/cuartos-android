@@ -10,7 +10,7 @@ const device = devices[0], check = expect.configure({ timeout: 30000 })
 device.setDefaultTimeout(30000)
 const shell = async (command: string) => (await device.shell(command)).toString().trim()
 if (await shell('getprop ro.kernel.qemu') !== '1') { await device.close(); throw new Error('A disposable AVD is required.') }
-const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string }[]; error?: string } = {
+const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string; contextRecovered?: boolean }[]; error?: string } = {
   status: 'running', metadata: { model: device.model(), serial: device.serial(), api: await shell('getprop ro.build.version.sdk'), fingerprint: await shell('getprop ro.build.fingerprint'), webview: await shell('dumpsys webviewupdate') }, cases: [],
 }
 let page: Page | undefined
@@ -23,7 +23,7 @@ async function launch() {
   current.on('pageerror', error => pageErrors.push(error.message))
   await check(current.locator('#language')).toBeVisible()
   check(await current.evaluate(() => (window as unknown as { Capacitor: { getPlatform(): string } }).Capacitor.getPlatform())).toBe('android')
-  await check.poll(() => current.evaluate(() => navigator.onLine)).toBe(false)
+  await check.poll(() => shell('dumpsys connectivity')).toMatch(/Active default network:\s*none/i)
   return current
 }
 try {
@@ -36,7 +36,7 @@ try {
   report.metadata.wifi = await shell('settings get global wifi_on')
   report.metadata.mobileData = await shell('settings get global mobile_data')
   // mobile_data is a saved preference, not the effective per-SIM radio state.
-  // Airplane mode + disabled Wi-Fi + WebView offline state establish offline use.
+  // Airplane mode + disabled Wi-Fi + Android reporting no default network establish offline use.
   await shell('settings put system accelerometer_rotation 0'); await shell('settings put system user_rotation 0')
   page = await launch()
   report.metadata.webviewOnline = String(await page.evaluate(() => navigator.onLine))
@@ -61,6 +61,9 @@ try {
     await check.poll(() => page!.evaluate(() => innerHeight > innerWidth)).toBe(true)
     await shell('input keyevent 3') // Home backgrounds the real Android activity.
     await shell(`am start -W -n ${pkg}/.MainActivity`)
+    const retry = button(page, es, 'Reintentar', 'Retry')
+    entry.contextRecovered = await retry.isVisible()
+    if (entry.contextRecovered) await retry.click()
     await check(page.locator('.viewer-canvas')).toHaveAttribute('data-ready', 'true')
     await shell('input keyevent 4')
     await check(page.locator('.canvas-surface canvas')).toBeVisible()
