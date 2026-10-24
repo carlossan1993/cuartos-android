@@ -137,6 +137,9 @@ test('responsive editing panel retains draft and language, keeps actions visible
   await page.screenshot({ path: `test-results/android-catalog-${info.project.name}.png`, fullPage: false })
   await page.getByRole('button', { name: es ? 'Cerrar panel' : 'Close panel' }).click()
   await expect(button(page, es, 'Abrir catálogo', 'Open catalog')).toBeFocused()
+  await page.getByRole('button', { name: es ? /Volver al resumen/ : /Back to summary/ }).click()
+  expect(await page.locator('#export-format').evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThanOrEqual(48)
+  expect(await saved(page)).toBe(original)
 })
 
 test('native Back is consumed during an export or project management transaction', async ({ page }, info) => {

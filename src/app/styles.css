@@ -208,7 +208,7 @@ h1:focus, .page-title:focus { outline: none; }
 .tool-dialog .form-actions { position: sticky; bottom: 0; z-index: 2; margin-inline: -20px; margin-bottom: -20px; padding: 12px 20px; background: var(--paper); border-top: 1px solid var(--line); }
 .tool-dialog .furniture-catalog-grid { max-height: none; overflow: visible; }
 .tool-dialog input, .tool-dialog select { scroll-margin-block: 110px 150px; }
-.button, select, .icon-button { min-height: 48px; }
+.button, select, .icon-button, .file-panel select { min-height: 48px; }
 .editor-toolbar .icon-button { min-height: 48px; width: 48px; height: 48px; }
 input[type=text], input:not([type]), select { font-size: 16px; }
 .editor-toolbar .editor-grid-toggle, .viewer-toolbar .viewer-toggle { min-height: 48px; }
