@@ -1,7 +1,7 @@
 # Continuidad · Cuartos Android
 Última actualización: 24 de octubre de 2026 (America/Guayaquil).
 
-Decisión vigente: contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, alojada mediante Firebase Hosting del proyecto de Cuartos una vez identificado y autorizado. No declarar despliegue sin URL comprobada.
+Decisión vigente: contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, publicada en Firebase Hosting del proyecto/sitio cuartos-42b27. URLs verificadas: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html; HTTP 200, HTML idéntico al código fuente. No volver a pedir proyecto, correo o despliegue inicial.
 
 ## Punto de partida
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android). Leer AGENTS.md, CONTRIBUTING.md, [STATUS](STATUS.md), [ROADMAP](ROADMAP.md), [PLAY_STORE](PLAY_STORE.md) y [QA](QA.md). No ejecutar etapa 20 en el chat que prepara este documento: el propietario continuará en otro.
@@ -18,8 +18,8 @@ Ficha ES/EN en play/listing, propuesta de declaraciones en play/DATA_SAFETY.md, 
 El smoke de etapa 19 añade comprobaciones de privacidad offline ES/EN y Atrás nativo; consultar el resultado real en #35/PR. La interfaz solo añade acceso a privacidad en el pie de inicio. Se conserva el modelo esquema 1, editor, guardado transaccional e historial. Azul principal #03038c, neutros/salvia y textos completos ES/EN.
 
 ## Datos que deben completarse antes de cerrar etapa 19
-1. Correo público confirmado por el propietario: csdigital.apps@gmail.com. No volver a pedirlo. Política sin nombre personal ni enlace GitHub. Quedan ratificaciones de nombre/paquete/identidad de publicación y público objetivo.
-2. Publicar la política en Firebase Hosting del proyecto propio de Cuartos y verificar URL HTTPS pública sin login. El ID de proyecto/sitio está pendiente; no reutilizar Colorimbo/Fourier Art ni adivinar IDs. Configuración firebase.json con target cuartos-privacy y public docs/privacy; pasos en PLAY_STORE.md. No usar GitHub Pages. Hace falta una sesión Firebase CLI autorizada, como Cloud Shell en el caso anterior.
+1. Correo público confirmado por el propietario: csdigital.apps@gmail.com. No volver a pedirlo. Política sin nombre personal ni enlace GitHub. Se conserva Cuartos/com.carlossan1993.cuartos del proyecto aceptado y el propietario confirmó público 13+ (13–15, 16–17 y 18+). La identidad legal de la cuenta de Play se revisa en consola antes de enviar; no se inventó ni se completó aquí.
+2. Hosting resuelto: proyecto/sitio cuartos-42b27, target cuartos-privacy, public docs/privacy; URLs ES/EN verificadas sin login y registradas en PLAY_STORE.md. .firebaserc conserva el mapeo público; play/release.json contiene la URL española. Para cambios posteriores usar una sesión Firebase autorizada del propietario; no reutilizar proyectos de otras apps ni desplegar servicios adicionales.
 3. Clave de carga custodiada y respaldada por el propietario; configurar entorno/secrets fuera de git y ejecutar manualmente Signed upload AAB después de cumplir preflight. No crear ni pegar claves en el chat. Firmar/verificar y registrar AAB/hash/huella/commit/run reales.
 4. Completar QA física #33 antes de distribución.
 

@@ -5,13 +5,20 @@
   "versionCode": 1,
   "targetSdk": 36,
   "minSdk": 24,
-  "ownerConfirmed": false,
+  "ownerConfirmed": true,
   "supportEmail": "csdigital.apps@gmail.com",
-  "privacyPolicyUrl": null,
-  "targetAudienceConfirmed": false,
+  "privacyPolicyUrl": "https://cuartos-42b27.web.app/es.html",
+  "targetAudienceConfirmed": true,
   "status": "preparation",
   "physicalQaIssue": 33,
   "preparationIssue": 35,
   "note": "No upload or stage 20 until owner fields, signed AAB and physical QA are complete. Never store credentials here.",
-  "physicalQaComplete": false
+  "physicalQaComplete": false,
+  "firebaseProjectId": "cuartos-42b27",
+  "firebaseHostingSiteId": "cuartos-42b27",
+  "targetAudience": [
+    "13-15",
+    "16-17",
+    "18+"
+  ]
 }
