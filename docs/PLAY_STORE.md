@@ -40,11 +40,11 @@ La clave privada y sus contraseñas son del propietario. **No generarlas aquí n
 
 Si aún no existe clave, el propietario puede crearla en su equipo con Android Studio (Generate Signed Bundle / APK → Android App Bundle → Create new), conservar una copia privada y respaldada y usar Play App Signing para que Google gestione la clave de firma de distribución. La clave de carga y la clave de firma de Play cumplen funciones diferentes.
 
-Una vez completados QA física, datos del propietario y URL pública:
+Una vez completados datos del propietario y URL pública se puede preparar la firma; QA física sigue bloqueando distribución:
 1. Ratificar nombre/paquete/público, completar correo y URL en [release.json](../play/release.json), marcar las confirmaciones solo con evidencia real y verificar versión/code para la primera subida.
 2. Crear el entorno GitHub `play-upload` con protección por revisión del propietario y restricción a main. Configurar en ese entorno los secrets ANDROID_UPLOAD_KEYSTORE_BASE64, ANDROID_UPLOAD_STORE_PASSWORD, ANDROID_UPLOAD_KEY_ALIAS y ANDROID_UPLOAD_KEY_PASSWORD. Base64 no cifra una clave: debe guardarse como secret.
 3. Configurar la variable pública ANDROID_UPLOAD_CERT_SHA256 con la huella SHA-256 del certificado esperado, obtenida de la copia custodiada. No contiene la clave privada.
-4. Ejecutar manualmente [Signed upload AAB](../.github/workflows/release-aab.yml) desde main con la confirmación de preflight. El workflow no se ejecuta en PR, no genera claves ni sube a Play. El preflight falla si faltan datos o QA.
+4. Ejecutar manualmente [Signed upload AAB](../.github/workflows/release-aab.yml) desde main con la confirmación de preflight. El workflow no se ejecuta en PR, no genera claves ni sube a Play. El preflight de firma falla si faltan datos y consulta la URL para comprobar HTML público con la versión de privacidad incluida. La preparación de firma no distribuye la app; QA física sigue siendo necesaria antes de subir/distribuir.
 5. La clave se decodifica solo en un temporal del runner, con permisos 600 y limpieza al salir; Gradle recibe contraseñas mediante entorno. Se verifica la huella esperada y la firma JAR con confianza explícita en el keystore. Solo se publica el AAB firmado, SHA-256 y reportes públicos, nunca el keystore.
 6. Descargar el artifact firmado, comprobar SHA-256, registrar commit/run/huella pública y conservarlo. Configurar Play App Signing durante la primera subida en el siguiente chat.
 

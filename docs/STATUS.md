@@ -257,4 +257,4 @@ Issue [#35](https://github.com/carlossan1993/cuartos-android/issues/35). El prop
 **Cierre pendiente:** correo de soporte y ratificaciones, URL pública de privacidad activa y AAB firmado/verificado bajo custodia del propietario. La etapa 19 no se marca completa por preparar un AAB sin firma. El siguiente chat deberá resolver esos pendientes y QA física antes de distribuir.
 
 ## Puerta de distribución
-La etapa 18 sigue abierta por P01–P07 de [QA](QA.md). Preparar materiales de etapa 19 está autorizado; no cerrar QA, firmar para upload sin preflight ni iniciar pruebas de Play (20) o publicación (21) sin la evidencia y autorización aplicables.
+La etapa 18 sigue abierta por P01–P07 de [QA](QA.md). Preparar materiales de etapa 19 está autorizado; no cerrar QA, firmar sin preflight ni iniciar pruebas de Play (20) o publicación (21) sin la evidencia y autorización aplicables.

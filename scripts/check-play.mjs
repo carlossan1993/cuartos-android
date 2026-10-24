@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 const json = async path => JSON.parse(await readFile(path, 'utf8'))
 const release = await json('play/release.json'), policy = await json('src/privacy/content.json')
-const report = { release, listings: {}, policyVersion: policy.version, readyForUpload: false }
+const report = { release, listings: {}, policyVersion: policy.version, readyForSigning: false, readyForUpload: false }
 for (const locale of ['es-419', 'en-US']) {
   const copy = await json('play/listing/' + locale + '.json')
   const lengths = {}
@@ -29,10 +29,18 @@ assert(gradle.includes('versionName "' + release.versionName + '"'))
 const variables = await readFile('android/variables.gradle', 'utf8')
 assert(variables.includes('targetSdkVersion = ' + release.targetSdk))
 assert(variables.includes('minSdkVersion = ' + release.minSdk))
-report.readyForUpload = release.ownerConfirmed && release.targetAudienceConfirmed && release.physicalQaComplete &&
+report.readyForSigning = release.ownerConfirmed && release.targetAudienceConfirmed &&
   typeof release.supportEmail === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(release.supportEmail) &&
   typeof release.privacyPolicyUrl === 'string' && /^https:\/\//.test(release.privacyPolicyUrl)
+report.readyForUpload = report.readyForSigning && release.physicalQaComplete
+if (process.argv.includes('--require-signing') || process.argv.includes('--require-ready')) {
+  assert(report.readyForSigning, 'Owner details and public privacy URL must be completed before signing.')
+  const response = await fetch(release.privacyPolicyUrl, { signal: AbortSignal.timeout(15000) })
+  assert(response.ok && response.headers.get('content-type')?.includes('text/html'), 'Privacy URL must serve public HTML successfully.')
+  const html = await response.text()
+  assert(html.includes(policy.version) && (html.includes(policy.es.title) || html.includes(policy.en.title)), 'Public privacy policy must match the bundled version.')
+}
 await mkdir('play-output', { recursive: true })
 await writeFile('play-output/preflight.json', JSON.stringify(report, null, 2) + '\n')
-console.log(JSON.stringify({ listings: report.listings, policy: policy.version, readyForUpload: report.readyForUpload }))
-if (process.argv.includes('--require-ready')) assert(report.readyForUpload, 'Owner details, active privacy URL and physical QA must be completed before signing for upload.')
+console.log(JSON.stringify({ listings: report.listings, policy: policy.version, readyForSigning: report.readyForSigning, readyForUpload: report.readyForUpload }))
+if (process.argv.includes('--require-ready')) assert(report.readyForUpload, 'Physical QA evidence must be completed before distribution.')

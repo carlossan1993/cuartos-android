@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
     inputs:
       confirm_preflight:
-        description: Owner confirms identity, active privacy URL and physical QA evidence are complete
+        description: Owner confirms identity, public support details and active privacy URL
         type: boolean
         required: true
         default: false
@@ -33,7 +33,7 @@ jobs:
           cache: gradle
       - run: npm ci
       - run: npm run android:sync
-      - run: node scripts/check-play.mjs --require-ready
+      - run: node scripts/check-play.mjs --require-signing
       - uses: android-actions/setup-android@v3
         with:
           packages: ''
