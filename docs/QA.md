@@ -43,7 +43,7 @@ Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligato
 Se exige un único serial `emulator-*` y `ro.kernel.qemu=1`, sin proyectos previos; no se borran datos ni se permite ejecutar este script en dispositivos físicos. Por cada forma en ES/EN (seis casos):
 
 1. Activar modo avión y desactivar Wi-Fi/datos; esperar modo avión 1, Wi-Fi 0 y Android sin red predeterminada activa (`Active default network: none`) en cada lanzamiento; conservar el dump para revisión. `navigator.onLine` se registra como dato informativo: en este APK siguió en true con el AVD desconectado. Registrar también la preferencia de datos móviles, que no equivale al estado efectivo de radio por SIM. Lanzar la actividad, comprobar plataforma `android`, crear mediante UI puerta/acabado/mueble.
-2. Abrir catálogo y cerrarlo con `input keyevent 4`; entrar en 3D, girar a horizontal/vertical y capturar.
+2. Abrir catálogo; si Android informa IME visible, comprobar que el primer Atrás oculta el teclado y conserva el panel. El siguiente Atrás cierra el catálogo; registrar `imeDismissed`. A continuación, entrar en 3D, girar a horizontal/vertical y capturar.
 3. Enviar Home y reactivar la actividad; si el WebView perdió el contexto, usar el reintento ofrecido y registrar `contextRecovered`; Atrás vuelve de 3D a 2D y resumen conservando el Project.
 4. Guardar JSON abre el selector real de documentos; capturarlo, cancelar con Atrás y comprobar aviso/datos intactos. No se selecciona destinatario ni se comparte un archivo.
 5. Registrar PID; `am force-stop`, comprobar que desaparece, relanzar y registrar PID nuevo. Idioma y Project completos conservados, plano visible e historial vacío.

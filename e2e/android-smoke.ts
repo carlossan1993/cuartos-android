@@ -9,8 +9,13 @@ if (devices.length !== 1 || !devices[0].serial().startsWith('emulator-')) throw 
 const device = devices[0], check = expect.configure({ timeout: 30000 })
 device.setDefaultTimeout(30000)
 const shell = async (command: string) => (await device.shell(command)).toString().trim()
+async function imeShown() {
+  const dump = await shell('dumpsys input_method'), match = dump.match(/\bmInputShown=(true|false)\b/)
+  if (!match) throw new Error('IME visibility was not available in the API 35 diagnostic.')
+  return match[1] === 'true'
+}
 if (await shell('getprop ro.kernel.qemu') !== '1') { await device.close(); throw new Error('A disposable AVD is required.') }
-const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string; contextRecovered?: boolean }[]; error?: string } = {
+const report: { status: string; metadata: Record<string, string>; cases: { name: string; status: string; pidBefore?: string; pidAfter?: string; contextRecovered?: boolean; imeDismissed?: boolean }[]; error?: string } = {
   status: 'running', metadata: { model: device.model(), serial: device.serial(), api: await shell('getprop ro.build.version.sdk'), fingerprint: await shell('getprop ro.build.fingerprint'), webview: await shell('dumpsys webviewupdate') }, cases: [],
 }
 let page: Page | undefined
@@ -49,6 +54,13 @@ try {
     const original = await createDesign(page, es, shape, name)
     await button(page, es, 'Abrir catálogo', 'Open catalog').click()
     await check(page.getByRole('dialog')).toBeVisible()
+    entry.imeDismissed = await imeShown()
+    console.log(`Native checkpoint: ${name}; IME shown: ${entry.imeDismissed}`)
+    if (entry.imeDismissed) {
+      await shell('input keyevent 4')
+      await check.poll(imeShown).toBe(false)
+      await check(page.getByRole('dialog')).toBeVisible()
+    }
     await shell('input keyevent 4')
     await check(page.getByRole('dialog')).toHaveCount(0)
     check(design(await saved(page, name))).toEqual(design(original))
@@ -96,12 +108,16 @@ try {
   check(pageErrors).toEqual([])
   report.status = 'passed'
 } catch (error) {
+  report.metadata.imeAtFailure = (await shell('dumpsys input_method').catch(() => 'unavailable')).split('\n').filter(line => /mInputShown|mIsInputViewShown|mWindowVisible/.test(line)).join('\n')
+  console.log('Native failure IME: ' + report.metadata.imeAtFailure)
+  if (page && !page.isClosed()) console.log('Native failure UI: ' + await page.locator('body').innerText().catch(() => 'unavailable'))
   report.status = 'failed'; report.error = error instanceof Error ? error.stack : String(error)
   await writeFile(`${out}/failure.png`, await device.screenshot()).catch(() => {})
   throw error
 } finally {
   await writeFile(`${out}/report.json`, JSON.stringify(report, null, 2))
   await writeFile(`${out}/logcat.txt`, await shell('logcat -d -v threadtime')).catch(() => {})
+  console.log('SMOKE_RESULT ' + JSON.stringify({ status: report.status, api: report.metadata.api, airplaneMode: report.metadata.airplaneMode, wifi: report.metadata.wifi, noDefaultNetwork: /Active default network:\s*none/i.test(report.metadata.connectivity ?? ''), cases: report.cases }))
   await device.close()
 }
 console.log(`Android WebView smoke: ${report.cases.length} cases passed, API ${report.metadata.api}.`)
