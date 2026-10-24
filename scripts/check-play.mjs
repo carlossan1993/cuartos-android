@@ -13,6 +13,13 @@ for (const locale of ['es-419', 'en-US']) {
   report.listings[locale] = lengths
 }
 assert.equal(policy.app, release.appName)
+assert.equal(policy.contactEmail, release.supportEmail)
+assert.equal(policy.contactUrl, 'mailto:' + release.supportEmail)
+assert(!/github|carlos|sandoval/i.test(JSON.stringify(policy)), 'Public privacy policy must not expose personal names or GitHub links')
+const firebase = await json('firebase.json')
+assert.deepEqual(Object.keys(firebase), ['hosting'])
+assert.equal(firebase.hosting.target, 'cuartos-privacy')
+assert.equal(firebase.hosting.public, 'docs/privacy')
 assert.deepEqual(Object.keys(policy.es).sort(), Object.keys(policy.en).sort())
 assert.equal(policy.es.sections.length, policy.en.sections.length)
 for (const lang of ['es', 'en']) {
@@ -20,6 +27,8 @@ for (const lang of ['es', 'en']) {
   assert.equal(html, await readFile('docs/privacy/' + lang + '.html', 'utf8'), 'Hosted policy snapshot must match generated app policy')
   assert(html.includes('<html lang="' + lang + '">'))
   assert(html.includes(policy[lang].title))
+  assert(html.includes('mailto:' + release.supportEmail))
+  assert(!/github|carlos|sandoval/i.test(html), 'Public privacy HTML contains a forbidden identity or link')
   assert(!/<script|<iframe|<img|https?:\/\/[^"'\s>]+\.(?:js|css)/i.test(html))
 }
 const gradle = await readFile('android/app/build.gradle', 'utf8')
@@ -39,6 +48,7 @@ if (process.argv.includes('--require-signing') || process.argv.includes('--requi
   assert(response.ok && response.headers.get('content-type')?.includes('text/html'), 'Privacy URL must serve public HTML successfully.')
   const html = await response.text()
   assert(html.includes(policy.version) && (html.includes(policy.es.title) || html.includes(policy.en.title)), 'Public privacy policy must match the bundled version.')
+  assert(html.includes('mailto:' + release.supportEmail) && !/github|carlos|sandoval/i.test(html), 'Public privacy contact must match the app without personal names or GitHub links.')
 }
 await mkdir('play-output', { recursive: true })
 await writeFile('play-output/preflight.json', JSON.stringify(report, null, 2) + '\n')

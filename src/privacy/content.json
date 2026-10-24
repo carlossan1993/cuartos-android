@@ -1,11 +1,10 @@
 {
-  "version": "2026-10-24.1",
+  "version": "2026-10-24.2",
   "app": "Cuartos",
-  "developer": "Carlos Sandoval",
-  "contactUrl": "https://github.com/carlossan1993/cuartos-android/issues",
+  "contactUrl": "mailto:csdigital.apps@gmail.com",
   "es": {
     "title": "Política de privacidad",
-    "updated": "Versión 2026-10-24.1 · 24 de octubre de 2026",
+    "updated": "Versión 2026-10-24.2 · 24 de octubre de 2026",
     "introduction": "Cuartos permite diseñar habitaciones en 2D y 3D. Esta política describe la versión sin cuentas, anuncios ni servicios remotos.",
     "sections": [
       {
@@ -29,21 +28,21 @@
         "text": "La app funciona sin conexión con recursos incluidos en el paquete. Conserva el permiso estándar de Internet de Capacitor, pero no lo utiliza para transmitir proyectos o telemetría. No solicita ubicación, contactos, cámara, micrófono ni identificadores publicitarios."
       },
       {
-        "title": "Servicios externos y consultas",
-        "text": "Si abres el enlace de contacto, tu navegador accederá a GitHub, que aplica su propia política de privacidad y puede requerir una cuenta. Las consultas que envíes serán públicas: no incluyas proyectos ni información personal o sensible. El desarrollador solo recibirá lo que decidas escribir allí y podrá responder para atender tu consulta."
+        "title": "Contacto y servicios externos",
+        "text": "Si decides escribir a csdigital.apps@gmail.com, recibiremos tu dirección de correo y el contenido que envíes para atender tu consulta. Usaremos esa información para responder y la conservaremos mientras sea necesaria para atenderla; puedes solicitar su eliminación escribiendo al mismo correo. La app no adjunta ni envía proyectos automáticamente. Tu proveedor de correo aplica su propia política. Si consultas esta política en Firebase Hosting, el navegador se conecta a ese servicio, que trata los datos técnicos de la conexión según su política; esta página no incorpora analítica, cookies de seguimiento ni formularios."
       },
       {
         "title": "Cambios",
         "text": "Si cambia el tratamiento de datos, se actualizarán esta política y su fecha. La versión incluida en la app describe el comportamiento de esa entrega."
       }
     ],
-    "contact": "Responsable: Carlos Sandoval. Aplicación: Cuartos. Consultas de privacidad y soporte:",
-    "contactLabel": "Abrir consultas en GitHub",
-    "contactWarning": "El enlace abre un servicio externo. No publiques datos personales."
+    "contact": "Cuartos · Consultas de privacidad y soporte:",
+    "contactLabel": "csdigital.apps@gmail.com",
+    "contactWarning": "El enlace abre tu aplicación de correo. El envío lo decides tú."
   },
   "en": {
     "title": "Privacy policy",
-    "updated": "Version 2026-10-24.1 · October 24, 2026",
+    "updated": "Version 2026-10-24.2 · October 24, 2026",
     "introduction": "Cuartos lets you design rooms in 2D and 3D. This policy describes the version without accounts, advertising or remote services.",
     "sections": [
       {
@@ -67,16 +66,17 @@
         "text": "The app works offline using bundled resources. It retains Capacitor's standard Internet permission but does not use it to transmit projects or telemetry. It does not request location, contacts, camera, microphone or advertising identifiers."
       },
       {
-        "title": "External services and inquiries",
-        "text": "Opening the contact link takes your browser to GitHub, which applies its own privacy policy and may require an account. Inquiries you submit there are public: do not include projects or personal or sensitive information. The developer receives only what you choose to write there and may reply to address your inquiry."
+        "title": "Contact and external services",
+        "text": "If you choose to email csdigital.apps@gmail.com, we receive your email address and the contents you send to address your inquiry. We use that information to reply and retain it while necessary to handle the inquiry; you may request its deletion by writing to the same address. The app does not attach or send projects automatically. Your email provider applies its own policy. If you read this policy on Firebase Hosting, your browser connects to that service, which handles technical connection data under its own policy; this page includes no analytics, tracking cookies or forms."
       },
       {
         "title": "Changes",
         "text": "If data handling changes, this policy and its date will be updated. The version bundled in the app describes the behaviour of that release."
       }
     ],
-    "contact": "Responsible developer: Carlos Sandoval. App: Cuartos. Privacy and support inquiries:",
-    "contactLabel": "Open inquiries on GitHub",
-    "contactWarning": "This link opens an external service. Do not post personal data."
-  }
+    "contact": "Cuartos · Privacy and support inquiries:",
+    "contactLabel": "csdigital.apps@gmail.com",
+    "contactWarning": "This link opens your email application. You decide whether to send a message."
+  },
+  "contactEmail": "csdigital.apps@gmail.com"
 }
