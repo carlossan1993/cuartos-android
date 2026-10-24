@@ -23,15 +23,23 @@ async function launch() {
   current.on('pageerror', error => pageErrors.push(error.message))
   await check(current.locator('#language')).toBeVisible()
   check(await current.evaluate(() => (window as unknown as { Capacitor: { getPlatform(): string } }).Capacitor.getPlatform())).toBe('android')
+  await check.poll(() => current.evaluate(() => navigator.onLine)).toBe(false)
   return current
 }
 try {
+  await shell('cmd connectivity airplane-mode enable')
   await shell('svc wifi disable'); await shell('svc data disable')
+  await check.poll(() => shell('settings get global airplane_mode_on')).toBe('1')
+  await check.poll(() => shell('settings get global wifi_on')).toBe('0')
+  report.metadata.airplaneMode = await shell('settings get global airplane_mode_on')
+  report.metadata.connectivity = await shell('dumpsys connectivity')
   report.metadata.wifi = await shell('settings get global wifi_on')
   report.metadata.mobileData = await shell('settings get global mobile_data')
-  check(report.metadata.wifi).toBe('0'); check(report.metadata.mobileData).toBe('0')
+  // mobile_data is a saved preference, not the effective per-SIM radio state.
+  // Airplane mode + disabled Wi-Fi + WebView offline state establish offline use.
   await shell('settings put system accelerometer_rotation 0'); await shell('settings put system user_rotation 0')
   page = await launch()
+  report.metadata.webviewOnline = String(await page.evaluate(() => navigator.onLine))
   await check(page.locator('.empty-state')).toBeVisible()
   // Do not clear or overwrite any existing data, even on an emulator.
   check(await records(page)).toHaveLength(0)

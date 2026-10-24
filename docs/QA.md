@@ -38,11 +38,11 @@ La matriz amplia no sustituye las pruebas detalladas; tampoco se afirma que cada
 
 ## Smoke de APK en Android real emulado
 
-Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. Playwright 1.58.2 se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
+Web y compilación Android se ejecutan en paralelo; ambos siguen siendo obligatorios antes de integrar. Job `android-smoke`, después del build Android: reutiliza **el mismo APK debug** de `cuartos-debug`, sin recompilarlo ni modificarlo. AVD desechable Pixel 7, Android API 35 Google APIs x86_64, KVM y GPU SwiftShader; paquete `com.carlossan1993.cuartos`. Playwright 1.58.2 se conecta al WebView de depuración de Capacitor mediante ADB. Es la API Android experimental ya incluida en la dependencia fijada; no hay librería de producción nueva, hook de prueba, puerto remoto de producción ni puente simulado.
 
 Se exige un único serial `emulator-*` y `ro.kernel.qemu=1`, sin proyectos previos; no se borran datos ni se permite ejecutar este script en dispositivos físicos. Por cada forma en ES/EN (seis casos):
 
-1. Desactivar Wi-Fi/datos y registrar sus valores. Lanzar la actividad, comprobar plataforma `android`, crear mediante UI puerta/acabado/mueble.
+1. Activar modo avión y desactivar Wi-Fi/datos; esperar modo avión 1, Wi-Fi 0 y WebView con `navigator.onLine=false` en cada lanzamiento; conservar el dump de conectividad para revisión. Registrar también la preferencia de datos móviles, que no equivale al estado efectivo de radio por SIM. Lanzar la actividad, comprobar plataforma `android`, crear mediante UI puerta/acabado/mueble.
 2. Abrir catálogo y cerrarlo con `input keyevent 4`; entrar en 3D, girar a horizontal/vertical y capturar.
 3. Enviar Home y reactivar la actividad; Atrás vuelve de 3D a 2D y resumen conservando el Project.
 4. Guardar JSON abre el selector real de documentos; capturarlo, cancelar con Atrás y comprobar aviso/datos intactos. No se selecciona destinatario ni se comparte un archivo.
