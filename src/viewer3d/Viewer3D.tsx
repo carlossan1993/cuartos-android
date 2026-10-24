@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useStore } from 'zustand'
 import { projectStore } from '../state/project-store'
 import { HistoryControls } from '../history/HistoryControls'
@@ -50,6 +51,7 @@ export default function Viewer3D({ project, onBack }: { project: Project; onBack
   const capture = useRef<CameraReader | null>(null), [savingView, setSavingView] = useState(false), [viewMessage, setViewMessage] = useState<string | null>(null)
   const pending = useStore(projectStore, state => state.pending)
   const busy = savingView || pending !== null
+  useBackAction(() => { if (!busy) onBack(); return true })
   const onCapture = useCallback((reader: CameraReader | null) => { capture.current = reader }, [])
   const dpr = useDpr(), format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 3 }).format(n)
   const onReady = useCallback(() => setReady(true), []), onLost = useCallback(() => { setReady(false); setError('lost') }, []), onError = useCallback(() => { setReady(false); setError('unavailable') }, [])

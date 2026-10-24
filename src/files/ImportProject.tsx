@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { Project } from '../domain/types'
@@ -9,6 +10,7 @@ export function ImportProject({ onCancel, onImported }: { onCancel: () => void; 
   const { t } = useTranslation(), [source, setSource] = useState<Project | null>(null), [name, setName] = useState(''), [fileName, setFileName] = useState('')
   const [reading, setReading] = useState(false), [saving, setSaving] = useState(false), [issue, setIssue] = useState<string | null>(null), [invalid, setInvalid] = useState(false)
   const picker = useRef<HTMLInputElement>(null), input = useRef<HTMLInputElement>(null), heading = useRef<HTMLHeadingElement>(null), candidate = useRef<Project | null>(null), pending = useRef(false), revision = useRef(0)
+  useBackAction(() => { if (!pending.current) onCancel(); return true })
   useEffect(() => { const tracker = revision; heading.current?.focus(); return () => { tracker.current++ } }, [])
   async function select(file: File | undefined) {
     if (!file || pending.current) return

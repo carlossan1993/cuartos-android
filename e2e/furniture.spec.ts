@@ -66,7 +66,7 @@ test('catalog, snapped mouse drag, rotation, duplicate, precise inputs, failed s
   const before = await stored(page)
   await button(page, es, 'Abrir catálogo', 'Open catalog').click()
   await expect(page.locator('.furniture-catalog-card')).toHaveCount(16)
-  await expect(button(page, es, 'Editar acabados', 'Edit finishes')).toBeDisabled()
+  await expect(page.getByRole('button', { name: es ? 'Editar acabados' : 'Edit finishes', exact: true, includeHidden: true })).toBeDisabled()
   await page.locator('.furniture-panel').screenshot({ path: `test-results/furniture-catalog-${info.project.name}.png` })
   await button(page, es, 'Añadir mueble', 'Add furniture').click()
   await expect(list(page)).toHaveCount(1)

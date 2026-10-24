@@ -5,7 +5,9 @@ import { ProjectManager, type ProjectAction } from '../projects/ProjectManager'
 import { SaveIndicator } from '../components/SaveIndicator'
 import { saveStatus } from '../state/save-status'
 import { RoomIllustration } from '../components/RoomIllustration'
-import { saveLanguage, type Language } from '../i18n/language'
+import { LanguagePicker } from '../components/LanguagePicker'
+import { backController, useBackAction, useViewport } from '../navigation/use-back'
+import { useAndroidBack } from '../navigation/use-android-back'
 import { polygonArea } from '../geometry/rooms'
 import { CreateProjectWizard } from '../projects/CreateProjectWizard'
 import { ProjectSummary } from '../projects/ProjectSummary'
@@ -20,6 +22,8 @@ const Editor2D = lazy(() => import('../editor2d/Editor2D'))
 
 export function App() {
   const { t, i18n } = useTranslation()
+  useViewport()
+  const nativeBack = useAndroidBack()
   const project = useStore(projectStore, state => state.project)
   const [screen, setScreen] = useState<'home' | 'create' | 'import' | 'project' | 'editor' | '3d'>('home')
   const [cards, setCards] = useState<ProjectCard[]>([])
@@ -70,10 +74,21 @@ export function App() {
     finally { openingLock.current = false; setOpening(null) }
   }
 
-  function changeLanguage(language: Language) {
-    saveLanguage(language)
-    void i18n.changeLanguage(language)
-  }
+  useBackAction(() => {
+    if (openingLock.current) return true
+    if (management) { setManagement(null); return true }
+    if (screen === '3d') { setScreen('editor'); return true }
+    if (screen === 'editor') { setScreen('project'); return true }
+    if (screen !== 'home') { goHome(); return true }
+    return false
+  }, 0)
+  useEffect(() => {
+    const key = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && !event.defaultPrevented && !event.isComposing && !document.querySelector('dialog[open]') && backController.request()) event.preventDefault()
+    }
+    window.addEventListener('keydown', key)
+    return () => window.removeEventListener('keydown', key)
+  }, [])
 
   return (
     <div className="app-shell">
@@ -82,15 +97,10 @@ export function App() {
           <img src="/icon.svg" alt="" width="40" height="40" />
           <span>{t('app.name')}<span className="brand-dot">.</span></span>
         </a>
-        <div className="language-control">
-          <label htmlFor="language">{t('language.label')}</label>
-          <select id="language" value={i18n.resolvedLanguage} onChange={e => changeLanguage(e.target.value as Language)}>
-            <option value="es">{t('language.spanish')}</option>
-            <option value="en">{t('language.english')}</option>
-          </select>
-        </div>
+        <LanguagePicker />
       </header>
       <main id="main" tabIndex={-1}>
+        {nativeBack.failed && <div className="error-notice" role="alert"><p>{t('navigation.backError')}</p><button className="button button-secondary" type="button" onClick={nativeBack.retry}>{t('common.retry')}</button></div>}
         {project && <SaveIndicator projectId={project.id} />}
         {screen === 'import' ? <ImportProject onCancel={goHome} onImported={importedProject} /> : screen === 'create' ? <CreateProjectWizard onCancel={goHome} onCreated={() => setScreen('project')} /> : screen === 'editor' && project ? <Suspense fallback={<p role="status">{t('editor.loading')}</p>}><Editor2D key={project.id} project={project} onBack={() => setScreen('project')} onOpen3D={() => setScreen('3d')} /></Suspense> : screen === '3d' && project ? <Suspense fallback={<p role="status">{t('viewer.loading')}</p>}><Viewer3D key={project.id} project={project} onBack={() => setScreen('editor')} /></Suspense> : screen === 'project' && project ? <ProjectSummary project={project} onBack={goHome} onOpenEditor={() => setScreen('editor')} /> : <>
         <section className="hero" aria-labelledby="welcome-title">

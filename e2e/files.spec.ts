@@ -168,7 +168,8 @@ test('Android delivery uses Filesystem then a save chooser or Share, handling ca
   await page.addInitScript(() => {
     const state = { calls: [] as { plugin: string; method: string; options: Record<string, unknown> }[], mode: 'saved' }
     Object.assign(window, { fileBridge: state, androidBridge: {}, Capacitor: {
-      PluginHeaders: [{ name: 'Filesystem', methods: ['writeFile', 'readdir', 'rmdir'].map(name => ({ name, rtype: 'promise' })) }, { name: 'Share', methods: [{ name: 'share', rtype: 'promise' }] }, { name: 'CuartosDocument', methods: [{ name: 'save', rtype: 'promise' }] }],
+      nativeCallback: () => 'file-test-app-listener',
+      PluginHeaders: [{ name: 'App', methods: [{ name: 'addListener', rtype: 'callback' }, { name: 'removeListener', rtype: 'promise' }, { name: 'exitApp', rtype: 'promise' }] }, { name: 'Filesystem', methods: ['writeFile', 'readdir', 'rmdir'].map(name => ({ name, rtype: 'promise' })) }, { name: 'Share', methods: [{ name: 'share', rtype: 'promise' }] }, { name: 'CuartosDocument', methods: [{ name: 'save', rtype: 'promise' }] }],
       nativePromise: async (plugin: string, method: string, options: Record<string, unknown>) => {
         state.calls.push({ plugin, method, options })
         if (method === 'readdir') return { files: [] }

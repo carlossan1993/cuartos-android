@@ -1,3 +1,4 @@
+import { useBackAction } from '../navigation/use-back'
 import { ConnectionSummary } from '../components/ConnectionSummary'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +13,7 @@ export function ProjectSummary({ project, onBack, onOpenEditor }: { project: Pro
   const { t, i18n } = useTranslation()
   const heading = useRef<HTMLHeadingElement>(null), [busy, setBusy] = useState(false)
   useEffect(() => { heading.current?.focus() }, [project.id])
+  useBackAction(() => { if (!busy) onBack(); return true })
   const room = project.rooms[0]
   const format = (n: number) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: 4 }).format(n)
   const width = room ? Math.max(...room.polygon.map(p => p.x)) - Math.min(...room.polygon.map(p => p.x)) : 0
