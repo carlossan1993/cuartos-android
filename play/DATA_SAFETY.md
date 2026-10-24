@@ -15,7 +15,7 @@ Revisión del código V1 y fuentes oficiales: 24 de octubre de 2026. Son respues
 | Público objetivo | Pendiente de ratificación del propietario. No inferir una audiencia infantil ni seleccionar todas las edades por defecto. |
 | Clasificación de contenido | Completar el cuestionario con funciones reales. No prometer una clasificación antes de que la consola la determine. |
 | Salud, finanzas y noticias | No son la función de esta app. Responder al formulario vigente según corresponda. |
-| Política | Texto ES/EN incluido offline; HTML generado con la misma fuente. Firebase Hosting es el proveedor elegido; la URL pública HTTPS activa sigue pendiente de identificar proyecto/sitio, desplegar y verificar. |
+| Política | Texto ES/EN incluido offline; HTML generado con la misma fuente. Firebase Hosting del proyecto/sitio cuartos-42b27. URLs públicas HTTPS verificadas el 24 de octubre de 2026: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html. Coinciden con la política offline; no hay SDK Firebase en la app. |
 | Contacto | csdigital.apps@gmail.com, confirmado por el propietario para política y ficha de Play. Sin nombre personal ni enlace GitHub en la política. El enlace mailto abre el cliente de correo; la app no envía mensajes automáticamente. |
 
 ## Alcance de la revisión técnica

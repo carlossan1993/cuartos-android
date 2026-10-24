@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "cuartos-42b27"
+  },
+  "targets": {
+    "cuartos-42b27": {
+      "hosting": {
+        "cuartos-privacy": [
+          "cuartos-42b27"
+        ]
+      }
+    }
+  }
+}

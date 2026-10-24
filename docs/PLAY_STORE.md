@@ -30,26 +30,29 @@ python3 scripts/check-aab.py
 `cuartos-release-unsigned` contiene el AAB **sin firma**, SHA-256 y diagnóstico: sirve para comprobar compilación/paquete y no es un archivo listo para subir a Play. Se comprueba WebView sin depuración, backup desactivado, API 36/24 y HTML incluido. Se esperan INTERNET y el permiso privado de receptores AndroidX, que se exige declarado con protectionLevel=signature; ningún otro permiso. La inspección del ZIP inventaría .so y falla si aparece alguna hasta auditar ELF/alineación de 16 KB. Si no hay .so, no se afirma haber ejecutado un emulador de 16 KB; WebView lo suministra Android.
 
 ## Publicar la política en Firebase
-El propietario eligió Firebase Hosting, en el proyecto propio de Cuartos, igual que en sus otras apps. No usar GitHub Pages ni los proyectos de Colorimbo/Fourier Art. El ID de proyecto y el sitio de Cuartos todavía no están identificados ni hay publicación verificada.
+El propietario eligió Firebase Hosting, en el proyecto propio de Cuartos, igual que en sus otras apps. No usar GitHub Pages ni los proyectos de Colorimbo/Fourier Art. Proyecto y sitio confirmados: **cuartos-42b27**, plan Spark. El propietario ejecutó el despliegue desde Cloud Shell y reportó Deploy complete; el 24 de octubre de 2026 se verificaron las dos páginas públicas sin autenticación.
 
 La configuración [firebase.json](../firebase.json) publica únicamente docs/privacy mediante el target cuartos-privacy. No despliega la app web, Functions, Firestore, Auth ni otros servicios; la app Android conserva funcionamiento offline y no incorpora SDK Firebase. Se sirven páginas HTML estáticas ES/EN, sin scripts, formularios o recursos remotos, con caché breve y cabeceras de seguridad.
 
-Desde una sesión Firebase CLI autorizada del propietario (por ejemplo Cloud Shell), y después de disponer del ID real de Cuartos y de su sitio Hosting:
+URLs publicadas para usar en la ficha:
+- Español: https://cuartos-42b27.web.app/es.html
+- English: https://cuartos-42b27.web.app/en.html
+
+Comprobación: HTTP 200, Content-Type text/html; charset=utf-8, versión 2026-10-24.2, enlace mailto:csdigital.apps@gmail.com, sin nombre personal/GitHub y bytes idénticos a docs/privacy en el commit 048a5d895fc219f8274045a17b9ceadbeab6e822. Cabeceras CSP/no-referrer/nosniff y caché configuradas por firebase.json. No se enviaron mensajes de correo.
+
+Para futuras actualizaciones, desde una sesión Firebase CLI autorizada del propietario (por ejemplo Cloud Shell):
 
 ```sh
 # Situarse en el checkout actualizado de este repositorio.
-# Revisar primero que el ID corresponde a Cuartos.
+# El mapeo público de .firebaserc ya corresponde al proyecto/sitio de Cuartos.
 node scripts/privacy-pages.mjs docs/privacy
-firebase hosting:sites:list --project ID_PROYECTO_CUARTOS
-# Solo si aún no existe el sitio, crearlo con su ID elegido:
-# firebase hosting:sites:create ID_SITIO_CUARTOS --project ID_PROYECTO_CUARTOS
-firebase target:apply hosting cuartos-privacy ID_SITIO_CUARTOS --project ID_PROYECTO_CUARTOS
-firebase deploy --only hosting:cuartos-privacy --project ID_PROYECTO_CUARTOS
+firebase hosting:sites:list --project cuartos-42b27
+firebase deploy --only hosting:cuartos-privacy --project cuartos-42b27
 ```
 
-Los nombres ID_PROYECTO_CUARTOS e ID_SITIO_CUARTOS son marcadores, no IDs reales ni proyectos creados. No ejecutar con ellos sin reemplazarlos. El mapeo del target se guarda en .firebaserc; una vez conocidos los IDs correctos se puede registrar ese mapeo público en git. No guardar credenciales.
+El mapeo público del target queda registrado en [.firebaserc](../.firebaserc); no contiene credenciales. No volver a crear el sitio ni utilizar proyectos de otras apps. El despliegue requiere la autorización Firebase del propietario; ese acceso no se copia al repositorio.
 
-Abrir las URLs HTTPS reales /es.html y /en.html del sitio publicado sin autenticación. Verificar título, versión 2026-10-24.2, correo, ausencia de nombre personal/enlaces GitHub y paridad con la app. Registrar la URL española efectiva en play/release.json solo tras comprobarla; no fabricar un dominio a partir de un nombre de proyecto supuesto.
+Después de cada cambio de política, verificar de nuevo título, versión, correo, ausencia de nombre personal/enlaces GitHub y paridad exacta con la app/HTML fuente. La URL española comprobada ya figura en play/release.json.
 
 Fuentes: [Hosting y CLI](https://firebase.google.com/docs/hosting/quickstart), [targets por sitio](https://firebase.google.com/docs/hosting/multisites). No contratar servicios ni activar facturación para esta preparación estática. La creación de un proyecto ya no implica que exista un sitio Hosting: comprobarlo antes de desplegar.
 
@@ -70,7 +73,7 @@ La ruta manual está preparada, pero **no se afirma ejecutada** sin secretos y r
 
 ## Pendientes de cierre
 - Contacto confirmado: csdigital.apps@gmail.com. Quedan por ratificar identidad de publicación/nombre/paquete y audiencia.
-- HTML en URL pública HTTPS y comprobación sin login.
+- Hosting resuelto: HTML ES/EN en URL pública HTTPS, comprobado sin login.
 - Clave de carga bajo custodia del propietario y AAB firmado/verificado.
 - P01–P07 de QA física, registrados en [QA](QA.md), antes de distribuir.
 - Cargar y verificar formularios/materiales en Play no se realiza en este chat; corresponde a la continuación.
