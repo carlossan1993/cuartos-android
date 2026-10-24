@@ -1,6 +1,6 @@
 # Estado del proyecto
 
-Actualizado: 23 de octubre de 2026, America/Guayaquil.
+Actualizado: 24 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
@@ -243,6 +243,18 @@ Issue: [#33](https://github.com/carlossan1993/cuartos-android/issues/33). Automa
 - Smoke de seis casos ES/EN/tres formas sobre el mismo APK debug en AVD API 35: WebView/Capacitor reales por ADB, sin Wi-Fi/datos, Atrás, orientación, Home/reanudación, selector de documentos/cancelación y force-stop/reapertura con PID nuevo. Se registra el resultado efectivo en CI; no se presenta como ejecutado hasta disponer de él.
 - Sin cambios de producción, dependencias, esquema ni migraciones. Matriz, fuentes, límites y registro físico en [QA](QA.md).
 
-## Puerta de avance
+Automatización integrada en [PR #34](https://github.com/carlossan1993/cuartos-android/pull/34), merge eff2d20e58ea2ff553fe69c6cc22d16f9ea5461c. [CI 40104110524](https://github.com/carlossan1993/cuartos-android/actions/runs/40104110524): 302 Vitest + dos Node, 102 E2E (78 + 24), Android/JVM y seis flujos AVD correctos. #33 permanece abierta por P01–P07 físicos.
 
-La etapa 18 sigue abierta por las comprobaciones físicas P01–P07 de [QA](QA.md): instalación/actualización, IME/gesto Atrás/TalkBack, archivos/Share/proveedores, presión de memoria/almacenamiento, perfilado y densidades reales. Preparación de Play (etapa 19) pendiente de completar esta evidencia; no se realiza firma ni publicación.
+## Etapa 19 · Preparación Play Store
+Issue [#35](https://github.com/carlossan1993/cuartos-android/issues/35). El propietario autorizó expresamente preparar esta etapa con QA física pendiente y terminar aquí el trabajo de este chat.
+
+- Ficha ES/EN, política accesible offline desde inicio y HTML para hosting desde una fuente única, propuesta Data Safety y metadatos/ratificaciones explícitos.
+- Generación reproducible de icono 512 × 512, feature graphic 1024 × 500 ES/EN y 16 capturas actuales teléfono/tablet ES/EN. PNG RGB con dimensiones/hashes/procedencia, sin acreditarlos como capturas físicas.
+- CI amplía la compilación a lintRelease/testReleaseUnitTest/bundleRelease; AAB sin firma inspeccionado por permisos/manifiesto/activos/bibliotecas nativas. No se presenta como listo para subir.
+- Ruta manual main-only para firmar con la clave de carga del propietario, huella esperada y preflight. Sin clave disponible, no ejecutada; no genera claves ni publica en Play.
+- [Guía Play](PLAY_STORE.md) y [continuidad para otro chat](HANDOFF.md). El PR de #35 registra head, checks, resultados y artifacts reales antes de integrar.
+
+**Cierre pendiente:** correo de soporte y ratificaciones, URL pública de privacidad activa y AAB firmado/verificado bajo custodia del propietario. La etapa 19 no se marca completa por preparar un AAB sin firma. El siguiente chat deberá resolver esos pendientes y QA física antes de distribuir.
+
+## Puerta de distribución
+La etapa 18 sigue abierta por P01–P07 de [QA](QA.md). Preparar materiales de etapa 19 está autorizado; no cerrar QA, firmar para upload sin preflight ni iniciar pruebas de Play (20) o publicación (21) sin la evidencia y autorización aplicables.

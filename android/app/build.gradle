@@ -16,8 +16,25 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    // A release stays unsigned unless the owner supplies all upload-key inputs.
+    // This never falls back to the public Android debug key.
+    def uploadStore = System.getenv('CUARTOS_KEYSTORE_PATH')
+    if (uploadStore) {
+        ['CUARTOS_STORE_PASSWORD', 'CUARTOS_KEY_ALIAS', 'CUARTOS_KEY_PASSWORD'].each { name ->
+            if (!System.getenv(name)) throw new GradleException("Missing upload signing input: " + name)
+        }
+        signingConfigs {
+            upload {
+                storeFile file(uploadStore)
+                storePassword System.getenv('CUARTOS_STORE_PASSWORD')
+                keyAlias System.getenv('CUARTOS_KEY_ALIAS')
+                keyPassword System.getenv('CUARTOS_KEY_PASSWORD')
+            }
+        }
+    }
     buildTypes {
         release {
+            if (uploadStore) signingConfig signingConfigs.upload
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

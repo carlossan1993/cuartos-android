@@ -16,7 +16,7 @@ concurrency:
 jobs:
   web:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
         with:
@@ -32,11 +32,25 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run check:bundles
+      - run: npm run play:check
       # ubuntu-latest already supplies Chromium's shared libraries. Install
       # only the headless browser used by these tests, without an apt upgrade.
       - run: npx playwright install --only-shell chromium
       - run: npm run test:e2e
       - run: npm run test:qa
+      - name: Capture Play listing assets from actual UI
+        run: |
+          npm run play:assets
+          python3 scripts/normalize-play-images.py
+          node scripts/play-preview.mjs
+          cp -R play/listing play-output/listing
+          cp -R public/privacy play-output/privacy
+      - uses: actions/upload-artifact@v6
+        with:
+          name: cuartos-play-listing
+          path: play-output/
+          if-no-files-found: error
+          retention-days: 90
       - uses: actions/upload-artifact@v6
         if: always()
         with:
@@ -69,7 +83,17 @@ jobs:
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - name: Lint, unit task and debug APK
         working-directory: android
-        run: ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug
+        run: ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug lintRelease testReleaseUnitTest bundleRelease
+      - name: Inspect unsigned release bundle and merged manifest
+        run: python3 scripts/check-aab.py
+      - uses: actions/upload-artifact@v6
+        with:
+          name: cuartos-release-unsigned
+          path: |
+            android/app/build/outputs/bundle/release/app-release.aab
+            play-output/release/
+          if-no-files-found: error
+          retention-days: 90
       - uses: actions/upload-artifact@v6
         with:
           name: cuartos-debug
