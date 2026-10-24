@@ -12,6 +12,8 @@
     "test": "vitest run && node --test scripts/bundle-report.test.mjs",
     "check:bundles": "node scripts/bundle-report.mjs",
     "test:e2e": "playwright test",
+    "test:qa": "playwright test --config=playwright.qa.config.ts",
+    "test:android:smoke": "node e2e/android-smoke.ts",
     "android:sync": "npm run build && cap sync android"
   },
   "dependencies": {

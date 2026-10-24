@@ -232,6 +232,17 @@ Issue: [#31](https://github.com/carlossan1993/cuartos-android/issues/31). La ent
 
 Perfilado CPU/GPU/memoria/temperatura, densidades físicas, Atrás/IME/TalkBack y archivos/Share reales pendientes. Las mediciones de navegador software no acreditan FPS ni QA Android físico.
 
-## Siguiente implementación
+Etapa 17 integrada en [PR #32](https://github.com/carlossan1993/cuartos-android/pull/32), commit `04b876e6e7160e7d4dfff166e0d0784c8cd45aa6`. [CI 40061786643](https://github.com/carlossan1993/cuartos-android/actions/runs/40061786643) web/Android correcto: 297 Vitest + dos Node, 78 E2E, cinco JVM y APK verificada. El propietario confirmó que la entrega se ve bien; no se acreditan pruebas físicas específicas.
 
-Después de integrar la etapa 17: QA bilingüe y regresión global, smoke Android y checklist físico con registro de evidencias (etapa 18).
+## Etapa 18 · QA bilingüe y regresión
+
+Issue: [#33](https://github.com/carlossan1993/cuartos-android/issues/33). Automatización con 24/24 casos nuevos locales correctos, además de 297 Vitest y dos Node; el PR registra la regresión completa y el smoke Android efectivos de CI antes de integrar. La etapa permanece abierta hasta completar la evidencia física.
+
+- Se conserva la regresión detallada de 78 E2E y se añaden 24 escenarios: tres formas × teléfono/tablet × ES/EN × vertical/horizontal. Creación por UI, aberturas/acabados/mueble, undo/redo, 2D/3D, JSON/PNG, importación independiente y reapertura.
+- Informes JSON y capturas por combinación. Las trazas se limpian en subdirectorios propios para conservar el informe de presupuestos en los artifacts de CI.
+- Smoke de seis casos ES/EN/tres formas sobre el mismo APK debug en AVD API 35: WebView/Capacitor reales por ADB, sin Wi-Fi/datos, Atrás, orientación, Home/reanudación, selector de documentos/cancelación y force-stop/reapertura con PID nuevo. Se registra el resultado efectivo en CI; no se presenta como ejecutado hasta disponer de él.
+- Sin cambios de producción, dependencias, esquema ni migraciones. Matriz, fuentes, límites y registro físico en [QA](QA.md).
+
+## Puerta de avance
+
+La etapa 18 sigue abierta por las comprobaciones físicas P01–P07 de [QA](QA.md): instalación/actualización, IME/gesto Atrás/TalkBack, archivos/Share/proveedores, presión de memoria/almacenamiento, perfilado y densidades reales. Preparación de Play (etapa 19) pendiente de completar esta evidencia; no se realiza firma ni publicación.

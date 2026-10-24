@@ -37,6 +37,7 @@ npm run build
 npm run check:bundles
 npx playwright install chromium
 npm run test:e2e
+npm run test:qa
 npm run android:sync
 cd android
 ./gradlew --no-daemon lintDebug testDebugUnitTest assembleDebug
@@ -79,6 +80,7 @@ Archivos portables: [importar en teléfono ES](docs/screenshots/files-import-pho
 - [Deshacer/rehacer, límites y recuperación del historial](docs/HISTORY.md).
 - [Navegación Android, paneles, orientación y accesibilidad](docs/ANDROID_UX.md).
 - [Rendimiento, presupuestos y evidencia antes/después](docs/PERFORMANCE.md).
+- [Matriz de QA bilingüe, smoke de APK y pendientes físicos](docs/QA.md).
 - [Editor 2D y gestos](docs/EDITOR_2D.md).
 - [Puertas, ventanas y guardado de cambios](docs/OPENINGS.md).
 - [Biblioteca de acabados y colores](docs/FINISHES.md).
