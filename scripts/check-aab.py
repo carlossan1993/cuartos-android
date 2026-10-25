@@ -44,7 +44,8 @@ internal = "com.odamus.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 assert permissions == ["android.permission.INTERNET", internal], permissions
 declarations = {p.attrib[ns+"name"]: p for p in manifest.findall("permission")}
 assert internal in declarations and declarations[internal].attrib.get(ns+"protectionLevel") == "signature", "AndroidX internal receiver permission must remain signature-protected"
-assert manifest.attrib.get(ns+"versionCode") == "1" and manifest.attrib.get(ns+"versionName") == "0.1.0"
+release = json.loads(Path("play/release.json").read_text())
+assert manifest.attrib.get(ns+"versionCode") == str(release["versionCode"]) and manifest.attrib.get(ns+"versionName") == release["versionName"]
 report = {"sha256": hashlib.sha256(bundle.read_bytes()).hexdigest(), "bytes": bundle.stat().st_size, "signed": signed,
           "applicationId": manifest.attrib["package"], "versionCode": manifest.attrib.get(ns+"versionCode"),
           "versionName": manifest.attrib.get(ns+"versionName"), "targetSdk": 36, "minSdk": 24,

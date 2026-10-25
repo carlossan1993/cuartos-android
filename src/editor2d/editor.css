@@ -146,3 +146,9 @@
 
 .open-3d { margin-left: auto; }
 @media (max-width: 700px) { .open-3d { margin-left: 0; } }
+
+.furniture-rotation { position: absolute; z-index: 2; display: flex; gap: 8px; transform: translate(-50%, -50%); cursor: default; }
+.furniture-rotation button { width: 48px; height: 48px; min-height: 48px; padding: 0; border: 1px solid #03038c; border-radius: 50%; background: #fff; color: #03038c; font-size: 30px; box-shadow: 0 2px 8px #14143626; touch-action: manipulation; }
+.furniture-rotation button:focus-visible { outline: 3px solid #ad5728; outline-offset: 2px; }
+.furniture-rotation output { position: absolute; top: 51px; left: 50%; transform: translateX(-50%); border-radius: 5px; padding: 2px 7px; background: #fff; color: #03038c; font-size: 12px; white-space: nowrap; pointer-events: none; }
+.furniture-rotation .rotation-invalid { color: #a43430; }

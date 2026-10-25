@@ -9,7 +9,9 @@ import type { FurnitureItem, Point, Project } from '../domain/types'
 import { polygonArea } from '../geometry/rooms'
 import { PlanDrawing } from './PlanDrawing'
 import { FurnitureTools } from './FurnitureTools'
-import { furnitureAtPoint } from '../furniture/geometry'
+import { furnitureAtPoint, furnitureFits } from '../furniture/geometry'
+import { rotateFurniture, type FurnitureRotation } from '../furniture/rotation'
+import { FurnitureRotationControls } from './FurnitureRotationControls'
 import { beginFurnitureDrag, moveFurnitureDrag, type FurnitureDrag } from '../furniture/drag'
 import { saveProjectChange } from '../projects/save-project-change'
 import { restoredZoom } from '../projects/view-preferences'
@@ -60,6 +62,11 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const [selectedFurniture, selectFurniture] = useState<string | null>(null)
   const [furniturePreview, setFurniturePreview] = useState<FurnitureItem | null>(null)
   const drag = useRef<FurnitureDrag | null>(null), furniturePending = useRef(false)
+  const [rotation, setRotation] = useState<FurnitureRotation | null>(null)
+  const rotationRef = useRef<FurnitureRotation | null>(null)
+  const [rotationId, showRotation] = useState<string | null>(null)
+  const [rotationAction, setRotationAction] = useState<{ element: HTMLElement } | null>(null)
+  const handledRotationAction = useRef<typeof rotationAction>(null)
   const [notice, setNotice] = useState<{ key: string; error: boolean } | null>(null)
   const [retryFurniture, setRetryFurniture] = useState<FurnitureChange | null>(null)
   const [snap, setSnap] = useState(project.viewSettings.snap)
@@ -81,16 +88,34 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   const format = (n: number, digits = 4) => new Intl.NumberFormat(i18n.resolvedLanguage, { maximumFractionDigits: digits }).format(n)
   const publish = useCallback((next: Scene) => { sceneRef.current = next; setScene(next) }, [])
 
+  const preview = rotation?.candidate ?? furniturePreview
+  const rotationItem = rotation?.candidate ?? project.furniture.find(item => item.id === rotationId)
   function cancelDrag() { drag.current = null; setFurniturePreview(null) }
+  function cancelRotation() { rotationRef.current = null; setRotation(null); showRotation(null) }
+  function turn(direction: -1 | 1) {
+    const item = project.furniture.find(item => item.id === rotationId)
+    if (!item || busy || tool || drag.current) return
+    const next = rotateFurniture(rotationRef.current, item, direction)
+    rotationRef.current = next; setRotation(next); setNotice(null); setRetryFurniture(null)
+  }
+  async function finishRotation(): Promise<boolean> {
+    const draft = rotationRef.current
+    cancelRotation()
+    if (!draft || draft.candidate.rotation === draft.original.rotation) return true
+    const room = project.rooms.find(room => room.id === draft.candidate.roomId)
+    if (!room || !furnitureFits(draft.candidate, room)) { setNotice({ key: 'furniture.rotationRejected', error: true }); return true }
+    return commitFurniture({ type: 'update', item: draft.candidate }, true)
+  }
   function back() {
     if (furniturePending.current || busy) return true
+    if (rotationRef.current) { cancelRotation(); return true }
     if (drag.current || Object.keys(gesture.current.pointers).length) { cancelDrag(); gesture.current = emptyGesture; return true }
     if (retryFurniture) { setRetryFurniture(null); setNotice(null); return true }
     onBack(); return true
   }
   useBackAction(back)
   function chooseFurniture(id: string | null) {
-    selectFurniture(id); selectOpening(null)
+    selectFurniture(id); selectOpening(null); showRotation(id)
     const item = project.furniture.find(item => item.id === id)
     if (item) select(item.roomId)
   }
@@ -112,6 +137,35 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     } finally { furniturePending.current = false; setBusy(false) }
   }
 
+  useEffect(() => {
+    const outside = (event: MouseEvent) => {
+      const target = event.target
+      if (!(target instanceof Element) || surface.current?.contains(target) || !rotationId) return
+      if (!rotationRef.current) {
+        // Let React process native checkbox/select actions before hiding controls.
+        if (!target.closest('.furniture-list')) requestAnimationFrame(() => showRotation(null))
+        return
+      }
+      event.preventDefault(); event.stopPropagation()
+      const action = target.closest<HTMLElement>('button, a, input, select, label')
+      void finishRotation().then(ok => { if (ok) setRotationAction(action ? { element: action } : null) })
+    }
+    const disabledTap = (event: globalThis.PointerEvent) => {
+      if (rotationId && event.target instanceof Element && !surface.current?.contains(event.target) && event.target.closest(':disabled')) void finishRotation()
+    }
+    document.addEventListener('click', outside, true)
+    document.addEventListener('pointerup', disabledTap, true)
+    return () => { document.removeEventListener('click', outside, true); document.removeEventListener('pointerup', disabledTap, true) }
+  })
+
+  useEffect(() => {
+    // Run the requested action only after React has committed the saved scene
+    // and re-enabled controls. Replaying earlier can lose a click during a save.
+    if (!rotationAction || busy || handledRotationAction.current === rotationAction) return
+    handledRotationAction.current = rotationAction
+    if (rotationAction.element.isConnected) rotationAction.element.click()
+  }, [rotationAction, busy])
+
   useEffect(() => { heading.current?.focus() }, [project.id])
   useEffect(() => {
     const element = surface.current!
@@ -123,7 +177,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
         if (size.width <= 0 || size.height <= 0) return
         const current = sceneRef.current
         if (current && current.size.width === size.width && current.size.height === size.height) return
-        gesture.current = emptyGesture; cancelDrag()
+        gesture.current = emptyGesture; cancelDrag(); cancelRotation()
         const fitted = fitCamera(bounds, size)
         publish({ size, camera: current ? resizeCamera(current.camera, current.size, size, bounds) : zoomCamera(fitted, { x: size.width / 2, y: size.height / 2 }, initialZoom.current, scaleLimits(bounds, size)) })
       })
@@ -142,7 +196,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
       const factor = Math.exp(-Math.max(-300, Math.min(300, delta)) * 0.002)
       publish({ ...current, camera: zoomCamera(current.camera, localPoint(event.clientX, event.clientY, element, current.size), factor, scaleLimits(bounds, current.size)) })
     }
-    const cancel = () => { gesture.current = emptyGesture; cancelDrag() }
+    const cancel = () => { gesture.current = emptyGesture; cancelDrag(); cancelRotation() }
     element.addEventListener('wheel', wheel, { passive: false })
     window.addEventListener('blur', cancel)
     return () => { element.removeEventListener('wheel', wheel); window.removeEventListener('blur', cancel) }
@@ -150,7 +204,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
 
   async function rememberView() {
     const current = sceneRef.current
-    if (!current || busy || tool || furniturePreview) return
+    if (!current || busy || tool || preview) return
     setBusy(true); setViewMessage(null)
     const zoom2d = restoredZoom(current.camera.scale / fitCamera(bounds, current.size).scale)
     try { await saveProjectChange(state => state.setViewSettings({ ...state.project!.viewSettings, grid, snap, zoom2d })); setViewMessage('projects.viewSaved') }
@@ -177,7 +231,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     const first = Object.keys(gesture.current.pointers).length === 0
     if (!first) cancelDrag()
     gesture.current = beginGesture(gesture.current, event.pointerId, point)
-    if (first && !busy && !tool) {
+    if (first && !busy && !tool && !rotationRef.current) {
       const id = furnitureAtPoint(screenToWorld(point, current.camera), project.furniture, 4 / current.camera.scale)
       const item = project.furniture.find(item => item.id === id)
       if (item) { chooseFurniture(item.id); drag.current = beginFurnitureDrag(event.pointerId, point, item, current.camera.scale, project.viewSettings.gridSize, snap); setFurniturePreview(item) }
@@ -192,7 +246,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     if (drag.current?.pointerId === event.pointerId) { drag.current = moveFurnitureDrag(drag.current, point); setFurniturePreview(drag.current.candidate) }
     else if (next.camera !== current.camera) publish({ ...current, camera: next.camera })
   }
-  function up(event: PointerEvent<HTMLDivElement>, cancelled = false) {
+  async function up(event: PointerEvent<HTMLDivElement>, cancelled = false) {
     if (!cancelled) move(event)
     const active = drag.current?.pointerId === event.pointerId ? drag.current : null
     const next = endGesture(gesture.current, event.pointerId, cancelled || !!active?.moved)
@@ -203,7 +257,10 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
       return
     }
     if (next.tap && sceneRef.current && !tool && !busy) {
-      const furniture = furnitureAtPoint(screenToWorld(next.tap, sceneRef.current.camera), project.furniture, 4 / sceneRef.current.camera.scale)
+      const items = project.furniture.map(item => rotationRef.current?.candidate.id === item.id ? rotationRef.current.candidate : item)
+      const furniture = furnitureAtPoint(screenToWorld(next.tap, sceneRef.current.camera), items, 4 / sceneRef.current.camera.scale)
+      if (rotationRef.current && furniture === rotationRef.current.candidate.id) return
+      if (!await finishRotation()) return
       if (furniture) { chooseFurniture(furniture); return }
       selectFurniture(null)
       const id = openingAtPoint(next.tap, sceneRef.current.camera, project)
@@ -213,6 +270,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   }
 
   function key(event: KeyboardEvent<HTMLDivElement>) {
+    if (event.key === 'Escape' && rotationRef.current) { cancelRotation(); event.preventDefault(); event.stopPropagation(); return }
     if (event.ctrlKey || event.metaKey) return
     const current = sceneRef.current
     if (!current) return
@@ -223,7 +281,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     else if (event.key === '+' || event.key === '=') zoom(1.25)
     else if (event.key === '-') zoom(0.8)
     else if (event.key === '0' || event.key === 'Home') fit()
-    else if (event.key === 'Escape' && (selectedId || selectedOpening || selectedFurniture)) { select(null); selectOpening(null); selectFurniture(null); event.stopPropagation() }
+    else if (event.key === 'Escape' && (selectedId || selectedOpening || selectedFurniture)) { cancelRotation(); select(null); selectOpening(null); selectFurniture(null); event.stopPropagation() }
     else if (event.key === 'Escape') return
     else if (event.key === 'Enter') { select(project.rooms[0]?.id ?? null); selectFurniture(null); selectOpening(null) }
     else return
@@ -234,7 +292,7 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
   return <section className="editor-page" aria-labelledby="editor-title">
     <button type="button" className="button button-quiet back-link" disabled={busy} onClick={back}>← {t('editor.back')}</button>
     <div className="editor-heading"><div><p className="eyebrow">{t('editor.eyebrow')}</p><h1 id="editor-title" ref={heading} tabIndex={-1}>{project.name}</h1></div><span className="editor-mode">2D</span></div>
-    <HistoryControls disabled={!!tool || !!furniturePreview || localBusy || !!retryFurniture} onReload={() => { cancelDrag(); select(null); selectOpening(null); selectFurniture(null); setNotice(null); setRetryFurniture(null); setViewMessage(null) }} />
+    <HistoryControls disabled={!!tool || !!preview || localBusy || !!retryFurniture} onReload={() => { cancelDrag(); select(null); selectOpening(null); selectFurniture(null); setNotice(null); setRetryFurniture(null); setViewMessage(null) }} />
     <div className="editor-toolbar" role="group" aria-label={t('editor.tools')}>
       <div className="zoom-controls"><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomOut')} disabled={!scene || relativeZoom <= MIN_ZOOM + 1e-8} onClick={() => zoom(0.8)}>−</button><output aria-label={t('editor.zoomLevel')}>{Math.round(relativeZoom * 100)}%</output><button type="button" className="button button-secondary icon-button" aria-label={t('editor.zoomIn')} disabled={!scene || relativeZoom >= MAX_ZOOM - 1e-8} onClick={() => zoom(1.25)}>+</button></div>
       <button type="button" className="button button-secondary" onClick={fit} disabled={!scene}>{t('editor.fit')}</button>
@@ -248,9 +306,10 @@ export default function Editor2D({ project, onBack, onOpen3D }: { project: Proje
     <ConnectionSummary rooms={project.rooms} /><p id="canvas-help" className="editor-help">{t('editor.help')} {t('furniture.canvasHelp')}</p><p id="canvas-keyboard" className="sr-only">{t('editor.keyboard')}</p>
     <div className="editor-workspace">
       <div className="plan-workspace"><div className="canvas-frame"><div ref={surface} className="canvas-surface" role="region" tabIndex={0} aria-label={t('editor.canvas')} aria-describedby="canvas-help canvas-keyboard"
-        onPointerDown={down} onPointerMove={move} onPointerUp={event => up(event)} onPointerCancel={event => up(event, true)} onLostPointerCapture={event => up(event, true)} onKeyDown={key}>
-        {scene && <PlanDrawing project={project} scene={scene} grid={grid} selected={selectedId} selectedOpening={selectedOpening} previewWall={previewWall} dpr={dpr} selectedFurniture={selectedFurniture} furniturePreview={furniturePreview} />}
-      </div></div><p className="canvas-caption"><span>{grid ? t('editor.gridStep', { value: format(step) }) : t('editor.gridOff')}</span><span>{t('editor.metres')}</span></p></div>
+        onPointerDown={down} onPointerMove={move} onPointerUp={event => { void up(event) }} onPointerCancel={event => { void up(event, true) }} onLostPointerCapture={event => { void up(event, true) }} onKeyDown={key}>
+        {scene && <PlanDrawing project={project} scene={scene} grid={grid} selected={selectedId} selectedOpening={selectedOpening} previewWall={previewWall} dpr={dpr} selectedFurniture={selectedFurniture} furniturePreview={preview} />}
+        {scene && rotationItem && !tool && !furniturePreview && <FurnitureRotationControls item={rotationItem} scene={scene} rooms={project.rooms} disabled={busy} onTurn={turn} onCancel={cancelRotation} />}
+      </div></div>{rotationId && <p className="form-help rotation-help">{t('furniture.rotationHelp')}</p>}<p className="canvas-caption"><span>{grid ? t('editor.gridStep', { value: format(step) }) : t('editor.gridOff')}</span><span>{t('editor.metres')}</span></p></div>
       <aside className="editor-sidebar" aria-labelledby="editor-rooms"><h2 id="editor-rooms">{t('editor.rooms')}</h2>
         <ul className="editor-room-list">{project.rooms.map(room => <li key={room.id}><button type="button" aria-pressed={room.id === selectedId} disabled={busy || !!tool || !!furniturePreview} onClick={() => { select(room.id); selectOpening(null); selectFurniture(null) }}><span className="room-list-mark" aria-hidden="true" />{room.name}</button></li>)}</ul>
         <p className="editor-selection" role="status">{selected ? t('editor.selected') : t('editor.noSelection')}</p>

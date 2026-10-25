@@ -38,3 +38,7 @@ Estas reglas se aplican en la frontera de edición de muebles. El codec de esque
 - Posición: [teléfono ES](screenshots/furniture-position-phone.png) · [tablet EN](screenshots/furniture-position-tablet.png).
 
 La instalación y los gestos manuales en Android físico siguen pendientes. Los eventos táctiles de Chromium y el APK compilado no los sustituyen. La [habitación 3D](VIEWER_3D.md) se incorpora en etapa 10 y las [piezas procedurales 3D](FURNITURE_3D.md) en etapa 11, leyendo las mismas instancias guardadas.
+
+## Actualización 0.1.1 · Flechas sobre el plano
+
+La selección muestra controles de giro ±90° con vista provisional; admite ángulos intermedios fuera de la habitación y valida únicamente al terminar tocando otro mueble/lugar. Solo el resultado válido se guarda como una operación; el inválido vuelve al original. El formato guardado no cambia. Detalles y prueba de actualización: [Giro provisional](ROTATION_UPDATE.md).

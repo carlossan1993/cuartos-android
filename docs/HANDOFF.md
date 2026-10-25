@@ -41,3 +41,7 @@ Mensaje sugerido para iniciar:
 Issue → rama → PR → revisión técnica → checks verdes → integración autorizada. Sin subagentes salvo petición. Sin backend, cuentas, anuncios, pagos, telemetría ni dependencias pagas. No subir keystores/contraseñas ni usar firma debug en Play. No atribuir revisión humana independiente o QA física sin evidencia. No hay datos productivos en las capturas de demostración.
 
 Los anteriores artifacts debug duran tres días; los nuevos paquetes de preparación duran 90 y el AAB firmado manual, 14. El código permanece en GitHub. No duplicar el repositorio en Library. Si el entorno local no está disponible, trabajar mediante el conector GitHub y CI; no afirmar que main local esté sincronizada.
+
+## Actualización solicitada el 25 de octubre · 0.1.1 (2)
+
+El propietario autorizó implementar giro provisional ±90° sobre el plano y preparar una nueva versión para comprobar conservación de proyectos al actualizar. Seguimiento #46 y [protocolo de actualización](ROTATION_UPDATE.md). Se conserva paquete/base/esquema/origen/firma. No cerrar la prueba de actualización física ni QA #33 sin evidencia del teléfono. Las notas Play ES/EN se actualizan; no se publica automáticamente en producción. Generar el AAB firmado desde main tras integrar y validar; el workflow manual y la aprobación play-upload existentes se mantienen.
