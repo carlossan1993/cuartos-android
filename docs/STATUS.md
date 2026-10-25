@@ -4,6 +4,9 @@ Actualizado: 25 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
 
+## Paquete Odamus · Issue #44
+El propietario confirma com.odamus.app para evitar su usuario personal en el identificador público. Cambios coordinados Gradle/Capacitor/Java y pruebas; el verificador del AAB revisa también ausencia del usuario personal en el payload. Clave y política publicada se conservan. AABs anteriores retirados para la nueva ficha; nuevo firmado pendiente del workflow manual desde main después de integrar. Checks finales en el PR de #44. QA física #33 pendiente.
+
 ## Identidad Odamus · Issue #42
 
 Nombre e icono oficial aprobados por el propietario. Cambios ES/EN, Android, cabecera y materiales de Play en esta entrega. Validaciones locales: lint, TypeScript/build, pruebas unitarias y preflight estático correctos. CI y revisión visual pendientes al abrir PR. La privacidad 2026-10-25.1 requiere nuevo despliegue en Firebase; luego generar AAB Odamus con la clave existente. Véase HANDOFF.md. QA física #33 pendiente.

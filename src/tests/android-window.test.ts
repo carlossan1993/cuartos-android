@@ -12,7 +12,7 @@ describe('native document picker visibility', () => {
   })
   it('rejects background windows even when DocumentsUI appears in their metadata', () => {
     const dump = window('com.google.android.documentsui', false, false) +
-      window('com.carlossan1993.cuartos') + '\nimeLayeringTarget com.google.android.documentsui'
+      window('com.odamus.app') + '\nimeLayeringTarget com.google.android.documentsui'
     expect(documentPickerVisible(dump)).toBe(false)
   })
   it('requires on-screen and visible status on the same picker window', () => {
@@ -21,7 +21,7 @@ describe('native document picker visibility', () => {
     expect(documentPickerVisible(window('com.android.documentsui', false, true) + window('com.android.documentsui', true, false))).toBe(false)
   })
   it('rejects a different foreground app and bare references without a window', () => {
-    expect(documentPickerVisible(window('com.carlossan1993.cuartos'))).toBe(false)
+    expect(documentPickerVisible(window('com.odamus.app'))).toBe(false)
     expect(documentPickerVisible('imeLayeringTarget com.android.documentsui/com.android.documentsui.picker.PickActivity\nisOnScreen=true\nisVisible=true')).toBe(false)
   })
 })

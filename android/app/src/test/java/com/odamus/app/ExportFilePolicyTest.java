@@ -1,4 +1,4 @@
-package com.carlossan1993.cuartos;
+package com.odamus.app;
 
 import static org.junit.Assert.*;
 import java.io.File;
