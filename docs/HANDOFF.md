@@ -1,7 +1,13 @@
 # Continuidad · Cuartos Android
-Última actualización: 24 de octubre de 2026 (America/Guayaquil).
+Última actualización: 25 de octubre de 2026 (America/Guayaquil).
 
-Decisión vigente: contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, publicada en Firebase Hosting del proyecto/sitio cuartos-42b27. URLs verificadas: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html; HTTP 200, HTML idéntico al código fuente. No volver a pedir proyecto, correo o despliegue inicial.
+Registro de privacidad anterior a Odamus (ver identidad vigente abajo): contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, publicada en Firebase Hosting del proyecto/sitio cuartos-42b27. URLs verificadas: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html; HTTP 200, HTML idéntico al código fuente. No volver a pedir proyecto, correo o despliegue inicial.
+
+## Identidad vigente: Odamus
+El propietario confirmó Odamus y aprobó el icono isométrico azul (Issue #42). Nombre público ES/EN, launcher, splash, cabecera y materiales de Play se actualizan en esta entrega. Original en assets/branding/odamus-master.png; variante de Play 512 px; cabecera 192 px; Android 432 px con foreground adaptativo protegido.
+Se conservan com.carlossan1993.cuartos, repositorio, Firebase cuartos-42b27, base local, formato de archivos y clave de carga existentes. No regenerar clave ni cambiar applicationId.
+La política fuente pasa a 2026-10-25.1, Odamus. **Pendiente republicarla en el Hosting existente** desde main tras integrar, y verificar ES/EN antes de firmar. El preflight de firma exige nombre/versión actuales en la URL pública.
+El AAB de ejecución 40202306579 incluye botones alineados pero aún dice Cuartos y usa icono anterior: no usarlo como AAB Odamus. Regenerar AAB desde main actualizado después de publicar la política. No se publica en Play desde este cambio. QA física #33 sigue pendiente.
 
 ## Punto de partida
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android). Leer AGENTS.md, CONTRIBUTING.md, [STATUS](STATUS.md), [ROADMAP](ROADMAP.md), [PLAY_STORE](PLAY_STORE.md) y [QA](QA.md). No ejecutar etapa 20 en el chat que prepara este documento: el propietario continuará en otro.

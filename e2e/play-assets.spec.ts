@@ -63,7 +63,7 @@ test('capture actual product UI and store graphics', async ({ page, context }, i
   if (info.project.name.startsWith('tablet')) {
     const graphic = await context.newPage()
     await graphic.setViewportSize({ width: 1024, height: 500 })
-    await graphic.setContent(`<html><head><style>*{box-sizing:border-box}body{margin:0;background:#03038c;color:#f6f5f0;font-family:Arial,sans-serif;width:1024px;height:500px;display:flex;align-items:center;padding:64px;gap:30px}.copy{width:440px}h1{font-size:76px;letter-spacing:-3px;margin:0 0 22px}p{font-size:29px;line-height:1.35;margin:0 0 24px}.small{font-size:18px;color:#dbc7a7}img{width:420px;height:330px;object-fit:contain;background:#f6f5f0;border:12px solid #f6f5f0;border-radius:20px}</style></head><body><div class="copy"><h1>Cuartos.</h1><p>${es ? 'Dale espacio<br>a tus ideas.' : 'Make room<br>for your ideas.'}</p><p class="small">${es ? 'Diseño 2D y 3D · Sin conexión' : '2D and 3D design · Offline'}</p></div><img alt="" src="data:image/png;base64,${roomImage.toString('base64')}"></body></html>`)
+    await graphic.setContent(`<html><head><style>*{box-sizing:border-box}body{margin:0;background:#03038c;color:#f6f5f0;font-family:Arial,sans-serif;width:1024px;height:500px;display:flex;align-items:center;padding:64px;gap:30px}.copy{width:440px}h1{font-size:76px;letter-spacing:-3px;margin:0 0 22px}p{font-size:29px;line-height:1.35;margin:0 0 24px}.small{font-size:18px;color:#dbc7a7}img{width:420px;height:330px;object-fit:contain;background:#f6f5f0;border:12px solid #f6f5f0;border-radius:20px}</style></head><body><div class="copy"><h1>Odamus.</h1><p>${es ? 'Dale espacio<br>a tus ideas.' : 'Make room<br>for your ideas.'}</p><p class="small">${es ? 'Diseño 2D y 3D · Sin conexión' : '2D and 3D design · Offline'}</p></div><img alt="" src="data:image/png;base64,${roomImage.toString('base64')}"></body></html>`)
     await graphic.evaluate(() => Promise.all([...document.images].map(image => image.decode())))
     await graphic.screenshot({ path: 'play-output/graphics/feature-' + lang + '.png', scale: 'css' })
     await graphic.close()
@@ -71,8 +71,9 @@ test('capture actual product UI and store graphics', async ({ page, context }, i
   if (info.project.name === 'phone-es') {
     const iconPage = await context.newPage()
     await iconPage.setViewportSize({ width: 512, height: 512 })
-    const source = (await readFile('public/icon.svg', 'utf8')).replace('rx="18"', '').replace('<svg ', '<svg width="512" height="512" ')
-    await iconPage.setContent('<html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#03038c">' + source + '</body></html>')
+    const source = (await readFile('assets/branding/odamus-play-512.png')).toString('base64')
+    await iconPage.setContent('<html><body style="margin:0"><img width="512" height="512" src="data:image/png;base64,' + source + '"></body></html>')
+    await iconPage.evaluate(() => Promise.all([...document.images].map(image => image.decode())))
     await iconPage.screenshot({ path: 'play-output/graphics/icon-512.png', scale: 'css' })
     await iconPage.close()
   }

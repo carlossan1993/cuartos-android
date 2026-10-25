@@ -47,7 +47,7 @@ if (process.argv.includes('--require-signing') || process.argv.includes('--requi
   const response = await fetch(release.privacyPolicyUrl, { signal: AbortSignal.timeout(15000) })
   assert(response.ok && response.headers.get('content-type')?.includes('text/html'), 'Privacy URL must serve public HTML successfully.')
   const html = await response.text()
-  assert(html.includes(policy.version) && (html.includes(policy.es.title) || html.includes(policy.en.title)), 'Public privacy policy must match the bundled version.')
+  assert(html.includes(policy.app) && html.includes(policy.version) && (html.includes(policy.es.title) || html.includes(policy.en.title)), 'Public privacy policy must match the bundled version.')
   assert(html.includes('mailto:' + release.supportEmail) && !/github|carlos|sandoval/i.test(html), 'Public privacy contact must match the app without personal names or GitHub links.')
 }
 await mkdir('play-output', { recursive: true })

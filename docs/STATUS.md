@@ -1,8 +1,12 @@
 # Estado del proyecto
 
-Actualizado: 24 de octubre de 2026, America/Guayaquil.
+Actualizado: 25 de octubre de 2026, America/Guayaquil.
 
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android).
+
+## Identidad Odamus · Issue #42
+
+Nombre e icono oficial aprobados por el propietario. Cambios ES/EN, Android, cabecera y materiales de Play en esta entrega. Validaciones locales: lint, TypeScript/build, pruebas unitarias y preflight estático correctos. CI y revisión visual pendientes al abrir PR. La privacidad 2026-10-25.1 requiere nuevo despliegue en Firebase; luego generar AAB Odamus con la clave existente. Véase HANDOFF.md. QA física #33 pendiente.
 
 ## Etapa 0 · Repositorio y gobierno
 
