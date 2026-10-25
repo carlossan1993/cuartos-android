@@ -1,8 +1,8 @@
 {
   "privacy": {"link":"Política de privacidad","loading":"Cargando política de privacidad…"},
 "app": {
-    "name": "Cuartos",
-    "title": "Cuartos · Diseña tu espacio"
+    "name": "Odamus",
+    "title": "Odamus · Diseña tu espacio"
   },
   "language": {
     "label": "Idioma",
@@ -338,16 +338,16 @@
     "eyebrow": "TU DISEÑO, CONTIGO",
     "openImport": "Importar proyecto",
     "importTitle": "Recupera un proyecto",
-    "importHelp": "Abre un archivo JSON de Cuartos. Se importará como un proyecto independiente; tus proyectos actuales se conservan.",
+    "importHelp": "Abre un archivo JSON de Odamus. Se importará como un proyecto independiente; tus proyectos actuales se conservan.",
     "choose": "Archivo del proyecto",
-    "limit": "JSON de Cuartos · Máximo 2 MiB.",
+    "limit": "JSON de Odamus · Máximo 2 MiB.",
     "reading": "Leyendo y comprobando el archivo…",
     "preview": "PROYECTO EN EL ARCHIVO",
     "contents": "Espacios: {{rooms}} · Aberturas: {{openings}} · Muebles: {{furniture}}",
     "importName": "{{name}} (importado)",
     "confirmImport": "Importar como copia",
     "exportTitle": "Lleva tu proyecto contigo",
-    "exportHelp": "El JSON conserva tu diseño completo para volver a abrirlo en Cuartos. El PNG es una imagen del plano para consultar o compartir.",
+    "exportHelp": "El JSON conserva tu diseño completo para volver a abrirlo en Odamus. El PNG es una imagen del plano para consultar o compartir.",
     "format": "Formato del archivo",
     "json": "Proyecto completo · JSON",
     "png": "Plano 2D · PNG",
@@ -357,7 +357,7 @@
     "save": "Guardar archivo",
     "download": "Descargar archivo",
     "share": "Compartir archivo",
-    "shareTitle": "Cuartos · {{name}}",
+    "shareTitle": "Odamus · {{name}}",
     "delivery": {
       "saved": "Archivo guardado en la ubicación que elegiste.",
       "download": "Archivo preparado; se solicitó la descarga al navegador.",
@@ -367,7 +367,7 @@
     "errors": {
       "read": "No pudimos leer el archivo como texto UTF-8. Vuelve a seleccionarlo.",
       "size": "El archivo supera el máximo de 2 MiB. Elige un proyecto más pequeño.",
-      "invalid": "El archivo no es un proyecto válido de Cuartos. Revisa que sea el JSON completo; tus proyectos se conservan.",
+      "invalid": "El archivo no es un proyecto válido de Odamus. Revisa que sea el JSON completo; tus proyectos se conservan.",
       "version": "Este archivo usa una versión de proyecto que esta app todavía no puede abrir. Se conservó sin modificar.",
       "empty": "El proyecto necesita al menos un espacio para exportar un plano.",
       "image": "No pudimos preparar la imagen. Puedes reintentar o elegir una resolución menor.",

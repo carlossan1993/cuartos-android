@@ -28,7 +28,7 @@ test('privacy works offline in ES/EN, traps focus and leaves confirmed data inta
     const response = await page.goto('/privacy/' + lang + '.html')
     expect(response?.status()).toBe(200)
     await expect(page.locator('html')).toHaveAttribute('lang', lang)
-    await expect(page.locator('h1')).toHaveText(lang === 'es' ? 'Cuartos · Política de privacidad' : 'Cuartos · Privacy policy')
+    await expect(page.locator('h1')).toHaveText(lang === 'es' ? 'Odamus · Política de privacidad' : 'Odamus · Privacy policy')
     await expect(page.locator('section')).toHaveCount(7)
     await expect(page.locator('body')).not.toContainText(/carlos|sandoval|github/i)
     await expect(page.getByRole('link', { name: 'csdigital.apps@gmail.com' })).toHaveAttribute('href', 'mailto:csdigital.apps@gmail.com')

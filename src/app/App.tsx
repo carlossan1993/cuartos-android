@@ -96,7 +96,7 @@ export function App() {
     <div className="app-shell">
       <header className="header">
         <a className="brand" href="#main" aria-label={t('app.name')}>
-          <img src="/icon.svg" alt="" width="40" height="40" />
+          <img src="/icon.png" alt="" width="40" height="40" />
           <span>{t('app.name')}<span className="brand-dot">.</span></span>
         </a>
         <LanguagePicker />

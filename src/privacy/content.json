@@ -1,19 +1,19 @@
 {
-  "version": "2026-10-24.2",
-  "app": "Cuartos",
+  "version": "2026-10-25.1",
+  "app": "Odamus",
   "contactUrl": "mailto:csdigital.apps@gmail.com",
   "es": {
     "title": "Política de privacidad",
-    "updated": "Versión 2026-10-24.2 · 24 de octubre de 2026",
-    "introduction": "Cuartos permite diseñar habitaciones en 2D y 3D. Esta política describe la versión sin cuentas, anuncios ni servicios remotos.",
+    "updated": "Versión 2026-10-25.1 · 25 de octubre de 2026",
+    "introduction": "Odamus permite diseñar habitaciones en 2D y 3D. Esta política describe la versión sin cuentas, anuncios ni servicios remotos.",
     "sections": [
       {
         "title": "Datos que permanecen en tu dispositivo",
-        "text": "Los nombres y medidas de proyectos y habitaciones, puertas, ventanas, colores, muebles, idioma y preferencias se procesan y guardan localmente para ofrecer las funciones de diseño. Cuartos no envía estos datos al desarrollador ni incorpora analítica, publicidad o identificadores de seguimiento."
+        "text": "Los nombres y medidas de proyectos y habitaciones, puertas, ventanas, colores, muebles, idioma y preferencias se procesan y guardan localmente para ofrecer las funciones de diseño. Odamus no envía estos datos al desarrollador ni incorpora analítica, publicidad o identificadores de seguimiento."
       },
       {
         "title": "Archivos que eliges importar, guardar o compartir",
-        "text": "Solo se lee el archivo JSON que eliges importar. Puedes exportar proyectos JSON y planos PNG. Android permite elegir una ubicación o una aplicación destinataria. Si eliges un proveedor en la nube o compartes un archivo, ese servicio tratará el contenido según su propia política. Cuartos no selecciona destinatarios ni envía proyectos automáticamente."
+        "text": "Solo se lee el archivo JSON que eliges importar. Puedes exportar proyectos JSON y planos PNG. Android permite elegir una ubicación o una aplicación destinataria. Si eliges un proveedor en la nube o compartes un archivo, ese servicio tratará el contenido según su propia política. Odamus no selecciona destinatarios ni envía proyectos automáticamente."
       },
       {
         "title": "Conservación y eliminación",
@@ -36,22 +36,22 @@
         "text": "Si cambia el tratamiento de datos, se actualizarán esta política y su fecha. La versión incluida en la app describe el comportamiento de esa entrega."
       }
     ],
-    "contact": "Cuartos · Consultas de privacidad y soporte:",
+    "contact": "Odamus · Consultas de privacidad y soporte:",
     "contactLabel": "csdigital.apps@gmail.com",
     "contactWarning": "El enlace abre tu aplicación de correo. El envío lo decides tú."
   },
   "en": {
     "title": "Privacy policy",
-    "updated": "Version 2026-10-24.2 · October 24, 2026",
-    "introduction": "Cuartos lets you design rooms in 2D and 3D. This policy describes the version without accounts, advertising or remote services.",
+    "updated": "Version 2026-10-25.1 · October 25, 2026",
+    "introduction": "Odamus lets you design rooms in 2D and 3D. This policy describes the version without accounts, advertising or remote services.",
     "sections": [
       {
         "title": "Data that stays on your device",
-        "text": "Project and room names and dimensions, doors, windows, colours, furniture, language and preferences are processed and stored locally to provide the design features. Cuartos does not send this data to the developer and includes no analytics, advertising or tracking identifiers."
+        "text": "Project and room names and dimensions, doors, windows, colours, furniture, language and preferences are processed and stored locally to provide the design features. Odamus does not send this data to the developer and includes no analytics, advertising or tracking identifiers."
       },
       {
         "title": "Files you choose to import, save or share",
-        "text": "Only the JSON file you select for import is read. You can export JSON projects and PNG plans. Android lets you select a location or a recipient application. If you select a cloud provider or share a file, that service handles its contents under its own policy. Cuartos does not choose recipients or send projects automatically."
+        "text": "Only the JSON file you select for import is read. You can export JSON projects and PNG plans. Android lets you select a location or a recipient application. If you select a cloud provider or share a file, that service handles its contents under its own policy. Odamus does not choose recipients or send projects automatically."
       },
       {
         "title": "Retention and deletion",
@@ -74,7 +74,7 @@
         "text": "If data handling changes, this policy and its date will be updated. The version bundled in the app describes the behaviour of that release."
       }
     ],
-    "contact": "Cuartos · Privacy and support inquiries:",
+    "contact": "Odamus · Privacy and support inquiries:",
     "contactLabel": "csdigital.apps@gmail.com",
     "contactWarning": "This link opens your email application. You decide whether to send a message."
   },

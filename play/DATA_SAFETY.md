@@ -1,4 +1,4 @@
-# Declaraciones propuestas · Cuartos
+# Declaraciones propuestas · Odamus
 Revisión del código V1 y fuentes oficiales: 24 de octubre de 2026. Son respuestas preparadas para contrastar con el formulario vigente, no declaraciones enviadas a Play. El responsable debe revisar todas las versiones/tracks que estén activos en ese momento.
 
 | Pregunta / apartado | Respuesta propuesta y fundamento |
