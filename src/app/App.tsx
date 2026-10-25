@@ -110,8 +110,10 @@ export function App() {
             <p className="eyebrow">{t('home.eyebrow')}</p>
             <h1 id="welcome-title" ref={homeHeading} tabIndex={-1}>{t('home.title')}</h1>
             <p className="intro">{t('home.description')}</p>
-            <button type="button" className="button button-primary create-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('create') }}><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 3v14M3 10h14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>{t('home.create')}</button>
-            <button type="button" className="button button-secondary import-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('import') }}>{t('files.openImport')}</button>
+            <div className="home-actions">
+              <button type="button" className="button button-primary create-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('create') }}><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path d="M10 3v14M3 10h14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" /></svg>{t('home.create')}</button>
+              <button type="button" className="button button-secondary import-button" disabled={opening !== null || !!management} onClick={() => { setManaged(null); setScreen('import') }}>{t('files.openImport')}</button>
+            </div>
             <p className="local-note"><span aria-hidden="true">◌</span>{t('home.localNote')}</p>
           </div>
           <figure className="plan-card">
