@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { documentPickerVisible } from './support/android-window.ts'
 import { button, createDesign, design, records, saved } from './support/qa-flow.ts'
 
-const out = 'test-results/android-smoke', pkg = 'com.carlossan1993.cuartos'
+const out = 'test-results/android-smoke', pkg = 'com.odamus.app'
 await mkdir(out, { recursive: true })
 const policyVersion = (JSON.parse(await readFile(new URL('../src/privacy/content.json', import.meta.url), 'utf8')) as { version: string }).version
 const devices = await android.devices()

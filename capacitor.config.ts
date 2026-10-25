@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'com.carlossan1993.cuartos',
+  appId: 'com.odamus.app',
   appName: 'Odamus',
   webDir: 'dist',
   android: { backgroundColor: '#f6f5f0' },

@@ -1,4 +1,4 @@
-package com.carlossan1993.cuartos;
+package com.odamus.app;
 
 import android.app.Activity;
 import android.content.Intent;

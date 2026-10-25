@@ -1,13 +1,12 @@
-# Continuidad · Cuartos Android
+# Continuidad · Odamus Android
 Última actualización: 25 de octubre de 2026 (America/Guayaquil).
 
-Registro de privacidad anterior a Odamus (ver identidad vigente abajo): contacto csdigital.apps@gmail.com; privacidad ES/EN versión 2026-10-24.2 sin nombre personal/enlaces GitHub, publicada en Firebase Hosting del proyecto/sitio cuartos-42b27. URLs verificadas: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html; HTTP 200, HTML idéntico al código fuente. No volver a pedir proyecto, correo o despliegue inicial.
-
-## Identidad vigente: Odamus
-El propietario confirmó Odamus y aprobó el icono isométrico azul (Issue #42). Nombre público ES/EN, launcher, splash, cabecera y materiales de Play se actualizan en esta entrega. Original en assets/branding/odamus-master.png; variante de Play 512 px; cabecera 192 px; Android 432 px con foreground adaptativo protegido.
-Se conservan com.carlossan1993.cuartos, repositorio, Firebase cuartos-42b27, base local, formato de archivos y clave de carga existentes. No regenerar clave ni cambiar applicationId.
-La política fuente pasa a 2026-10-25.1, Odamus. **Pendiente republicarla en el Hosting existente** desde main tras integrar, y verificar ES/EN antes de firmar. El preflight de firma exige nombre/versión actuales en la URL pública.
-El AAB de ejecución 40202306579 incluye botones alineados pero aún dice Cuartos y usa icono anterior: no usarlo como AAB Odamus. Regenerar AAB desde main actualizado después de publicar la política. No se publica en Play desde este cambio. QA física #33 sigue pendiente.
+## Identidad vigente: Odamus · com.odamus.app
+El propietario confirmó Odamus, el icono isométrico azul (#42/#43) y el paquete **com.odamus.app** (#44). Esta decisión sustituye cualquier instrucción histórica de conservar el identificador anterior. appId Capacitor, applicationId/namespace Gradle, Java y pruebas usan com.odamus.app. No introducir el usuario personal en el binario.
+Se mantienen repositorio, Firebase cuartos-42b27, clave de carga/secrets/certificado, base local y formato JSON. La política Odamus 2026-10-25.1 ya está publicada y verificada en ES/EN, con csdigital.apps@gmail.com: https://cuartos-42b27.web.app/es.html y https://cuartos-42b27.web.app/en.html. No repetir Hosting ni generar otra clave.
+**Todos los AAB anteriores, incluido 40223632771, tienen el paquete anterior y no deben subirse a la nueva ficha.** Tras integrar #44 generar Signed upload AAB desde main, con confirm_preflight=true y aprobación play-upload, y verificar applicationId=com.odamus.app en aab-report.json y ausencia del usuario personal en payload. No se publicó en Play.
+El cambio de paquete instala otra app en los teléfonos con APK de desarrollo previo. Para conservar proyectos, exportar JSON en la anterior e importar en Odamus; no prometer migración automática entre paquetes. QA física #33 pendiente.
+Icono maestro assets/branding/odamus-master.png; Play 512 px; cabecera 192 px; Android 432 px con foreground adaptativo protegido.
 
 ## Punto de partida
 Repositorio público: [carlossan1993/cuartos-android](https://github.com/carlossan1993/cuartos-android). Leer AGENTS.md, CONTRIBUTING.md, [STATUS](STATUS.md), [ROADMAP](ROADMAP.md), [PLAY_STORE](PLAY_STORE.md) y [QA](QA.md). No ejecutar etapa 20 en el chat que prepara este documento: el propietario continuará en otro.
@@ -27,7 +26,7 @@ Ficha ES/EN en play/listing, propuesta de declaraciones en play/DATA_SAFETY.md, 
 El smoke de etapa 19 añade comprobaciones de privacidad offline ES/EN y Atrás nativo; consultar el resultado real en #35/PR. La interfaz solo añade acceso a privacidad en el pie de inicio. Se conserva el modelo esquema 1, editor, guardado transaccional e historial. Azul principal #03038c, neutros/salvia y textos completos ES/EN.
 
 ## Datos resueltos y pendientes para la continuación
-1. Correo público confirmado por el propietario: csdigital.apps@gmail.com. No volver a pedirlo. Política sin nombre personal ni enlace GitHub. Se conserva Cuartos/com.carlossan1993.cuartos del proyecto aceptado y el propietario confirmó público 13+ (13–15, 16–17 y 18+). La identidad legal de la cuenta de Play se revisa en consola antes de enviar; no se inventó ni se completó aquí.
+1. Correo público confirmado por el propietario: csdigital.apps@gmail.com. No volver a pedirlo. Política sin nombre personal ni enlace GitHub. La identidad vigente es Odamus/com.odamus.app según #44 y el propietario confirmó público 13+ (13–15, 16–17 y 18+). La identidad legal de la cuenta de Play se revisa en consola antes de enviar; no se inventó ni se completó aquí.
 2. Hosting resuelto: proyecto/sitio cuartos-42b27, target cuartos-privacy, public docs/privacy; URLs ES/EN verificadas sin login y registradas en PLAY_STORE.md. .firebaserc conserva el mapeo público; play/release.json contiene la URL española. Para cambios posteriores usar una sesión Firebase autorizada del propietario; no reutilizar proyectos de otras apps ni desplegar servicios adicionales.
 3. Firma resuelta: el propietario creó y respaldó la clave en Cloud Shell; alias cuartos-upload, PKCS12, RSA 3072, CN=Cuartos. Secrets y variable pública en play-upload, aprobación del entorno y workflow correctos. No volver a generar la clave ni solicitar el archivo/contraseña. AAB de 3487034 bytes, SHA-256 8401634ea8f2c09d938853bed45aff5855bbbdf08d54ebd8a6f6e4c904ce6cbd; certificado público SHA-256 ddff97854355aece66cec911f0871bef1435b9d0a4a0b6c3ba4fc6346654c6be. Job 120983741604: Gradle release, huella, firma JAR estricta e inspección correctos. Hash/tamaño y certificado del artifact descargado contrastados independientemente; detalle en PLAY_STORE.md. Cerrar la sesión gh de Cloud Shell al terminar; no borrar clave/backups.
 4. Completar QA física #33 antes de distribución.

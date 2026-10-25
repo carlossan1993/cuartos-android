@@ -24,7 +24,7 @@ Revisión del código V1 y fuentes oficiales: 24 de octubre de 2026. Son respues
 - La política explica la caché de exportación: limpieza oportunista de carpetas mayores de 24 horas, no una promesa de eliminación exacta.
 - La política no promete cifrado propio del almacenamiento local. Android controla el sandbox y sus protecciones del dispositivo.
 - El contacto se realiza mediante el cliente de correo por decisión del usuario; el desarrollador recibe solo el mensaje que este envíe. La política describe ese uso para soporte y la posibilidad de solicitar eliminación. Firebase aloja exclusivamente la página pública de privacidad; no se añade un SDK, backend o analítica a la app.
-- CI inspecciona permisos del manifiesto release fusionado, debuggable, backup y bibliotecas nativas del AAB. Se esperan INTERNET y el permiso privado de AndroidX com.carlossan1993.cuartos.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, cuya declaración debe tener protectionLevel=signature; no da acceso a datos personales ni requiere consentimiento runtime. Cualquier otro permiso o biblioteca .so nueva bloquea la verificación hasta revisarla.
+- CI inspecciona permisos del manifiesto release fusionado, debuggable, backup y bibliotecas nativas del AAB. Se esperan INTERNET y el permiso privado de AndroidX com.odamus.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION, cuya declaración debe tener protectionLevel=signature; no da acceso a datos personales ni requiere consentimiento runtime. Cualquier otro permiso o biblioteca .so nueva bloquea la verificación hasta revisarla.
 - Este análisis respalda un borrador, no una certificación legal ni una aprobación de Google. Si cambian SDK, comunicaciones o funciones, revisar política y declaraciones.
 
 ## Fuentes primarias
