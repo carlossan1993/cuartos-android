@@ -198,6 +198,11 @@
     }
   },
   "furniture": {
+    "rotationRejected": "El mueble no cabe en esa orientación. Se restauró la orientación inicial.",
+    "rotationControls": "Giro del mueble",
+    "rotateLeft": "Girar 90° a la izquierda",
+    "rotateRight": "Girar 90° a la derecha",
+    "rotationHelp": "Toca las flechas para girar. Toca otro lugar para confirmar; si no cabe, vuelve a la orientación inicial.",
     "title": "Muebles",
     "catalog": "Catálogo de muebles",
     "openCatalog": "Abrir catálogo",

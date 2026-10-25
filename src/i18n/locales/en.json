@@ -198,6 +198,11 @@
     }
   },
   "furniture": {
+    "rotationRejected": "The furniture does not fit at that angle. The original orientation was restored.",
+    "rotationControls": "Furniture rotation",
+    "rotateLeft": "Rotate 90° counterclockwise",
+    "rotateRight": "Rotate 90° clockwise",
+    "rotationHelp": "Tap the arrows to rotate. Tap elsewhere to confirm; if it does not fit, the original orientation is restored.",
     "title": "Furniture",
     "catalog": "Furniture catalog",
     "openCatalog": "Open catalog",
